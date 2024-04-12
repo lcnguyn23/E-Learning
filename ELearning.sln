@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{89317CA1-1C72-4E55-B902-0BB1B16FC1F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{284DB843-FCB6-432F-BFDE-F8D12B44CF42}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{2C4AADC0-986A-40D7-A4D6-C887746C424E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELearning.Web", "ELearning.Web\ELearning.Web.csproj", "{5F4D79E1-DE6F-4CF5-A283-E241902013EF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELearning.Business", "ELearning.Business\ELearning.Business.csproj", "{ABC16A84-2F90-4595-9013-5197386131EF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELearning.Data", "ELearning.Data\ELearning.Data.csproj", "{1F410585-B44D-437A-B825-C95AA8CF7DD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ELearning.DomainModels", "ELearning.DomainModels\ELearning.DomainModels.csproj", "{521D2785-718A-4A65-B7D5-FF369415FEF3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F4D79E1-DE6F-4CF5-A283-E241902013EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F4D79E1-DE6F-4CF5-A283-E241902013EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F4D79E1-DE6F-4CF5-A283-E241902013EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F4D79E1-DE6F-4CF5-A283-E241902013EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABC16A84-2F90-4595-9013-5197386131EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABC16A84-2F90-4595-9013-5197386131EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABC16A84-2F90-4595-9013-5197386131EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABC16A84-2F90-4595-9013-5197386131EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F410585-B44D-437A-B825-C95AA8CF7DD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F410585-B44D-437A-B825-C95AA8CF7DD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F410585-B44D-437A-B825-C95AA8CF7DD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F410585-B44D-437A-B825-C95AA8CF7DD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{521D2785-718A-4A65-B7D5-FF369415FEF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{521D2785-718A-4A65-B7D5-FF369415FEF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{521D2785-718A-4A65-B7D5-FF369415FEF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{521D2785-718A-4A65-B7D5-FF369415FEF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{284DB843-FCB6-432F-BFDE-F8D12B44CF42} = {89317CA1-1C72-4E55-B902-0BB1B16FC1F2}
+		{2C4AADC0-986A-40D7-A4D6-C887746C424E} = {89317CA1-1C72-4E55-B902-0BB1B16FC1F2}
+		{5F4D79E1-DE6F-4CF5-A283-E241902013EF} = {284DB843-FCB6-432F-BFDE-F8D12B44CF42}
+		{ABC16A84-2F90-4595-9013-5197386131EF} = {2C4AADC0-986A-40D7-A4D6-C887746C424E}
+		{1F410585-B44D-437A-B825-C95AA8CF7DD9} = {2C4AADC0-986A-40D7-A4D6-C887746C424E}
+		{521D2785-718A-4A65-B7D5-FF369415FEF3} = {2C4AADC0-986A-40D7-A4D6-C887746C424E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56CAB5E8-130C-4631-BAD4-231E334A47E5}
+	EndGlobalSection
+EndGlobal

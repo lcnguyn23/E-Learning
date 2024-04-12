@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ELearning.Business\ELearning.Business.csproj" />
+    <ProjectReference Include="..\ELearning.Data\ELearning.Data.csproj" />
+    <ProjectReference Include="..\ELearning.DomainModels\ELearning.DomainModels.csproj" />
+  </ItemGroup>
+
+</Project>
