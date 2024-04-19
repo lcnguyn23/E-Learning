@@ -11,4 +11,8 @@
     <ProjectReference Include="..\ELearning.DomainModels\ELearning.DomainModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

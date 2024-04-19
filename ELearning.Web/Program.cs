@@ -1,3 +1,6 @@
+using ELearning.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace ELearning.Web
 {
     public class Program
@@ -8,6 +11,9 @@ namespace ELearning.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ELearningDbContext>(
+                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+            );
 
             var app = builder.Build();
 
@@ -28,5 +34,7 @@ namespace ELearning.Web
 
             app.Run();
         }
+
+        
     }
 }

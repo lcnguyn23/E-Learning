@@ -18,4 +18,9 @@
     <ProjectReference Include="..\ELearning.DomainModels\ELearning.DomainModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>
