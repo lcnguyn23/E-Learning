@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace ELearning.DomainModels
 {
-    public class CourseRequestStatus
+    public class EnrollmentStatus
     {
-        public int RequestStatusId { get; set; }
+        public int EnrollmentStatusId { get; set; }
         public string Description { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; }
 
         // relationships
-        public IEnumerable<CourseRequest> CourseRequests { get; set; }
+        public IEnumerable<Enrollment> Enrollments { get; set; }
     }
 }

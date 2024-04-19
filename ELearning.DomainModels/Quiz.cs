@@ -21,5 +21,6 @@ namespace ELearning.DomainModels
         // relationships
         public Module Module { get; set; }
         public IEnumerable<Question> Questions { get; set; }
+        public IEnumerable<QuizAttempt> QuizAttempts { get; set; }
     }
 }

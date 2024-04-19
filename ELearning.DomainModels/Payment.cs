@@ -20,5 +20,8 @@ namespace ELearning.DomainModels
 
         // relationships
         public Enrollment Enrollment { get; set; }
+        public PaymentStatus Status { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
+
     }
 }

@@ -14,7 +14,7 @@ namespace ELearning.DomainModels
         public int EnrollmentId { get; set;}
         public decimal RefundAmount { get; set;}
         public string RefundReason { get; set;}
-        public int RefundStatus { get; set;}
+        public int Status { get; set;}
         public string Note { get; set;}
 
         [DataType(DataType.DateTime)]
@@ -25,6 +25,7 @@ namespace ELearning.DomainModels
 
         // relationships
         public Enrollment Enrollment { get; set;}
+        public RefundStatus RefundStatus { get; set;}
         
     }
 }

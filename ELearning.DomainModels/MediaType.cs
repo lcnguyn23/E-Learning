@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ELearning.DomainModels
 {
-    internal class MediaType
+    public class MediaType
     {
     }
 }
