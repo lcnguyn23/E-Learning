@@ -20,5 +20,6 @@ namespace ELearning.DomainModels
         public Course Course { get; set;}
         public IEnumerable<Lesson> Lessons { get; set; }
         public IEnumerable<Quiz> Quizzes { get; set; }
+        public IEnumerable<StudentCurrentSection> StudentCurrentSections { get; set; }
     }
 }

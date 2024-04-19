@@ -17,7 +17,7 @@ namespace ELearning.DomainModels
         public DateTime? StartDate { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime? EndDate { get; set; }
-        public int EnrollmentStatus { get; set; }
+        public int Status { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
@@ -25,7 +25,9 @@ namespace ELearning.DomainModels
         // relationships
         public User Student { get; set; }
         public Course Course { get; set; }
-
+        public RefundRequest RefundRequest { get; set; }
+        public Payment Payment { get; set; }
+        public EnrollmentStatus EnrollmentStatus { get; set; }
 
     }
 }

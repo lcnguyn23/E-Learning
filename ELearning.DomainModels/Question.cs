@@ -21,7 +21,6 @@ namespace ELearning.DomainModels
         public Quiz Quiz { get; set; }
         public QuestionType QuestionType { get; set; }
         public IEnumerable<Answer> Answers { get; set; }
-        public IEnumerable<QuizAttempt> QuizAttempts { get; set; }
         public IEnumerable<QuestionAttempt> QuestionAttempts { get; set; }
 
     }

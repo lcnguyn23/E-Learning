@@ -13,5 +13,8 @@ namespace ELearning.DomainModels
         public string Description { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; }
+
+        // relationships
+        public IEnumerable<User> Users { get; set; }
     }
 }

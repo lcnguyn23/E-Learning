@@ -21,6 +21,11 @@ namespace ELearning.DomainModels
         public Module Module { get; set; }
         public LessonType LessonType { get; set; }
         public IEnumerable<LessonMedia> LessonMedias { get; set; }
+        public LessonContent LessonContent { get; set; }
+        public IEnumerable<LessonReport> LessonReports { get; set; }
+        public Discussion Discussion { get; set; }
+        public IEnumerable<StudentCurrentSection> StudentCurrentSections { get; set; }
+        public IEnumerable<StudentLesson> StudentLessons { get; set; }
 
     }
 }

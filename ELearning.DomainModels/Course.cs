@@ -19,7 +19,7 @@ namespace ELearning.DomainModels
         public int LevelId { get; set; }
         public string? Duration { get; set; }
         public string? CourseImage { get; set; }
-        public int CourseStatus { get; set; }
+        public int Status { get; set; }
         public decimal? Price { get; set; }
         public bool IsFree { get; set; }
         public decimal? SalePrice { get; set; }
@@ -32,14 +32,15 @@ namespace ELearning.DomainModels
 
         // relationships
         public User Instructor { get; set; }
-
         public IEnumerable<Enrollment> Enrollments { get; set; }
-
         public Topic Topic { get; set; }
-
         public Level Level { get; set; }
-
         public IEnumerable<FavoriteCourse> FavoriteCourses { get; set; }
+        public CourseStatus CourseStatus { get; set; }
+        public IEnumerable<Module> Modules { get; set; }
+        public IEnumerable<StudentCurrentSection> StudentCurrentSections { get; set; }
+        public CourseRequest CourseRequest { get; set; }
+        public IEnumerable<CourseRating> CourseRating { get; set; }
 
     }
 }
