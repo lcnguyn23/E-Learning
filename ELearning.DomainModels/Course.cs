@@ -37,10 +37,10 @@ namespace ELearning.DomainModels
         public Level Level { get; set; }
         public IEnumerable<FavoriteCourse> FavoriteCourses { get; set; }
         public CourseStatus CourseStatus { get; set; }
-        public IEnumerable<Module> Modules { get; set; }
-        public IEnumerable<StudentCurrentSection> StudentCurrentSections { get; set; }
-        public CourseRequest CourseRequest { get; set; }
-        public IEnumerable<CourseRating> CourseRating { get; set; }
+        public IEnumerable<Section> Sections { get; set; }
+        public IEnumerable<StudentProgress> StudentProgresses { get; set; }
+        public CourseRequest CourseRequests { get; set; }
+        public IEnumerable<CourseRating> CourseRatings { get; set; }
 
     }
 }

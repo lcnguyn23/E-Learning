@@ -18,7 +18,7 @@ namespace ELearning.DomainModels
         public DateTime CreatedAt { get; set; }
 
         // relationships
-        public IEnumerable<QuizAttempt> QuizAttempts { get; set; }
+        public QuizAttempt QuizAttempt { get; set; }
         public Question Question { get; set; }
     }
 }

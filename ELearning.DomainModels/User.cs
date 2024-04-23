@@ -31,14 +31,14 @@ namespace ELearning.DomainModels
         public IEnumerable<Enrollment> Enrollments { get; set; }
         public IEnumerable<FavoriteCourse> FavoriteCourses { get; set; }
         public IEnumerable<UserRole> UserRoles { get; set; }
-        public IEnumerable<CourseRequest> CoursesRequest { get; set; }
-        public IEnumerable<CourseRating> CoursesRating { get; set; }
+        public IEnumerable<CourseRequest> CourseRequests { get; set; }
+        public IEnumerable<CourseRating> CourseRatings { get; set; }
         public UserStatus UserStatus { get; set; }
         public IEnumerable<QuizAttempt> QuizAttempts { get; set; }
         public IEnumerable<Discussion> Discussions { get; set; }
         public IEnumerable<DiscussionReply> DiscussionReplies { get; set; }
         public IEnumerable<StudentLesson> StudentLessons { get; set; }
-        public IEnumerable<StudentCurrentSection> StudentCurrentSections { get; set;}
+        public IEnumerable<StudentProgress> StudentProgresses { get; set;}
         public IEnumerable<LessonReport> LessonsReports { get; set; }    
 
     }

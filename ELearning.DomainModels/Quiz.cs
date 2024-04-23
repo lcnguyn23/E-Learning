@@ -19,7 +19,7 @@ namespace ELearning.DomainModels
         public DateTime CreatedAt { get; set; }
 
         // relationships
-        public Module Module { get; set; }
+        public Section Section { get; set; }
         public IEnumerable<Question> Questions { get; set; }
         public IEnumerable<QuizAttempt> QuizAttempts { get; set; }
     }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ELearning.DomainModels
 {
-    public class Module
+    public class Section
     {
-        public int ModuleId { get; set; }
+        public int SectionId { get; set; }
         public int CourseId { get; set; }
         public string Title { get; set; }
         public int ModuleOrder {  get; set; }
@@ -20,6 +20,6 @@ namespace ELearning.DomainModels
         public Course Course { get; set;}
         public IEnumerable<Lesson> Lessons { get; set; }
         public IEnumerable<Quiz> Quizzes { get; set; }
-        public IEnumerable<StudentCurrentSection> StudentCurrentSections { get; set; }
+        public IEnumerable<StudentProgress> StudentProgresses { get; set; }
     }
 }

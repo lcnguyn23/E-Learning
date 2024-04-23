@@ -9,6 +9,7 @@ namespace ELearning.DomainModels
 {
     public class CourseRequest
     {
+        [Key]
         public int RequestId { get; set; }
         public int CourseId { get; set; }
         public int InstructorId { get; set; }

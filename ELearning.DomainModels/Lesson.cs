@@ -10,7 +10,7 @@ namespace ELearning.DomainModels
     public class Lesson
     {
         public int LessonId { get; set; }
-        public int ModuleId { get; set; }
+        public int SectionId { get; set; }
         public string Title { get; set; }
         public int Order {  get; set; }
         public int LessonTypeId { get; set; }
@@ -18,13 +18,13 @@ namespace ELearning.DomainModels
         public DateTime CreatedAt { get; set; }
 
         // relationships
-        public Module Module { get; set; }
+        public Section Section { get; set; }
         public LessonType LessonType { get; set; }
         public IEnumerable<LessonMedia> LessonMedias { get; set; }
         public LessonContent LessonContent { get; set; }
         public IEnumerable<LessonReport> LessonReports { get; set; }
         public Discussion Discussion { get; set; }
-        public IEnumerable<StudentCurrentSection> StudentCurrentSections { get; set; }
+        public IEnumerable<StudentProgress> StudentProgresses { get; set; }
         public IEnumerable<StudentLesson> StudentLessons { get; set; }
 
     }

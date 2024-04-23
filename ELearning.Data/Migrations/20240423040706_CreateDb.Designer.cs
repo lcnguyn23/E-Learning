@@ -4,6 +4,7 @@ using ELearning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Data.Migrations
 {
     [DbContext(typeof(ELearningDbContext))]
-    partial class ELearningDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240423040706_CreateDb")]
+    partial class CreateDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -829,9 +831,6 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("QuizAttemptStatusId")
-                        .HasColumnType("int");
-
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
 
@@ -848,8 +847,6 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("QuizAttemptId");
-
-                    b.HasIndex("QuizAttemptStatusId");
 
                     b.HasIndex("QuizId");
 
@@ -1162,6 +1159,21 @@ namespace ELearning.Data.Migrations
                     b.HasKey("UserStatusId");
 
                     b.ToTable("UserStatus");
+                });
+
+            modelBuilder.Entity("QuizAttemptQuizAttemptStatus", b =>
+                {
+                    b.Property<int>("QuizAttemptStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuizAttemptsQuizAttemptId")
+                        .HasColumnType("int");
+
+                    b.HasKey("QuizAttemptStatusId", "QuizAttemptsQuizAttemptId");
+
+                    b.HasIndex("QuizAttemptsQuizAttemptId");
+
+                    b.ToTable("QuizAttemptQuizAttemptStatus");
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Answer", b =>
@@ -1505,12 +1517,6 @@ namespace ELearning.Data.Migrations
 
             modelBuilder.Entity("ELearning.DomainModels.QuizAttempt", b =>
                 {
-                    b.HasOne("ELearning.DomainModels.QuizAttemptStatus", "QuizAttemptStatus")
-                        .WithMany("QuizAttempts")
-                        .HasForeignKey("QuizAttemptStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ELearning.DomainModels.Quiz", "Quiz")
                         .WithMany("QuizAttempts")
                         .HasForeignKey("QuizId")
@@ -1524,8 +1530,6 @@ namespace ELearning.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Quiz");
-
-                    b.Navigation("QuizAttemptStatus");
 
                     b.Navigation("Student");
                 });
@@ -1642,6 +1646,21 @@ namespace ELearning.Data.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("QuizAttemptQuizAttemptStatus", b =>
+                {
+                    b.HasOne("ELearning.DomainModels.QuizAttemptStatus", null)
+                        .WithMany()
+                        .HasForeignKey("QuizAttemptStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ELearning.DomainModels.QuizAttempt", null)
+                        .WithMany()
+                        .HasForeignKey("QuizAttemptsQuizAttemptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Course", b =>
@@ -1764,11 +1783,6 @@ namespace ELearning.Data.Migrations
             modelBuilder.Entity("ELearning.DomainModels.QuizAttempt", b =>
                 {
                     b.Navigation("QuestionAttempts");
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.QuizAttemptStatus", b =>
-                {
-                    b.Navigation("QuizAttempts");
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.RefundStatus", b =>
