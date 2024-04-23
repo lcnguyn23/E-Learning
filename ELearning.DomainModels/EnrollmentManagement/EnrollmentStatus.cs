@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ELearning.DomainModels.EnrollmentManagement;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,8 +12,7 @@ namespace ELearning.DomainModels
     {
         public int EnrollmentStatusId { get; set; }
         public string Description { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public IEnumerable<Enrollment> Enrollments { get; set; }

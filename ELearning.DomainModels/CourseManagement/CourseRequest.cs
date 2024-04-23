@@ -10,14 +10,12 @@ namespace ELearning.DomainModels
 {
     public class CourseRequest
     {
-        [Key]
-        public int RequestId { get; set; }
+        public int CourseRequestId { get; set; }
         public int CourseId { get; set; }
         public int InstructorId { get; set; }
-        public int Status { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime RequestAt { get; set; }
-        public DateTime ResponseAt { get; set; }
+        public int CourseRequestStatusId { get; set; }
+        public DateTime? RequestAt { get; set; }
+        public DateTime? ResponseAt { get; set; }
 
         // relationships
         public Course Course { get; set; }

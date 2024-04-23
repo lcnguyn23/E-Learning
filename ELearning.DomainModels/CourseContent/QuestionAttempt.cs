@@ -12,10 +12,9 @@ namespace ELearning.DomainModels
         public int QuestionAttemptId { get; set; }
         public int QuizAttemptId { get; set; }
         public int QuestionId { get; set; }
-        public string Answer {  get; set; }
+        public string? Answer {  get; set; }
         public int Score { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public QuizAttempt QuizAttempt { get; set; }

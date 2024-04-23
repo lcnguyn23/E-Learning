@@ -11,8 +11,7 @@ namespace ELearning.DomainModels
     {
         public int LevelId { get; set; }
         public string LevelName { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public Course Course { get; set; }

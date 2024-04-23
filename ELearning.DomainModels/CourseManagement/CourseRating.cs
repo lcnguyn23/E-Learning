@@ -13,9 +13,8 @@ namespace ELearning.DomainModels
         public int CourseId { get; set; }
         public int StudentId { get; set; }
         public int Rating { get; set; }
-        public string Comment { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public string? Comment { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public Course Course { get; set; }

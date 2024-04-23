@@ -14,10 +14,9 @@ namespace ELearning.DomainModels
         public int LessonId { get; set; }
         public int StudentId { get; set; }
         public string Content { get; set; }
-        public string ProofImage { get; set; }
-        public int Status { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public string? ProofImage { get; set; }
+        public int LessonReportStatusId { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public Lesson Lesson { get; set; }

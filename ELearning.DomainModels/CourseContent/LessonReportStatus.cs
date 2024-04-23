@@ -9,10 +9,9 @@ namespace ELearning.DomainModels
 {
     public class LessonReportStatus
     {
-        public int StatusId { get; set; }
+        public int LessonReportStatusId { get; set; }
         public string Description { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public IEnumerable<LessonReport> LessonReports { get; set; }

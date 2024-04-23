@@ -13,9 +13,8 @@ namespace ELearning.DomainModels
         public int QuizId { get; set; }
         public int QuestionTypeId { get; set; }
         public int Point { get; set; }
-        public int QuestionOrder { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public int? QuestionOrder { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public Quiz Quiz { get; set; }

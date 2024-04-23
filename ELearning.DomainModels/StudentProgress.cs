@@ -14,6 +14,7 @@ namespace ELearning.DomainModels
         public int CourseId { get; set; }
         public int SectionId { get; set; }
         public int LessonId { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public User Student { get; set; }

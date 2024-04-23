@@ -12,9 +12,8 @@ namespace ELearning.DomainModels
         public int SectionId { get; set; }
         public int CourseId { get; set; }
         public string Title { get; set; }
-        public int ModuleOrder {  get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public int SectionOrder {  get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public Course Course { get; set;}

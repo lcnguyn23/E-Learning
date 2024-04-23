@@ -11,8 +11,7 @@ namespace ELearning.DomainModels
     {
         public int QuizAttemptStatusId { get; set; }
         public string Description { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         
         // relationships
         public IEnumerable<QuizAttempt> QuizAttempts { get; set; }

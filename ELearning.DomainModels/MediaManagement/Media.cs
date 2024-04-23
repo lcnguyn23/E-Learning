@@ -11,13 +11,12 @@ namespace ELearning.DomainModels
     {
         public int MediaId { get; set; }
         public string FileName { get; set; }
-        public string FilePath { get; set; }
-        public string FileContent { get; set; }
-        public string FileType { get; set; }
-        public long FileSizeByte { get; set; }
+        public string? FilePath { get; set; }
+        public string? FileContent { get; set; }
+        public string? FileType { get; set; }
+        public long? FileSizeByte { get; set; }
         public int MediaTypeId { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public MediaType MediaType { get; set; }

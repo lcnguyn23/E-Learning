@@ -13,13 +13,11 @@ namespace ELearning.DomainModels
         public int QuizAttemptId { get; set; }
         public int StudentId { get; set; }
         public int QuizId { get; set; }
-        public DateTime StartDate { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public int Score { get; set; }
-        public int Status { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public int QuizAttemptStatusId { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public User Student { get; set; }

@@ -11,8 +11,7 @@ namespace ELearning.DomainModels
     {
         public int CourseStatusId { get; set; }
         public string Description { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public IEnumerable<Course> Courses { get; set; }

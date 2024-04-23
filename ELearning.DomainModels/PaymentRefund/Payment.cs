@@ -12,11 +12,10 @@ namespace ELearning.DomainModels
     {
         public int PaymentId { get; set; }
         public int EnrollmentId { get; set; }
-        public decimal Amount { get; set; }
+        public decimal? Amount { get; set; }
         public int PaymentMethodId { get; set; }
-        public string PaymentStatus { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public int PaymentStatusId { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
 
         // relationships

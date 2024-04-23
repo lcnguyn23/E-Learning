@@ -11,8 +11,7 @@ namespace ELearning.DomainModels
     {
         public int MediaTypeId { get; set; }
         public string TypeName { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public IEnumerable<Media> Medias { get; set; }

@@ -11,9 +11,8 @@ namespace ELearning.DomainModels
     {
         public int TopicId { get; set; }
         public string TopicName { get; set; }
-        public string TopicDescription { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public string? TopicDescription { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public IEnumerable<Course> Courses { get; set; }

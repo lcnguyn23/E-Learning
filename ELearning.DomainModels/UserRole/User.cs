@@ -22,7 +22,7 @@ namespace ELearning.DomainModels
         public string Password { get; set; }
         public string? ProfileImage { get; set; }
         public string? Bio { get; set; }
-        public int Status { get; set; }
+        public int UserStatusId { get; set; }
         public DateTime? CreatedAt { get; set; }
 
 

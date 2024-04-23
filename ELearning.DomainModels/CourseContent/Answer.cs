@@ -13,8 +13,7 @@ namespace ELearning.DomainModels
         public int QuestionId { get; set; }
         public string Content { get; set; }
         public bool IsCorrect { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public Question Question { get; set; }

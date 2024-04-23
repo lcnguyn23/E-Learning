@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ELearning.DomainModels.DiscussionManagement;
+using ELearning.DomainModels;
 
 namespace ELearning.DomainModels
 {
@@ -15,8 +15,7 @@ namespace ELearning.DomainModels
         public string Title { get; set; }
         public int Order {  get; set; }
         public int LessonTypeId { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public Section Section { get; set; }

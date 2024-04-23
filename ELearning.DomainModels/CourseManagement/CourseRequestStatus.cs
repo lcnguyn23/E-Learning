@@ -9,10 +9,9 @@ namespace ELearning.DomainModels
 {
     public class CourseRequestStatus
     {
-        public int RequestStatusId { get; set; }
+        public int CourseRequestStatusId { get; set; }
         public string Description { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         // relationships
         public IEnumerable<CourseRequest> CourseRequests { get; set; }

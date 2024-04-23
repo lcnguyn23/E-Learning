@@ -12,15 +12,12 @@ namespace ELearning.DomainModels.EnrollmentManagement
     public class Enrollment
     {
         public int EnrollmentId { get; set; }
-        [DataType(DataType.DateTime)]
         public int StudentId { get; set; }
         public int CourseId { get; set; }
         public DateTime? StartDate { get; set; }
-        [DataType(DataType.DateTime)]
         public DateTime? EndDate { get; set; }
-        public int Status { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public int EnrollmentStatusId { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
 
         // relationships
