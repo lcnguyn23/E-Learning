@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
 using System.Reflection;
+using ELearning.DomainModels.EnrollmentManagement;
 
 namespace ELearning.Data
 {
@@ -38,14 +39,14 @@ namespace ELearning.Data
 
         // Lesson
         DbSet<Lesson> Lessons { get; set; }
-        DbSet<LessonContent> LessonsContents { get; set; }
-        DbSet<LessonMedia> LessonsMedias { get; set; }
-        DbSet<LessonReport> LessonsReports { get; set; }
-        DbSet<LessonReportStatus> LessonsReportsStatus { get; set; }
-        DbSet<LessonType> LessonsTypes { get; set; }
+        DbSet<LessonContent> LessonContents { get; set; }
+        DbSet<LessonMedia> LessonMedias { get; set; }
+        DbSet<LessonReport> LessonReports { get; set; }
+        DbSet<LessonReportStatus> LessonReportsStatus { get; set; }
+        DbSet<LessonType> LessonTypes { get; set; }
 
         // Quiz & Question
-        DbSet<Quiz> Quizes { get; set; }
+        DbSet<Quiz> Quizzes { get; set; }
         DbSet<QuizAttempt> QuizAttempts { get; set; }
         DbSet<QuizAttemptStatus> QuizAttemptStatus { get; set; }
         DbSet<Question> Questions { get; set; }
@@ -59,7 +60,7 @@ namespace ELearning.Data
 
         // Enrollment
         DbSet<Enrollment> Enrollments { get; set; }
-        DbSet<EnrollmentStatus> EnrollmentsStatus { get; set; }
+        DbSet<EnrollmentStatus> EnrollmentStatus { get; set; }
 
         // Payment & refund
         DbSet<Payment> Payments { get; set; }
@@ -78,97 +79,99 @@ namespace ELearning.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            
-            modelBuilder.Entity<Course>(e =>
-            {
-                e.ToTable("Courses").HasKey(c => c.CourseId);
-                e.Property(c => c.Price).HasColumnType("decimal(18,2)");
-                e.Property(c => c.SalePrice).HasColumnType("decimal(18,2)");
-                e.HasMany(u => u.FavoriteCourses).WithOne(fc => fc.Course).HasForeignKey(u => u.CourseId).OnDelete(DeleteBehavior.NoAction);
-            });
 
-            modelBuilder.Entity<Payment>(e =>
-            {
-                e.ToTable("Payments").HasKey(p => p.PaymentId);
-                e.Property(p => p.Amount).HasColumnType("decimal(18,2)");
+            #region
+            //modelBuilder.Entity<Course>(e =>
+            //{
+            //    e.ToTable("Courses").HasKey(c => c.CourseId);
+            //    e.Property(c => c.Price).HasColumnType("decimal(18,2)");
+            //    e.Property(c => c.SalePrice).HasColumnType("decimal(18,2)");
+            //    e.HasMany(u => u.FavoriteCourses).WithOne(fc => fc.Course).HasForeignKey(u => u.CourseId).OnDelete(DeleteBehavior.NoAction);
+            //});
 
-            });
+            //modelBuilder.Entity<Payment>(e =>
+            //{
+            //    e.ToTable("Payments").HasKey(p => p.PaymentId);
+            //    e.Property(p => p.Amount).HasColumnType("decimal(18,2)");
 
-            modelBuilder.Entity<RefundRequest>(e =>
-            {
-                e.ToTable("RefundRequests").HasKey(r => r.RefundId);
-                e.Property(r => r.RefundAmount).HasColumnType("decimal(18,2)");
+            //});
 
-            });
+            //modelBuilder.Entity<RefundRequest>(e =>
+            //{
+            //    e.ToTable("RefundRequests").HasKey(r => r.RefundRequestId);
+            //    e.Property(r => r.RefundAmount).HasColumnType("decimal(18,2)");
 
-            modelBuilder.Entity<FavoriteCourse>(e =>
-            {
-                e.ToTable("FavoriteCourses").HasKey(fc => new { fc.UserId, fc.CourseId });
-            });
+            //});
+
+            //modelBuilder.Entity<FavoriteCourse>(e =>
+            //{
+            //    e.ToTable("FavoriteCourses").HasKey(fc => new { fc.UserId, fc.CourseId });
+            //});
 
             //modelBuilder.Entity<UserRole>(e =>
             //{
             //    e.ToTable("UserRoles").HasKey(ur => new { ur.UserId, ur.RoleId });
             //});
 
-            modelBuilder.Entity<CourseRating>(e =>
-            {
-                e.ToTable("CourseRatings").HasKey(cr => new { cr.StudentId, cr.CourseId });
-                e.HasOne(u => u.Student).WithMany(c => c.CourseRatings).HasForeignKey(u => u.StudentId).OnDelete(DeleteBehavior.NoAction);
-            });
+            //modelBuilder.Entity<CourseRating>(e =>
+            //{
+            //    e.ToTable("CourseRatings").HasKey(cr => new { cr.StudentId, cr.CourseId });
+            //    e.HasOne(u => u.Student).WithMany(c => c.CourseRatings).HasForeignKey(u => u.StudentId).OnDelete(DeleteBehavior.NoAction);
+            //});
 
-            modelBuilder.Entity<CourseRequest>(e =>
-            {
-                e.ToTable("CourseRequests").HasKey(cr => cr.RequestId);
-                e.HasOne(u => u.Instructor).WithMany(c => c.CourseRequests).HasForeignKey(u => u.InstructorId).OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<CourseRequest>(e =>
+            //{
+            //    e.ToTable("CourseRequests").HasKey(cr => cr.CourseRequestId);
+            //    e.HasOne(u => u.Instructor).WithMany(c => c.CourseRequests).HasForeignKey(u => u.InstructorId).OnDelete(DeleteBehavior.NoAction);
 
-            });
+            //});
 
-            modelBuilder.Entity<CourseRequestStatus>(e =>
-            {
-                e.ToTable("CourseRequestStatus").HasKey(cr => cr.RequestStatusId);
-            });
+            //modelBuilder.Entity<CourseRequestStatus>(e =>
+            //{
+            //    e.ToTable("CourseRequestStatus").HasKey(cr => cr.CourseRequestStatusId);
+            //});
 
-            modelBuilder.Entity<DiscussionReply>(e =>
-            {
-                e.ToTable("DiscussionReplies").HasKey(dr => dr.DiscussionId);
-                e.HasOne(d => d.Discussion).WithMany(dr => dr.DiscussionReplies).HasForeignKey(d => d.DiscussionId).OnDelete(DeleteBehavior.NoAction);
-            });
+            //modelBuilder.Entity<DiscussionReply>(e =>
+            //{
+            //    e.ToTable("DiscussionReplies").HasKey(dr => dr.DiscussionId);
+            //    e.HasOne(d => d.Discussion).WithMany(dr => dr.DiscussionReplies).HasForeignKey(d => d.DiscussionId).OnDelete(DeleteBehavior.NoAction);
+            //});
 
-            modelBuilder.Entity<LessonReport>(e =>
-            {
-                e.ToTable("LessonReports").HasKey(l => l.ReportId);
-            });
+            //modelBuilder.Entity<LessonReport>(e =>
+            //{
+            //    e.ToTable("LessonReports").HasKey(l => l.ReportId);
+            //});
 
-            modelBuilder.Entity<LessonReportStatus>(e =>
-            {
-                e.ToTable("LessonReportStatus").HasKey(l => l.StatusId);
-            });
+            //modelBuilder.Entity<LessonReportStatus>(e =>
+            //{
+            //    e.ToTable("LessonReportStatus").HasKey(l => l.LessonReportStatusId);
+            //});
 
-            modelBuilder.Entity<RefundRequest>(e =>
-            {
-                e.ToTable("RefundRequests").HasKey(dr => dr.RefundId);
-            });
+            //modelBuilder.Entity<RefundRequest>(e =>
+            //{
+            //    e.ToTable("RefundRequests").HasKey(dr => dr.RefundRequestId);
+            //});
 
-            modelBuilder.Entity<StudentLesson>(e =>
-            {
-                e.ToTable("StudentLessons").HasKey(s => new { s.StudentId, s.LessonId });
-            });
+            //modelBuilder.Entity<StudentLesson>(e =>
+            //{
+            //    e.ToTable("StudentLessons").HasKey(s => new { s.StudentId, s.LessonId });
+            //});
 
-            modelBuilder.Entity<StudentProgress>(e =>
-            {
-                e.ToTable("StudentProgresses").HasKey(s => s.ProgressId);
-                e.HasOne(s => s.Lesson).WithMany(s => s.StudentProgresses).HasForeignKey(s => s.LessonId).OnDelete(DeleteBehavior.NoAction);
-                e.HasOne(s => s.Section).WithMany(s => s.StudentProgresses).HasForeignKey(s => s.SectionId).OnDelete(DeleteBehavior.NoAction);
-                e.HasOne(s => s.Course).WithMany(s => s.StudentProgresses).HasForeignKey(s => s.CourseId).OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<StudentProgress>(e =>
+            //{
+            //    e.ToTable("StudentProgresses").HasKey(s => s.ProgressId);
+            //    e.HasOne(s => s.Lesson).WithMany(s => s.StudentProgresses).HasForeignKey(s => s.LessonId).OnDelete(DeleteBehavior.NoAction);
+            //    e.HasOne(s => s.Section).WithMany(s => s.StudentProgresses).HasForeignKey(s => s.SectionId).OnDelete(DeleteBehavior.NoAction);
+            //    e.HasOne(s => s.Course).WithMany(s => s.StudentProgresses).HasForeignKey(s => s.CourseId).OnDelete(DeleteBehavior.NoAction);
 
-            });
+            //});
 
-            modelBuilder.Entity<QuizAttempt>(e => 
-            {
-                e.ToTable("QuizAttempts").HasKey(q => q.QuizAttemptId);
-                e.HasMany(q => q.QuestionAttempts).WithOne(q => q.QuizAttempt).HasForeignKey(q => q.QuizAttemptId).OnDelete(DeleteBehavior.NoAction);
-            });
+            //modelBuilder.Entity<QuizAttempt>(e => 
+            //{
+            //    e.ToTable("QuizAttempts").HasKey(q => q.QuizAttemptId);
+            //    e.HasMany(q => q.QuestionAttempts).WithOne(q => q.QuizAttempt).HasForeignKey(q => q.QuizAttemptId).OnDelete(DeleteBehavior.NoAction);
+            //});
+            #endregion
         }
 
     }

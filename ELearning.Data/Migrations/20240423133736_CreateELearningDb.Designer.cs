@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Data.Migrations
 {
     [DbContext(typeof(ELearningDbContext))]
-    [Migration("20240423041234_UpdateDatabaseSchema")]
-    partial class UpdateDatabaseSchema
+    [Migration("20240423133736_CreateELearningDb")]
+    partial class CreateELearningDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,10 +34,13 @@ namespace ELearning.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(1919));
 
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
@@ -49,7 +52,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Answers", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Course", b =>
@@ -61,22 +64,29 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseId"), 1L, 1);
 
                     b.Property<string>("CourseImage")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("CourseName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("CourseStatusId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 359, DateTimeKind.Local).AddTicks(5117));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Duration")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("InstructorId")
                         .HasColumnType("int");
@@ -87,20 +97,21 @@ namespace ELearning.Data.Migrations
                     b.Property<int>("LevelId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Price")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("SaleEnd")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 359, DateTimeKind.Local).AddTicks(4982));
 
                     b.Property<decimal?>("SalePrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("SaleStart")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 359, DateTimeKind.Local).AddTicks(4739));
 
                     b.Property<int>("TopicId")
                         .HasColumnType("int");
@@ -128,14 +139,18 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 359, DateTimeKind.Local).AddTicks(7941));
 
                     b.Property<int>("Rating")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("StudentId", "CourseId");
 
@@ -146,36 +161,33 @@ namespace ELearning.Data.Migrations
 
             modelBuilder.Entity("ELearning.DomainModels.CourseRequest", b =>
                 {
-                    b.Property<int>("RequestId")
+                    b.Property<int>("CourseRequestId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseRequestId"), 1L, 1);
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CourseRequestStatusRequestStatusId")
+                    b.Property<int>("CourseRequestStatusId")
                         .HasColumnType("int");
 
                     b.Property<int>("InstructorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("RequestAt")
+                    b.Property<DateTime?>("RequestAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ResponseAt")
+                    b.Property<DateTime?>("ResponseAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("RequestId");
+                    b.HasKey("CourseRequestId");
 
                     b.HasIndex("CourseId")
                         .IsUnique();
 
-                    b.HasIndex("CourseRequestStatusRequestStatusId");
+                    b.HasIndex("CourseRequestStatusId");
 
                     b.HasIndex("InstructorId");
 
@@ -184,20 +196,23 @@ namespace ELearning.Data.Migrations
 
             modelBuilder.Entity("ELearning.DomainModels.CourseRequestStatus", b =>
                 {
-                    b.Property<int>("RequestStatusId")
+                    b.Property<int>("CourseRequestStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequestStatusId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseRequestStatusId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(826));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("RequestStatusId");
+                    b.HasKey("CourseRequestStatusId");
 
                     b.ToTable("CourseRequestStatus", (string)null);
                 });
@@ -210,16 +225,19 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseStatusId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(1427));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("CourseStatusId");
 
-                    b.ToTable("CourseStatus");
+                    b.ToTable("CourseStatus", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Discussion", b =>
@@ -232,10 +250,13 @@ namespace ELearning.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(2855));
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -250,35 +271,43 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Discussions");
+                    b.ToTable("Discussions", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.DiscussionReply", b =>
                 {
+                    b.Property<int>("ReplyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReplyId"), 1L, 1);
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(3831));
+
                     b.Property<int>("DiscussionId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ReplyContent")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ReplyId")
-                        .HasColumnType("int");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("DiscussionId");
+                    b.HasKey("ReplyId");
+
+                    b.HasIndex("DiscussionId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("DiscussionReplies", (string)null);
                 });
 
-            modelBuilder.Entity("ELearning.DomainModels.Enrollment", b =>
+            modelBuilder.Entity("ELearning.DomainModels.EnrollmentManagement.Enrollment", b =>
                 {
                     b.Property<int>("EnrollmentId")
                         .ValueGeneratedOnAdd()
@@ -290,7 +319,9 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(5365));
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
@@ -300,9 +331,6 @@ namespace ELearning.Data.Migrations
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -315,7 +343,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Enrollments");
+                    b.ToTable("Enrollments", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.EnrollmentStatus", b =>
@@ -326,16 +354,19 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnrollmentStatusId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(5960));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("EnrollmentStatusId");
 
-                    b.ToTable("EnrollmentsStatus");
+                    b.ToTable("EnrollmentStatus", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.FavoriteCourse", b =>
@@ -346,8 +377,10 @@ namespace ELearning.Data.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(7371));
 
                     b.HasKey("UserId", "CourseId");
 
@@ -364,8 +397,10 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(2628));
 
                     b.Property<int>("LessonTypeId")
                         .HasColumnType("int");
@@ -378,7 +413,8 @@ namespace ELearning.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("LessonId");
 
@@ -386,7 +422,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("Lessons", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.LessonContent", b =>
@@ -398,15 +434,17 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonContentId"), 1L, 1);
 
                     b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(3192));
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -416,7 +454,7 @@ namespace ELearning.Data.Migrations
                     b.HasIndex("LessonId")
                         .IsUnique();
 
-                    b.ToTable("LessonsContents");
+                    b.ToTable("LessonContents", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.LessonMedia", b =>
@@ -427,8 +465,10 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonMediaId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(3664));
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -442,7 +482,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("MediaId");
 
-                    b.ToTable("LessonsMedias");
+                    b.ToTable("LessonMedias", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.LessonReport", b =>
@@ -455,23 +495,23 @@ namespace ELearning.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(4543));
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("LessonReportStatusStatusId")
+                    b.Property<int>("LessonReportStatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("ProofImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -480,7 +520,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.HasIndex("LessonReportStatusStatusId");
+                    b.HasIndex("LessonReportStatusId");
 
                     b.HasIndex("StudentId");
 
@@ -489,20 +529,23 @@ namespace ELearning.Data.Migrations
 
             modelBuilder.Entity("ELearning.DomainModels.LessonReportStatus", b =>
                 {
-                    b.Property<int>("StatusId")
+                    b.Property<int>("LessonReportStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonReportStatusId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(5144));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("StatusId");
+                    b.HasKey("LessonReportStatusId");
 
                     b.ToTable("LessonReportStatus", (string)null);
                 });
@@ -515,20 +558,23 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonTypeId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(5685));
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("TypeName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("LessonTypeId");
 
-                    b.ToTable("LessonsTypes");
+                    b.ToTable("LessonTypes", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Level", b =>
@@ -539,16 +585,19 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LevelId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(6139));
 
                     b.Property<string>("LevelName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("LevelId");
 
-                    b.ToTable("Levels");
+                    b.ToTable("Levels", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Media", b =>
@@ -559,27 +608,30 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MediaId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(8153));
 
                     b.Property<string>("FileContent")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
-                    b.Property<long>("FileSizeByte")
+                    b.Property<long?>("FileSizeByte")
                         .HasColumnType("bigint");
 
                     b.Property<string>("FileType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("MediaTypeId")
                         .HasColumnType("int");
@@ -588,7 +640,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("MediaTypeId");
 
-                    b.ToTable("Medias");
+                    b.ToTable("Medias", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.MediaType", b =>
@@ -599,16 +651,19 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MediaTypeId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(8708));
 
                     b.Property<string>("TypeName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("MediaTypeId");
 
-                    b.ToTable("MediaTypes");
+                    b.ToTable("MediaTypes", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Payment", b =>
@@ -619,11 +674,13 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"), 1L, 1);
 
-                    b.Property<decimal>("Amount")
+                    b.Property<decimal?>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(9260));
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
@@ -631,11 +688,7 @@ namespace ELearning.Data.Migrations
                     b.Property<int>("PaymentMethodId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StatusPaymentStatusId")
+                    b.Property<int>("PaymentStatusId")
                         .HasColumnType("int");
 
                     b.HasKey("PaymentId");
@@ -645,7 +698,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("PaymentMethodId");
 
-                    b.HasIndex("StatusPaymentStatusId");
+                    b.HasIndex("PaymentStatusId");
 
                     b.ToTable("Payments", (string)null);
                 });
@@ -658,16 +711,19 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentMethodId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(9803));
 
                     b.Property<string>("PaymentMethodName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("PaymentMethodId");
 
-                    b.ToTable("PaymentMethods");
+                    b.ToTable("PaymentMethods", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.PaymentStatus", b =>
@@ -678,16 +734,19 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentStatusId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 362, DateTimeKind.Local).AddTicks(299));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("PaymentStatusId");
 
-                    b.ToTable("PaymentStatus");
+                    b.ToTable("PaymentStatus", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Question", b =>
@@ -698,13 +757,17 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(7424));
 
                     b.Property<int>("Point")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<int>("QuestionOrder")
+                    b.Property<int?>("QuestionOrder")
                         .HasColumnType("int");
 
                     b.Property<int>("QuestionTypeId")
@@ -719,7 +782,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.QuestionAttempt", b =>
@@ -731,11 +794,13 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionAttemptId"), 1L, 1);
 
                     b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(6826));
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
@@ -744,7 +809,9 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Score")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("QuestionAttemptId");
 
@@ -752,7 +819,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("QuizAttemptId");
 
-                    b.ToTable("QuestionAttempts");
+                    b.ToTable("QuestionAttempts", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.QuestionType", b =>
@@ -763,20 +830,23 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionTypeId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(7949));
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("TypeName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("QuestionTypeId");
 
-                    b.ToTable("QuestionTypes");
+                    b.ToTable("QuestionTypes", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Quiz", b =>
@@ -787,34 +857,43 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(1204));
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)");
 
                     b.Property<int>("Order")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<int>("PassingScore")
-                        .HasColumnType("int");
+                    b.Property<int?>("PassingScore")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<int>("SectionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TimeLimit")
-                        .HasColumnType("int");
+                    b.Property<int?>("TimeLimit")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("QuizId");
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Quizes");
+                    b.ToTable("Quizzes", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.QuizAttempt", b =>
@@ -825,11 +904,16 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizAttemptId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 360, DateTimeKind.Local).AddTicks(8638));
+
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("QuestionAttemptStatus")
+                        .HasColumnType("int");
 
                     b.Property<int>("QuizAttemptStatusId")
                         .HasColumnType("int");
@@ -838,13 +922,12 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Score")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -868,60 +951,62 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizAttemptStatusId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(48));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("QuizAttemptStatusId");
 
-                    b.ToTable("QuizAttemptStatus");
+                    b.ToTable("QuizAttemptStatus", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.RefundRequest", b =>
                 {
-                    b.Property<int>("RefundId")
+                    b.Property<int>("RefundRequestId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundRequestId"), 1L, 1);
 
-                    b.Property<DateTime>("ApprovalAt")
+                    b.Property<DateTime?>("ApprovalAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 362, DateTimeKind.Local).AddTicks(977));
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Note")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<decimal>("RefundAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("RefundReason")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<int>("RefundStatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("RefundId");
+                    b.HasKey("RefundRequestId");
 
                     b.HasIndex("EnrollmentId")
                         .IsUnique();
 
                     b.HasIndex("RefundStatusId");
 
-                    b.ToTable("RefundRequests", (string)null);
+                    b.ToTable("RefundRequest", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.RefundStatus", b =>
@@ -932,16 +1017,19 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefundStatusId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 362, DateTimeKind.Local).AddTicks(1505));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("RefundStatusId");
 
-                    b.ToTable("RefundStatus");
+                    b.ToTable("RefundStatus", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Role", b =>
@@ -952,19 +1040,23 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 362, DateTimeKind.Local).AddTicks(2032));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("RoleName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Section", b =>
@@ -978,21 +1070,24 @@ namespace ELearning.Data.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(1720));
 
-                    b.Property<int>("ModuleOrder")
+                    b.Property<int>("SectionOrder")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("SectionId");
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Sections");
+                    b.ToTable("Sections", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.StudentLesson", b =>
@@ -1003,7 +1098,7 @@ namespace ELearning.Data.Migrations
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CompletedAt")
+                    b.Property<DateTime?>("CompletedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("StudentId", "LessonId");
@@ -1023,6 +1118,11 @@ namespace ELearning.Data.Migrations
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 362, DateTimeKind.Local).AddTicks(3885));
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -1054,20 +1154,23 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 361, DateTimeKind.Local).AddTicks(2266));
 
                     b.Property<string>("TopicDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("TopicName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("TopicId");
 
-                    b.ToTable("Topics");
+                    b.ToTable("Topics", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.User", b =>
@@ -1079,44 +1182,48 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
 
                     b.Property<string>("Bio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 362, DateTimeKind.Local).AddTicks(7415));
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("ProfileImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("UserStatusId")
                         .HasColumnType("int");
@@ -1136,8 +1243,10 @@ namespace ELearning.Data.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 363, DateTimeKind.Local).AddTicks(6821));
 
                     b.HasKey("UserId", "RoleId");
 
@@ -1154,16 +1263,19 @@ namespace ELearning.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserStatusId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2024, 4, 23, 20, 37, 36, 363, DateTimeKind.Local).AddTicks(7390));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("UserStatusId");
 
-                    b.ToTable("UserStatus");
+                    b.ToTable("UserStatus", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Answer", b =>
@@ -1241,7 +1353,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasOne("ELearning.DomainModels.CourseRequestStatus", "CourseRequestStatus")
                         .WithMany("CourseRequests")
-                        .HasForeignKey("CourseRequestStatusRequestStatusId")
+                        .HasForeignKey("CourseRequestStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1296,7 +1408,7 @@ namespace ELearning.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ELearning.DomainModels.Enrollment", b =>
+            modelBuilder.Entity("ELearning.DomainModels.EnrollmentManagement.Enrollment", b =>
                 {
                     b.HasOne("ELearning.DomainModels.Course", "Course")
                         .WithMany("Enrollments")
@@ -1401,7 +1513,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasOne("ELearning.DomainModels.LessonReportStatus", "LessonReportStatus")
                         .WithMany("LessonReports")
-                        .HasForeignKey("LessonReportStatusStatusId")
+                        .HasForeignKey("LessonReportStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1431,7 +1543,7 @@ namespace ELearning.Data.Migrations
 
             modelBuilder.Entity("ELearning.DomainModels.Payment", b =>
                 {
-                    b.HasOne("ELearning.DomainModels.Enrollment", "Enrollment")
+                    b.HasOne("ELearning.DomainModels.EnrollmentManagement.Enrollment", "Enrollment")
                         .WithOne("Payment")
                         .HasForeignKey("ELearning.DomainModels.Payment", "EnrollmentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1445,7 +1557,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasOne("ELearning.DomainModels.PaymentStatus", "Status")
                         .WithMany("Payments")
-                        .HasForeignKey("StatusPaymentStatusId")
+                        .HasForeignKey("PaymentStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1534,7 +1646,7 @@ namespace ELearning.Data.Migrations
 
             modelBuilder.Entity("ELearning.DomainModels.RefundRequest", b =>
                 {
-                    b.HasOne("ELearning.DomainModels.Enrollment", "Enrollment")
+                    b.HasOne("ELearning.DomainModels.EnrollmentManagement.Enrollment", "Enrollment")
                         .WithOne("RefundRequest")
                         .HasForeignKey("ELearning.DomainModels.RefundRequest", "EnrollmentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1677,7 +1789,7 @@ namespace ELearning.Data.Migrations
                     b.Navigation("DiscussionReplies");
                 });
 
-            modelBuilder.Entity("ELearning.DomainModels.Enrollment", b =>
+            modelBuilder.Entity("ELearning.DomainModels.EnrollmentManagement.Enrollment", b =>
                 {
                     b.Navigation("Payment")
                         .IsRequired();

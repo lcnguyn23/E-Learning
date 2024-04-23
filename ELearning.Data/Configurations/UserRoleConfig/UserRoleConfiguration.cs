@@ -7,13 +7,23 @@ using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
 
-namespace ELearning.Data.Configurations.UserConfigs
+namespace ELearning.Data.Configurations.UserConfig
 {
     public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
     {
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
-            builder.ToTable("UserRoles").HasKey(ur => new { ur.UserId, ur.RoleId });
+            // key
+            builder
+                .ToTable("UserRoles")
+                .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+            // properties
+            builder
+                .Property(u => u.CreatedAt)
+                .HasColumnType("datetime2")
+                .HasDefaultValue(DateTime.Now);
+
         }
     }
 }
