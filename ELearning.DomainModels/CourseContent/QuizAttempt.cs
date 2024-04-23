@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ELearning.DomainModels;
 
 namespace ELearning.DomainModels
 {
@@ -12,7 +13,6 @@ namespace ELearning.DomainModels
         public int QuizAttemptId { get; set; }
         public int StudentId { get; set; }
         public int QuizId { get; set; }
-        [DataType(DataType.DateTime)]
         public DateTime StartDate { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }

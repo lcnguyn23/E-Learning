@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ELearning.DomainModels;
+using ELearning.DomainModels.EnrollmentManagement;
 
 namespace ELearning.DomainModels
 {
@@ -12,18 +14,16 @@ namespace ELearning.DomainModels
     {
         public int UserId { get; set; }
         public string FullName { get; set; }
-        [DataType(DataType.DateTime)]
         public DateTime BirthDate { get; set; }
         public bool Gender { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
-        public string ProfileImage { get; set; }
-        public string Bio { get; set; }
+        public string? ProfileImage { get; set; }
+        public string? Bio { get; set; }
         public int Status { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? CreatedAt { get; set; }
 
 
         // relationships
@@ -38,8 +38,8 @@ namespace ELearning.DomainModels
         public IEnumerable<Discussion> Discussions { get; set; }
         public IEnumerable<DiscussionReply> DiscussionReplies { get; set; }
         public IEnumerable<StudentLesson> StudentLessons { get; set; }
-        public IEnumerable<StudentProgress> StudentProgresses { get; set;}
-        public IEnumerable<LessonReport> LessonsReports { get; set; }    
+        public IEnumerable<StudentProgress> StudentProgresses { get; set; }
+        public IEnumerable<LessonReport> LessonsReports { get; set; }
 
     }
 }

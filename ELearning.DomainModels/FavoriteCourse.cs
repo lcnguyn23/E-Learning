@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ELearning.DomainModels;
 
 namespace ELearning.DomainModels
 {
@@ -12,9 +13,7 @@ namespace ELearning.DomainModels
     {
         public int CourseId { get; set; }
         public int UserId { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
 
 
         // relationships
