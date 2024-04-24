@@ -1,4 +1,5 @@
 ﻿using ELearning.DomainModels;
+using ELearning.DomainModels.UserRole;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -9,20 +10,19 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Configurations
 {
-    public class RoleConfiguration : IEntityTypeConfiguration<Role>
+    public class RoleConfiguration : IEntityTypeConfiguration<ApplicationRole>
     {
-        public void Configure(EntityTypeBuilder<Role> builder)
+        public void Configure(EntityTypeBuilder<ApplicationRole> builder)
         {
             // key
             builder
                 .ToTable("Roles")
-                .HasKey(e => e.RoleId);
+                .HasKey(e => e.Id);
 
             // properties
             builder
-                .Property(e => e.RoleName)
-                .IsRequired()
-                .HasMaxLength(100);
+                .Property(e => e.Name)
+                .IsRequired();
 
             builder
                 .Property(e => e.Description)

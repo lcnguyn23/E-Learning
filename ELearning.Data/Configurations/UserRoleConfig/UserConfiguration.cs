@@ -6,19 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
+using ELearning.DomainModels.UserRole;
 
 namespace ELearning.Data.Configurations.UserConfig
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             // key
             builder
                 .ToTable("Users")
-                .HasKey(u => u.UserId);
+                .HasKey(u => u.Id);
 
             // properties
+
             builder
                 .Property(u => u.FullName)
                 .IsRequired()
@@ -35,26 +37,19 @@ namespace ELearning.Data.Configurations.UserConfig
 
             builder
                 .Property(u => u.UserName)
-                .IsRequired()
-                .HasMaxLength(50);
+                .IsRequired();
 
             builder
                 .Property(u => u.Email)
-                .IsRequired()
-                .HasMaxLength(100);
+                .IsRequired();
 
             builder
                 .Property(u => u.PhoneNumber)
-                .IsRequired()
-                .HasMaxLength(20);
+                .IsRequired();
+
 
             builder
-                .Property(u => u.Password)
-                .IsRequired()
-                .HasMaxLength(255);
-
-            builder
-                .Property(u => u.ProfileImage)
+                .Property(u => u.ProfilePicture)
                 .HasMaxLength(2048);  
 
             builder
@@ -151,6 +146,8 @@ namespace ELearning.Data.Configurations.UserConfig
                 .WithOne(u => u.Student)
                 .HasForeignKey(u => u.StudentId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            
         }
     }
 }

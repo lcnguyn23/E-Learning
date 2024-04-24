@@ -6,23 +6,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
+using ELearning.DomainModels.UserRole;
+using System.Reflection.Emit;
 
 namespace ELearning.Data.Configurations.UserConfig
 {
-    public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
+    public class UserRoleConfiguration : IEntityTypeConfiguration<ApplicationUserRole>
     {
-        public void Configure(EntityTypeBuilder<UserRole> builder)
+        public void Configure(EntityTypeBuilder<ApplicationUserRole> builder)
         {
             // key
             builder
                 .ToTable("UserRoles")
-                .HasKey(ur => new { ur.UserId, ur.RoleId });
+                .HasKey(u => new { u.UserId, u.RoleId });
 
-            // properties
             builder
-                .Property(u => u.CreatedAt)
-                .HasColumnType("datetime2")
-                .HasDefaultValue(DateTime.Now);
+                .HasOne(ur => ur.Role)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.RoleId)
+                .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

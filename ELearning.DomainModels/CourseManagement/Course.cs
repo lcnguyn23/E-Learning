@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels.EnrollmentManagement;
+using ELearning.DomainModels.UserRole;
 
 namespace ELearning.DomainModels
 {
@@ -29,7 +30,7 @@ namespace ELearning.DomainModels
 
 
         // relationships
-        public User Instructor { get; set; }
+        public ApplicationUser Instructor { get; set; }
         public IEnumerable<Enrollment> Enrollments { get; set; }
         public Topic Topic { get; set; }
         public Level Level { get; set; }

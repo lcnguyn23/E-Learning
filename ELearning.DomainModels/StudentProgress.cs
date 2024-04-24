@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
+using ELearning.DomainModels.UserRole;
 
 namespace ELearning.DomainModels
 {
@@ -17,7 +18,7 @@ namespace ELearning.DomainModels
         public DateTime? CreatedAt { get; set; }
 
         // relationships
-        public User Student { get; set; }
+        public ApplicationUser Student { get; set; }
         public Course Course { get; set; }
         public Section Section { get; set; }
         public Lesson Lesson { get; set; }

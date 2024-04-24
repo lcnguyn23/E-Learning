@@ -6,19 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using ELearning.DomainModels.EnrollmentManagement;
+using ELearning.DomainModels.UserRole;
+using Microsoft.AspNetCore.Identity;
 
 namespace ELearning.Data
 {
-    public class ELearningDbContext : DbContext
+    public class ELearningDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int, IdentityUserClaim<int>,
+    ApplicationUserRole, IdentityUserLogin<int>,
+    IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public ELearningDbContext(DbContextOptions<ELearningDbContext> options) : base(options) { }
         #region
-        // User & Role
-        DbSet<User> Users { get; set; }
-        DbSet<UserRole> UserRoles { get; set; }
-        DbSet<UserStatus> UserStatus { get; set; }
-        DbSet<Role> Roles { get; set; }
         DbSet<FavoriteCourse> FavoriteCourses { get; set; }
         DbSet<StudentProgress> StudentProgresses { get; set; }
         DbSet<StudentLesson> StudentLessons { get; set; }
@@ -80,6 +80,24 @@ namespace ELearning.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+            modelBuilder.Entity<IdentityUserClaim<int>>(entity =>
+            {
+                entity.ToTable("UserClaims");
+            });
+            modelBuilder.Entity<IdentityUserLogin<int>>(entity =>
+            {
+                entity.ToTable("UserLogins")
+                        .HasKey(ul => new { ul.LoginProvider, ul.ProviderKey });
+            });
+            modelBuilder.Entity<IdentityRoleClaim<int>>(entity =>
+            {
+                entity.ToTable("RoleClaims");
+            });
+            modelBuilder.Entity<IdentityUserToken<int>>(entity =>
+            {
+                entity.ToTable("UserTokens")
+                    .HasKey(ut => new { ut.UserId, ut.LoginProvider, ut.Name });
+            });
             #region
             //modelBuilder.Entity<Course>(e =>
             //{

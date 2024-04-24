@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
+using ELearning.DomainModels.UserRole;
 
 namespace ELearning.DomainModels
 {
@@ -20,7 +21,7 @@ namespace ELearning.DomainModels
 
         // relationships
         public Lesson Lesson { get; set; }
-        public User Student { get; set; }
+        public ApplicationUser Student { get; set; }
         public LessonReportStatus LessonReportStatus { get; set; }
 
     }

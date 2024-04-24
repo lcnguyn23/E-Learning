@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
+using ELearning.DomainModels.UserRole;
 
 namespace ELearning.DomainModels.EnrollmentManagement
 {
@@ -21,7 +22,7 @@ namespace ELearning.DomainModels.EnrollmentManagement
 
 
         // relationships
-        public User Student { get; set; }
+        public ApplicationUser Student { get; set; }
         public Course Course { get; set; }
         public RefundRequest RefundRequest { get; set; }
         public Payment Payment { get; set; }
