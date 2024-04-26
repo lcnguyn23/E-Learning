@@ -1,6 +1,6 @@
 using ELearning.Data;
 using ELearning.DomainModels.UserRole;
-using ELearning.Web.Data;
+using ELearning.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,14 +14,26 @@ namespace ELearning.Web
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            
+
+                        builder.Services.AddDbContext<ELearningDbContext>(options =>
+                options.UseSqlServer(connectionString));
+
+                  
             // Configure Entity Framework Core
             builder.Services.AddDbContext<ELearningDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>().AddEntityFrameworkStores<ELearningDbContext>();
-           
+            builder.Services.AddRazorPages();
+            builder.Services.AddMvc();
+
+            builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+                            .AddEntityFrameworkStores<ELearningDbContext>()
+                            .AddDefaultTokenProviders();
+
+            builder.Services.AddScoped<UserManager<ApplicationUser>>();
+            builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
