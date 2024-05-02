@@ -33,7 +33,11 @@ namespace ELearning.Web.Controllers
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
-                    Email = model.Email
+                    FullName = model.FullName,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    BirthDate = DateTime.Now,
+                    Gender = true
                 };
                 // Store user data in AspNetUsers database table
                 var result = await userManager.CreateAsync(user, model.Password);

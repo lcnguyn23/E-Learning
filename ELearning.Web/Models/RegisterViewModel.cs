@@ -8,8 +8,11 @@ namespace ELearning.Web.Models
         [EmailAddress]
         public string Email { get; set; }
         [Required]
+        public string FullName { get; set; }
+        public string PhoneNumber { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "Password and confirmation password do not match.")]

@@ -22,6 +22,7 @@ namespace ELearning.Web
             // Configure Entity Framework Core
             builder.Services.AddDbContext<ELearningDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddRazorPages();
@@ -35,9 +36,8 @@ namespace ELearning.Web
             builder.Services.AddScoped<SignInManager<ApplicationUser>>();
 
             builder.Services.AddControllersWithViews();
-
             var app = builder.Build();
-
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -57,6 +57,29 @@ namespace ELearning.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapAreaControllerRoute(
+                    name: "areaAdmin",
+                    areaName: "Admin",
+                    pattern: "admin/{controller=Home}/{action=Index}/{id?}"
+                );
+                endpoints.MapAreaControllerRoute(
+                    name: "areaInstructor",
+                    areaName: "Instructor",
+                    pattern: "instructor/{controller=Home}/{action=Index}/{id?}"
+                );
+                endpoints.MapAreaControllerRoute(
+                    name: "areaStudent",
+                    areaName: "Student",
+                    pattern: "student/{controller=Home}/{action=Index}/{id?}"
+                );
+                endpoints.MapControllerRoute(
+                  name: "areas",
+                  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+            });
 
             app.MapControllerRoute(
                 name: "default",
