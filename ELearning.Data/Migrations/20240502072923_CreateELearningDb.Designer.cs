@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Data.Migrations
 {
     [DbContext(typeof(ELearningDbContext))]
-    [Migration("20240424045208_Update1")]
-    partial class Update1
+    [Migration("20240502072923_CreateELearningDb")]
+    partial class CreateELearningDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,7 +40,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 854, DateTimeKind.Local).AddTicks(7654));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(9936));
 
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
@@ -78,7 +78,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 854, DateTimeKind.Local).AddTicks(805));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(2896));
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
@@ -103,7 +103,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("SaleEnd")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 854, DateTimeKind.Local).AddTicks(645));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(2745));
 
                     b.Property<decimal?>("SalePrice")
                         .HasColumnType("decimal(18,2)");
@@ -111,7 +111,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("SaleStart")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 854, DateTimeKind.Local).AddTicks(358));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(2463));
 
                     b.Property<int>("TopicId")
                         .HasColumnType("int");
@@ -145,7 +145,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 854, DateTimeKind.Local).AddTicks(3359));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(5479));
 
                     b.Property<int>("Rating")
                         .ValueGeneratedOnAdd()
@@ -205,7 +205,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 854, DateTimeKind.Local).AddTicks(6431));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(8674));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -228,7 +228,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 854, DateTimeKind.Local).AddTicks(7077));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(9321));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -256,7 +256,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(443));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(2438));
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -285,7 +285,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(1380));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(3337));
 
                     b.Property<int>("DiscussionId")
                         .HasColumnType("int");
@@ -321,7 +321,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(3084));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(4966));
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
@@ -357,7 +357,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(3678));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(5580));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -380,7 +380,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(5128));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(6854));
 
                     b.HasKey("UserId", "CourseId");
 
@@ -400,7 +400,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 854, DateTimeKind.Local).AddTicks(8245));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(954));
 
                     b.Property<int>("LessonTypeId")
                         .HasColumnType("int");
@@ -440,7 +440,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 854, DateTimeKind.Local).AddTicks(8856));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(1596));
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -468,7 +468,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 854, DateTimeKind.Local).AddTicks(9410));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(2140));
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -501,7 +501,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(409));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(3082));
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -538,7 +538,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(1076));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(3755));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -561,7 +561,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(1677));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(4356));
 
                     b.Property<string>("Description")
                         .HasMaxLength(100)
@@ -588,7 +588,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(2227));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(4925));
 
                     b.Property<string>("LevelName")
                         .IsRequired()
@@ -611,7 +611,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(5974));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(7743));
 
                     b.Property<string>("FileContent")
                         .HasMaxLength(2000)
@@ -654,7 +654,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(6668));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(8319));
 
                     b.Property<string>("TypeName")
                         .IsRequired()
@@ -680,7 +680,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(7243));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(8948));
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
@@ -714,7 +714,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(7893));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(9549));
 
                     b.Property<string>("PaymentMethodName")
                         .IsRequired()
@@ -737,7 +737,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(8497));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(71));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -760,7 +760,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(3611));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(6370));
 
                     b.Property<int>("Point")
                         .ValueGeneratedOnAdd()
@@ -800,7 +800,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(2933));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(5672));
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
@@ -833,7 +833,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(4213));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(7117));
 
                     b.Property<string>("Description")
                         .HasMaxLength(100)
@@ -860,7 +860,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(8428));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(706));
 
                     b.Property<string>("Description")
                         .HasMaxLength(400)
@@ -907,7 +907,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(4992));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(8026));
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
@@ -951,7 +951,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(6808));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(9636));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -977,7 +977,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(9267));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(890));
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
@@ -1017,7 +1017,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 856, DateTimeKind.Local).AddTicks(9846));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(1477));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -1043,7 +1043,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(9148));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(1254));
 
                     b.Property<int>("SectionOrder")
                         .HasColumnType("int");
@@ -1092,7 +1092,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 857, DateTimeKind.Local).AddTicks(2501));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(4286));
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -1127,7 +1127,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 855, DateTimeKind.Local).AddTicks(9771));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(1857));
 
                     b.Property<string>("TopicDescription")
                         .HasMaxLength(200)
@@ -1158,7 +1158,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 857, DateTimeKind.Local).AddTicks(469));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(2144));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -1182,6 +1182,32 @@ namespace ELearning.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "0d053e18-bd51-4764-909e-1b2b0439b97f",
+                            CreatedAt = new DateTime(2024, 5, 2, 14, 29, 23, 592, DateTimeKind.Local).AddTicks(7569),
+                            Description = "",
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "14ca21ba-c696-4db4-be22-e0aca1daa51f",
+                            CreatedAt = new DateTime(2024, 5, 2, 14, 29, 23, 592, DateTimeKind.Local).AddTicks(7577),
+                            Description = "",
+                            Name = "Instructor"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "f0fb26c3-9345-4487-98d9-b653f08fb829",
+                            CreatedAt = new DateTime(2024, 5, 2, 14, 29, 23, 592, DateTimeKind.Local).AddTicks(7579),
+                            Description = "",
+                            Name = "Student"
+                        });
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.UserRole.ApplicationUser", b =>
@@ -1209,7 +1235,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 4, 24, 11, 52, 7, 857, DateTimeKind.Local).AddTicks(6202));
+                        .HasDefaultValue(new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(8174));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -1277,6 +1303,62 @@ namespace ELearning.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2024, 5, 2, 14, 29, 23, 592, DateTimeKind.Local).AddTicks(7732),
+                            ConcurrencyStamp = "f9c08b80-df7b-451d-9dc0-6fa7e8773f26",
+                            Email = "admin01@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Lê Trí",
+                            Gender = true,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "admin01",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAFPPiPoCxxeUpq9y5HKS9OY+XN2ejWhm9oiTFPTT3I0MoE7IE5vPJgMlJEQdYHMCQ==",
+                            PhoneNumber = "1234567890",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "admin01@example.com"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2024, 5, 2, 14, 29, 23, 593, DateTimeKind.Local).AddTicks(8653),
+                            ConcurrencyStamp = "a6a4464a-f8bf-45b0-980d-b0085362f41d",
+                            Email = "instructor01@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Lê Lai",
+                            Gender = true,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "instructor01",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPk5ZveA0UKvXpaJMWpUaAzoKpnQrFGFIC596e5tmYE2n69Ie5B3HFWA0Sk9x8IJ1Q==",
+                            PhoneNumber = "1234567810",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "instructor01@example.com"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2024, 5, 2, 14, 29, 23, 594, DateTimeKind.Local).AddTicks(9764),
+                            ConcurrencyStamp = "1a7a5d3e-6a92-4886-b885-58e0f11ae56e",
+                            Email = "student01@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Văn Linh",
+                            Gender = true,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "student01",
+                            PasswordHash = "AQAAAAEAACcQAAAAECNCsy/ZjjceolPz+8EcDy7Gk25DT72cKWVX5+Z2xSPDNFkLiRMsy1okbLC5Kvpn6A==",
+                            PhoneNumber = "1222567890",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "student01@example.com"
+                        });
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.UserRole.ApplicationUserRole", b =>
@@ -1292,6 +1374,23 @@ namespace ELearning.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            RoleId = 3
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -1345,12 +1444,10 @@ namespace ELearning.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -1371,12 +1468,10 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

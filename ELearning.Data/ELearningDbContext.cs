@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using ELearning.DomainModels.EnrollmentManagement;
 using ELearning.DomainModels.UserRole;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Policy;
 
 namespace ELearning.Data
 {
@@ -19,59 +20,59 @@ namespace ELearning.Data
     {
         public ELearningDbContext(DbContextOptions<ELearningDbContext> options) : base(options) { }
         #region
-        DbSet<FavoriteCourse> FavoriteCourses { get; set; }
-        DbSet<StudentProgress> StudentProgresses { get; set; }
-        DbSet<StudentLesson> StudentLessons { get; set; }
+        public DbSet<FavoriteCourse> FavoriteCourses { get; set; }
+        public DbSet<StudentProgress> StudentProgresses { get; set; }
+        public DbSet<StudentLesson> StudentLessons { get; set; }
 
         // Course
-        DbSet<Course> Courses { get; set; }
-        DbSet<CourseRating> CourseRatings { get; set; }
-        DbSet<CourseRequest> CourseRequests { get; set; }
-        DbSet<CourseRequestStatus> CourseRequestsStatus { get; set; }
-        DbSet<CourseStatus> CourseStatus { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<CourseRating> CourseRatings { get; set; }
+        public DbSet<CourseRequest> CourseRequests { get; set; }
+        public DbSet<CourseRequestStatus> CourseRequestsStatus { get; set; }
+        public DbSet<CourseStatus> CourseStatus { get; set; }
 
         // Topic & Level
-        DbSet<Topic> Topics { get; set; }
-        DbSet<Level> Levels { get; set; }
+        public DbSet<Topic> Topics { get; set; }
+        public DbSet<Level> Levels { get; set; }
 
         // Module
-        DbSet<Section> Sections { get; set; }
+        public DbSet<Section> Sections { get; set; }
 
         // Lesson
-        DbSet<Lesson> Lessons { get; set; }
-        DbSet<LessonContent> LessonContents { get; set; }
-        DbSet<LessonMedia> LessonMedias { get; set; }
-        DbSet<LessonReport> LessonReports { get; set; }
-        DbSet<LessonReportStatus> LessonReportsStatus { get; set; }
-        DbSet<LessonType> LessonTypes { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<LessonContent> LessonContents { get; set; }
+        public DbSet<LessonMedia> LessonMedias { get; set; }
+        public DbSet<LessonReport> LessonReports { get; set; }
+        public DbSet<LessonReportStatus> LessonReportsStatus { get; set; }
+        public DbSet<LessonType> LessonTypes { get; set; }
 
         // Quiz & Question
-        DbSet<Quiz> Quizzes { get; set; }
-        DbSet<QuizAttempt> QuizAttempts { get; set; }
-        DbSet<QuizAttemptStatus> QuizAttemptStatus { get; set; }
-        DbSet<Question> Questions { get; set; }
-        DbSet<QuestionAttempt> QuestionAttempts { get; set; }
-        DbSet<QuestionType> QuestionTypes { get; set; }
-        DbSet<Answer> Answers { get; set; }
+        public DbSet<Quiz> Quizzes { get; set; }
+        public DbSet<QuizAttempt> QuizAttempts { get; set; }
+        public DbSet<QuizAttemptStatus> QuizAttemptStatus { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<QuestionAttempt> QuestionAttempts { get; set; }
+        public DbSet<QuestionType> QuestionTypes { get; set; }
+        public DbSet<Answer> Answers { get; set; }
 
         // Media
-        DbSet<Media> Medias { get; set; }
-        DbSet<MediaType> MediaTypes { get; set; }
+        public DbSet<Media> Medias { get; set; }
+        public DbSet<MediaType> MediaTypes { get; set; }
 
         // Enrollment
-        DbSet<Enrollment> Enrollments { get; set; }
-        DbSet<EnrollmentStatus> EnrollmentStatus { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<EnrollmentStatus> EnrollmentStatus { get; set; }
 
         // Payment & refund
-        DbSet<Payment> Payments { get; set; }
-        DbSet<PaymentMethod> PaymentMethods { get; set; }
-        DbSet<PaymentStatus> PaymentStatus { get; set; }
-        DbSet<RefundRequest> RefundRequests { get; set; }
-        DbSet<RefundStatus> RefundStatus { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<PaymentStatus> PaymentStatus { get; set; }
+        public DbSet<RefundRequest> RefundRequests { get; set; }
+        public DbSet<RefundStatus> RefundStatus { get; set; }
 
         // Discussion
-        DbSet<Discussion> Discussions { get; set; }
-        DbSet<DiscussionReply> DiscussionReplies { get; set; }
+        public DbSet<Discussion> Discussions { get; set; }
+        public DbSet<DiscussionReply> DiscussionReplies { get; set; }
         #endregion
 
 
@@ -190,6 +191,101 @@ namespace ELearning.Data
             //    e.HasMany(q => q.QuestionAttempts).WithOne(q => q.QuizAttempt).HasForeignKey(q => q.QuizAttemptId).OnDelete(DeleteBehavior.NoAction);
             //});
             #endregion
+
+            modelBuilder.Entity<ApplicationRole>(entity =>
+            {
+                entity.HasData(
+                    new ApplicationRole
+                    {
+                        Id = 1,
+                        Name = "Admin",
+                        Description = "",
+                        CreatedAt = DateTime.Now,
+                    },
+                    new ApplicationRole
+                    {
+                        Id = 2,
+                        Name = "Instructor",
+                        Description = "",
+                        CreatedAt = DateTime.Now,
+                    },
+                    new ApplicationRole
+                    {
+                        Id = 3,
+                        Name = "Student",
+                        Description = "",
+                        CreatedAt = DateTime.Now,
+                    }
+                );
+            });
+
+            var hasher = new PasswordHasher<ApplicationUser>();
+
+            modelBuilder.Entity<ApplicationUser>(entity =>
+            {
+                entity.HasData(
+                    new ApplicationUser
+                    {
+                        Id = 1,
+                        FullName = "Lê Trí",
+                        BirthDate = DateTime.Now,
+                        Gender = true,
+                        PhoneNumber = "1234567890",
+                        UserName = "admin01@example.com",
+                        NormalizedUserName = "admin01",
+                        Email = "admin01@example.com",
+                        EmailConfirmed = true,
+                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+                    },
+                    new ApplicationUser
+                    {
+                        Id = 2,
+                        FullName = "Lê Lai",
+                        BirthDate = DateTime.Now,
+                        Gender = true,
+                        PhoneNumber = "1234567810",
+                        UserName = "instructor01@example.com",
+                        NormalizedUserName = "instructor01",
+                        Email = "instructor01@example.com",
+                        EmailConfirmed = true,
+                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+                    },
+                    new ApplicationUser
+                    {
+                        Id = 3,
+                        FullName = "Văn Linh",
+                        BirthDate = DateTime.Now,
+                        Gender = true,
+                        PhoneNumber = "1222567890",
+                        UserName = "student01@example.com",
+                        NormalizedUserName = "student01",
+                        Email = "student01@example.com",
+                        EmailConfirmed = true,
+                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+                    }
+                    );
+            });
+
+            modelBuilder.Entity<ApplicationUserRole>(entity =>
+            {
+                entity.HasData(
+                    new ApplicationUserRole
+                    {
+                        UserId = 1,
+                        RoleId = 1
+                    },
+                    new ApplicationUserRole
+                    {
+                        UserId = 2,
+                        RoleId = 2
+                    },
+                    new ApplicationUserRole
+                    {
+                        UserId = 3,
+                        RoleId = 3
+                    }
+                    );
+            });
         }
 
     }
