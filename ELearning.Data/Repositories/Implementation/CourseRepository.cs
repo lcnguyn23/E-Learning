@@ -18,17 +18,24 @@ namespace ELearning.Data.Repositories.Implementation
             _context = context;
         }
 
-        public async Task<List<Course>> GetAllCoursesAsync()
+        public Task<int> CreateAsync(Course entity)
         {
-            var courses = await _context.Courses!.ToListAsync();
-            return courses;
+            throw new NotImplementedException();
         }
 
-        public async Task<Course> GetCourseByIdAsync(int id)
+        public Task<int> DeleteAsync(int id)
         {
-            var course = await _context.Courses!
-                .FirstOrDefaultAsync(c => c.CourseId == id);
-            return course;
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Course>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Course> GetByIdAnsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<Course> GetCourseByNameAsync(string name)
@@ -36,22 +43,47 @@ namespace ELearning.Data.Repositories.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<int> CreateCourseAsync(Course course)
+        public Task<int> UpdateASync(Course entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> UpdateCourseAsync(Course course)
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<List<Course>> GetAllCoursesAsync()
+        //{
+        //    var courses = await _context.Courses!.ToListAsync();
+        //    return courses;
+        //}
 
-        public Task<int> DeleteCourseAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<Course> GetCourseByIdAsync(int id)
+        //{
+        //    var course = await _context.Courses!
+        //        .FirstOrDefaultAsync(c => c.CourseId == id);
+        //    return course;
+        //}
 
-        
+        //public async Task<Course> GetCourseByNameAsync(string name)
+        //{
+        //    var course = await _context.Courses!
+        //        .FirstOrDefaultAsync(c => c.CourseName.Equals(name));
+        //    return course;
+        //}
+
+        //public Task<int> CreateCourseAsync(Course course)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<int> UpdateCourseAsync(Course course)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<int> DeleteCourseAsync(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
 
     }
 }

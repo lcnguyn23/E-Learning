@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface ILevelRepository
+    public interface ILevelRepository : IRepository<Level>
     {
-        Task<List<Level>> GetAllLevelsAsync();
-        Task<Level> GetLevelByIdAsync(int id);
-        Task<int> CreateLevelcAsync(Level level);
-        Task<int> UpdateLevelAsync(Level level);
-        Task<int> DeleteLevelAsync(int id);
+        
     }
 }

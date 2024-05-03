@@ -7,19 +7,9 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface ICourseRepository
+    public interface ICourseRepository : IRepository<Course>
     {
-        Task<List<Course>> GetAllCoursesAsync();
-        Task<Course> GetCourseByIdAsync(int id);
         Task<Course> GetCourseByNameAsync(string name);
-        Task<int> CreateCourseAsync(Course course);
-        Task<int> UpdateCourseAsync(Course course);
-        Task<int> DeleteCourseAsync(int id);
-        
-        
-        
-
-
-        
+       
     }
 }

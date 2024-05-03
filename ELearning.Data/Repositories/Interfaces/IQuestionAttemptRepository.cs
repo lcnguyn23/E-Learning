@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface IQuestionAttemptRepository
+    public interface IQuestionAttemptRepository : IRepository<QuestionAttempt>
     {
-        Task<List<QuestionAttempt>> GetAllQuestionAttemptsAsync();
-        Task<QuestionAttempt> GetQuestionAttemptByIdAsync(int id);
+
     }
 }

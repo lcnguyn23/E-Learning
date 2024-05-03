@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface IRefundRequestRepository
+    public interface IRefundRequestRepository : IRepository<RefundRequest>
     {
-        Task<List<RefundRequest>> GetAllRefundRequestsAsync();
-        Task<RefundRequest> GetRefundRequestByIdAsync(int id);
-        Task<int> CreateRefundRequestAsync(RefundRequest request);
-        Task<int> UpdateRefundRequestByIdAsync(RefundRequest request);
-        Task<int> DeleteRefundRequestByIdAsync(int id);
+        
     }
 }

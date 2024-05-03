@@ -14,11 +14,10 @@ using System.Security.Policy;
 
 namespace ELearning.Data
 {
-    public class ELearningDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int, IdentityUserClaim<int>,
-    ApplicationUserRole, IdentityUserLogin<int>,
-    IdentityRoleClaim<int>, IdentityUserToken<int>>
+    public class ELearningDbContext : IdentityDbContext<ApplicationUser>
     {
         public ELearningDbContext(DbContextOptions<ELearningDbContext> options) : base(options) { }
+
         #region
         public DbSet<FavoriteCourse> FavoriteCourses { get; set; }
         public DbSet<StudentProgress> StudentProgresses { get; set; }
@@ -81,6 +80,14 @@ namespace ELearning.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+            modelBuilder.Entity<IdentityRole<int>>(entity =>
+            {
+                entity.ToTable("Roles");
+            });
+            modelBuilder.Entity<IdentityUserRole<int>>(entity =>
+            {
+                entity.ToTable("UserRoles");
+            });
             modelBuilder.Entity<IdentityUserClaim<int>>(entity =>
             {
                 entity.ToTable("UserClaims");
@@ -192,100 +199,100 @@ namespace ELearning.Data
             //});
             #endregion
 
-            modelBuilder.Entity<ApplicationRole>(entity =>
-            {
-                entity.HasData(
-                    new ApplicationRole
-                    {
-                        Id = 1,
-                        Name = "Admin",
-                        Description = "",
-                        CreatedAt = DateTime.Now,
-                    },
-                    new ApplicationRole
-                    {
-                        Id = 2,
-                        Name = "Instructor",
-                        Description = "",
-                        CreatedAt = DateTime.Now,
-                    },
-                    new ApplicationRole
-                    {
-                        Id = 3,
-                        Name = "Student",
-                        Description = "",
-                        CreatedAt = DateTime.Now,
-                    }
-                );
-            });
+            //modelBuilder.Entity<ApplicationRole>(entity =>
+            //{
+            //    entity.HasData(
+            //        new ApplicationRole
+            //        {
+            //            Id = 1,
+            //            Name = "Admin",
+            //            Description = "",
+            //            CreatedAt = DateTime.Now,
+            //        },
+            //        new ApplicationRole
+            //        {
+            //            Id = 2,
+            //            Name = "Instructor",
+            //            Description = "",
+            //            CreatedAt = DateTime.Now,
+            //        },
+            //        new ApplicationRole
+            //        {
+            //            Id = 3,
+            //            Name = "Student",
+            //            Description = "",
+            //            CreatedAt = DateTime.Now,
+            //        }
+            //    );
+            //});
 
-            var hasher = new PasswordHasher<ApplicationUser>();
+            //var hasher = new PasswordHasher<ApplicationUser>();
 
-            modelBuilder.Entity<ApplicationUser>(entity =>
-            {
-                entity.HasData(
-                    new ApplicationUser
-                    {
-                        Id = 1,
-                        FullName = "Lê Trí",
-                        BirthDate = DateTime.Now,
-                        Gender = true,
-                        PhoneNumber = "1234567890",
-                        UserName = "admin01@example.com",
-                        NormalizedUserName = "admin01",
-                        Email = "admin01@example.com",
-                        EmailConfirmed = true,
-                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
-                    },
-                    new ApplicationUser
-                    {
-                        Id = 2,
-                        FullName = "Lê Lai",
-                        BirthDate = DateTime.Now,
-                        Gender = true,
-                        PhoneNumber = "1234567810",
-                        UserName = "instructor01@example.com",
-                        NormalizedUserName = "instructor01",
-                        Email = "instructor01@example.com",
-                        EmailConfirmed = true,
-                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
-                    },
-                    new ApplicationUser
-                    {
-                        Id = 3,
-                        FullName = "Văn Linh",
-                        BirthDate = DateTime.Now,
-                        Gender = true,
-                        PhoneNumber = "1222567890",
-                        UserName = "student01@example.com",
-                        NormalizedUserName = "student01",
-                        Email = "student01@example.com",
-                        EmailConfirmed = true,
-                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
-                    }
-                    );
-            });
+            //modelBuilder.Entity<ApplicationUser>(entity =>
+            //{
+            //    entity.HasData(
+            //        new ApplicationUser
+            //        {
+            //            Id = 1,
+            //            FullName = "Lê Trí",
+            //            BirthDate = DateTime.Now,
+            //            Gender = true,
+            //            PhoneNumber = "1234567890",
+            //            UserName = "admin01@example.com",
+            //            NormalizedUserName = "admin01",
+            //            Email = "admin01@example.com",
+            //            EmailConfirmed = true,
+            //            PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+            //        },
+            //        new ApplicationUser
+            //        {
+            //            Id = 2,
+            //            FullName = "Lê Lai",
+            //            BirthDate = DateTime.Now,
+            //            Gender = true,
+            //            PhoneNumber = "1234567810",
+            //            UserName = "instructor01@example.com",
+            //            NormalizedUserName = "instructor01",
+            //            Email = "instructor01@example.com",
+            //            EmailConfirmed = true,
+            //            PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+            //        },
+            //        new ApplicationUser
+            //        {
+            //            Id = 3,
+            //            FullName = "Văn Linh",
+            //            BirthDate = DateTime.Now,
+            //            Gender = true,
+            //            PhoneNumber = "1222567890",
+            //            UserName = "student01@example.com",
+            //            NormalizedUserName = "student01",
+            //            Email = "student01@example.com",
+            //            EmailConfirmed = true,
+            //            PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+            //        }
+            //        );
+            //});
 
-            modelBuilder.Entity<ApplicationUserRole>(entity =>
-            {
-                entity.HasData(
-                    new ApplicationUserRole
-                    {
-                        UserId = 1,
-                        RoleId = 1
-                    },
-                    new ApplicationUserRole
-                    {
-                        UserId = 2,
-                        RoleId = 2
-                    },
-                    new ApplicationUserRole
-                    {
-                        UserId = 3,
-                        RoleId = 3
-                    }
-                    );
-            });
+            //modelBuilder.Entity<ApplicationUserRole>(entity =>
+            //{
+            //    entity.HasData(
+            //        new ApplicationUserRole
+            //        {
+            //            UserId = 1,
+            //            RoleId = 1
+            //        },
+            //        new ApplicationUserRole
+            //        {
+            //            UserId = 2,
+            //            RoleId = 2
+            //        },
+            //        new ApplicationUserRole
+            //        {
+            //            UserId = 3,
+            //            RoleId = 3
+            //        }
+            //        );
+            //});
         }
 
     }

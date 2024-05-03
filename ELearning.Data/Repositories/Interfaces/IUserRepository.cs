@@ -9,14 +9,9 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<ApplicationUser>
     {
-        Task<List<ApplicationUser>> GetAllUserAsync();
-        Task<ApplicationUser?> GetUserByIdAsync(int id);
         Task<ApplicationUser?> GetUserByEmailAsync(string email);
-        Task<IdentityResult> CreateUserAsync(ApplicationUser data);
-        Task<IdentityResult> UpdateUserAsync(ApplicationUser data);
-        Task<IdentityResult> DeleteUserAsync(ApplicationUser data);
         Task<IList<string>> GetUserRoleAsync(ApplicationUser data);
         Task<IdentityResult> AddUserToRoleAsync(ApplicationUser data, string role);
         Task<bool> CheckPasswordAsync(ApplicationUser data, string password);

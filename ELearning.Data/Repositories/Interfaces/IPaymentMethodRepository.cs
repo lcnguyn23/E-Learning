@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface IPaymentMethodRepository
+    public interface IPaymentMethodRepository : IRepository<PaymentMethod>
     {
-        Task<List<PaymentMethod>> GetAllPaymentMethods();
     }
 }

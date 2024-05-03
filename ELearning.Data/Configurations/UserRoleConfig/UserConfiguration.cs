@@ -85,11 +85,11 @@ namespace ELearning.Data.Configurations.UserConfig
                 .OnDelete(DeleteBehavior.NoAction);
 
             // user role
-            builder
-                .HasMany(u => u.UserRoles)
-                .WithOne(u => u.User)
-                .HasForeignKey(u => u.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //builder
+            //    .HasMany(u => u.UserRoles)
+            //    .WithOne(u => u.User)
+            //    .HasForeignKey(u => u.UserId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
             // course rating
             builder

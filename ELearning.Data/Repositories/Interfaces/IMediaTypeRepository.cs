@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface IMediaTypeRepository
+    public interface IMediaTypeRepository : IRepository<MediaType>
     {
-        Task<List<MediaType>> GetAllMediaTypesAsync();
     }
 }

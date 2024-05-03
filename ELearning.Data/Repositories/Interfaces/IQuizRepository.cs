@@ -7,13 +7,9 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface IQuizRepository
+    public interface IQuizRepository : IRepository<Quiz>
     {
-        Task<List<Quiz>> GetAllQuizzesAsync();
-        Task<Quiz> GetQuizByIdAsync(int id);
-        Task<int> CreateQuizAsync(Quiz quiz);
-        Task<int> UpdateQuizAsync(Quiz quiz);
-        Task<int> DeleteQuizAsync(int id);
+        
 
     }
 }
