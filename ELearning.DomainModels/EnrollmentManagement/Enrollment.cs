@@ -6,10 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
-using ELearning.DomainModels.UserRole;
+using ELearning.DomainModels.User;
 
 namespace ELearning.DomainModels.EnrollmentManagement
 {
+    public enum EnrollmentStatus
+    {
+        ENROLLED,
+        IN_PROGRESS,
+        COMPLETED
+}
+
     public class Enrollment
     {
         public int EnrollmentId { get; set; }
@@ -17,7 +24,7 @@ namespace ELearning.DomainModels.EnrollmentManagement
         public int CourseId { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public int EnrollmentStatusId { get; set; }
+        public EnrollmentStatus Status { get; set; }
         public DateTime? CreatedAt { get; set; }
 
 
@@ -26,7 +33,6 @@ namespace ELearning.DomainModels.EnrollmentManagement
         public Course Course { get; set; }
         public RefundRequest RefundRequest { get; set; }
         public Payment Payment { get; set; }
-        public EnrollmentStatus EnrollmentStatus { get; set; }
 
     }
 }

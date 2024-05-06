@@ -1,4 +1,5 @@
-﻿using ELearning.DomainModels.EnrollmentManagement;
+﻿using ELearning.DomainModels;
+using ELearning.DomainModels.EnrollmentManagement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -34,6 +35,13 @@ namespace ELearning.Data.Configurations.EnrollmentConfig
 
             // relationships configuration
 
+            // Status
+            builder
+                .Property(c => c.Status)
+                .HasConversion(
+                    s => s.ToString(),
+                    s => (EnrollmentStatus)Enum.Parse(typeof(EnrollmentStatus), s)
+                );
         }
     }
 }

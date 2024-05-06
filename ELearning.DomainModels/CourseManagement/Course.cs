@@ -6,10 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels.EnrollmentManagement;
-using ELearning.DomainModels.UserRole;
+using ELearning.DomainModels.User;
 
 namespace ELearning.DomainModels
 {
+    public enum CourseStatus
+    {
+        DRAFT,
+        PRIVATE,
+        PUBLIC,
+        PUBLISH,
+        UNPUBLISH,
+        PENDING_APPROVAL,
+        DELETED
+}
     public class Course
     {
         public int CourseId { get; set; }
@@ -20,7 +30,7 @@ namespace ELearning.DomainModels
         public int LevelId { get; set; }
         public string? Duration { get; set; }
         public string? CourseImage { get; set; }
-        public int CourseStatusId { get; set; }
+        public CourseStatus Status { get; set; } = CourseStatus.DRAFT;
         public decimal Price { get; set; }
         public bool IsFree { get; set; }
         public decimal? SalePrice { get; set; }
@@ -35,7 +45,6 @@ namespace ELearning.DomainModels
         public Topic Topic { get; set; }
         public Level Level { get; set; }
         public IEnumerable<FavoriteCourse> FavoriteCourses { get; set; }
-        public CourseStatus CourseStatus { get; set; }
         public IEnumerable<Section> Sections { get; set; }
         public IEnumerable<StudentProgress> StudentProgresses { get; set; }
         public CourseRequest CourseRequests { get; set; }

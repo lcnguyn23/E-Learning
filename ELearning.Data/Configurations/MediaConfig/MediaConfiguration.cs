@@ -15,7 +15,7 @@ namespace ELearning.Data.Configurations.MediaConfig
         {
             // key
             builder
-                .ToTable("Medias")
+                .ToTable("Media")
                 .HasKey(m => m.MediaId);
 
             // properties

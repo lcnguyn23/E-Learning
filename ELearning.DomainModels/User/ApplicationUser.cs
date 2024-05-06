@@ -6,13 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ELearning.DomainModels.UserRole
+namespace ELearning.DomainModels.User
 {
+    public enum Gender
+    {
+        Female, // 0
+        Male,   // 1
+        Other   // 2
+    }
+
     public class ApplicationUser : IdentityUser<int>
     {
         public string FullName { get; set; }
         public DateTime BirthDate { get; set; }
-        public bool Gender { get; set; }
+        public Gender Gender { get; set; }
         public string? ProfilePicture { get; set; }
         public string? Bio { get; set; }
         public DateTime? CreatedAt { get; set; }
@@ -34,6 +41,6 @@ namespace ELearning.DomainModels.UserRole
         //public IEnumerable<IdentityUserClaim<int>> UserClaims { get; set; }
         //public IEnumerable<IdentityUserLogin<int>> UserLogins { get; set; }
         //public IEnumerable<IdentityUserToken<int>> UserTokens { get; set; }
-        public IEnumerable<ApplicationUserRole> UserRoles { get; set; }
+        public IEnumerable<IdentityUserRole<int>> UserRoles { get; set; }
     }
 }

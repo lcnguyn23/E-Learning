@@ -15,7 +15,7 @@ namespace ELearning.Data.Configurations.PaymentRefundConfig
         {
             // key
             builder
-                .ToTable("RefundRequest")
+                .ToTable("RefundRequests")
                 .HasKey(r => r.RefundRequestId);
 
             // properties
@@ -39,6 +39,14 @@ namespace ELearning.Data.Configurations.PaymentRefundConfig
                 .Property(r => r.CreatedAt)
                 .HasColumnType("datetime2")
                 .HasDefaultValue(DateTime.Now);
+
+            // Status
+            builder
+                .Property(c => c.Status)
+                .HasConversion(
+                    s => s.ToString(),
+                    s => (RefundStatus)Enum.Parse(typeof(RefundStatus), s)
+                );
         }
     }
 }

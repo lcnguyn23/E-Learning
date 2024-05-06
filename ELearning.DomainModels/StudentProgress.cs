@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
-using ELearning.DomainModels.UserRole;
+using ELearning.DomainModels.User;
 
 namespace ELearning.DomainModels
 {

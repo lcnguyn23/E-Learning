@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
-using ELearning.DomainModels.UserRole;
+using ELearning.DomainModels.User;
 
 namespace ELearning.Data.Configurations.UserConfig
 {
@@ -147,7 +147,13 @@ namespace ELearning.Data.Configurations.UserConfig
                 .HasForeignKey(u => u.StudentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            
+            // gender (enum)
+            builder
+                .Property(c => c.Gender)
+                .HasConversion(
+                    s => s.ToString(),
+                    s => (Gender)Enum.Parse(typeof(Gender), s)
+                );
         }
     }
 }

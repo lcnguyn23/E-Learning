@@ -32,6 +32,14 @@ namespace ELearning.Data.Configurations.CourseContentConfig
                 .Property(l => l.CreatedAt)
                 .HasColumnType("datetime2")
                 .HasDefaultValue(DateTime.Now);
+
+            // Status
+            builder
+                .Property(c => c.Status)
+                .HasConversion(
+                    s => s.ToString(),
+                    s => (LessonReportStatus)Enum.Parse(typeof(LessonReportStatus), s)
+                );
         }
     }
 }

@@ -44,6 +44,14 @@ namespace ELearning.Data.Configurations.CourseContentConfig
                 .HasForeignKey(q => q.QuizAttemptId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // Status
+            builder
+                .Property(c => c.Status)
+                .HasConversion(
+                    s => s.ToString(),
+                    s => (QuizAttemptStatus)Enum.Parse(typeof(QuizAttemptStatus), s)
+                );
+
         }
     }
 }

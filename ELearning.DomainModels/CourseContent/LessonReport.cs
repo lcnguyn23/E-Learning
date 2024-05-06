@@ -5,10 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.DomainModels;
-using ELearning.DomainModels.UserRole;
+using ELearning.DomainModels.User;
 
 namespace ELearning.DomainModels
 {
+    public enum LessonReportStatus
+    {
+        PENDING,
+        RESOLVED
+    }
+
     public class LessonReport
     {
         public int ReportId { get; set; }
@@ -16,13 +22,12 @@ namespace ELearning.DomainModels
         public int StudentId { get; set; }
         public string Content { get; set; }
         public string? ProofImage { get; set; }
-        public int LessonReportStatusId { get; set; }
+        public LessonReportStatus Status { get; set; }
         public DateTime? CreatedAt { get; set; }
 
         // relationships
         public Lesson Lesson { get; set; }
         public ApplicationUser Student { get; set; }
-        public LessonReportStatus LessonReportStatus { get; set; }
 
     }
 }

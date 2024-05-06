@@ -65,6 +65,14 @@ namespace ELearning.Data.Configurations.CourseConfig
                 .WithOne(fc => fc.Course)
                 .HasForeignKey(u => u.CourseId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            // Status
+            builder
+                .Property(c => c.Status)
+                .HasConversion(
+                    s => s.ToString(),
+                    s => (CourseStatus)Enum.Parse(typeof(CourseStatus), s)
+                );
         }
     }
 }

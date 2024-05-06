@@ -28,6 +28,13 @@ namespace ELearning.Data.Configurations.PaymentRefundConfig
                 .HasColumnType("datetime2")
                 .HasDefaultValue(DateTime.Now);
 
+            // Status
+            builder
+                .Property(c => c.Status)
+                .HasConversion(
+                    s => s.ToString(),
+                    s => (PaymentStatus)Enum.Parse(typeof(PaymentStatus), s)
+                );
         }
     }
 }
