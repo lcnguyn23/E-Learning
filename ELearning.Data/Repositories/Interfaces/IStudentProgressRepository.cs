@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface IStudentLessonRepository : IRepository<StudentLesson>
+    public interface IStudentProgressRepository : IRepository<StudentProgress>
     {
-        Task<int> DeleteStudentLessonAsync(int studentId, int lessonId);
+
     }
 }

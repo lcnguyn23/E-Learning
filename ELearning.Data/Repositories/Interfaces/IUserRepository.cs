@@ -1,4 +1,4 @@
-﻿using ELearning.DomainModels.UserRole;
+﻿using ELearning.DomainModels.User;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

@@ -9,6 +9,6 @@ namespace ELearning.Data.Repositories.Interfaces
 {
     public interface ICourseRatingRepository : IRepository<CourseRating>
     {
-        Task<List<CourseRating>> GetAllCourseRatingsByPoint(int ratingPoint);
+        
     }
 }

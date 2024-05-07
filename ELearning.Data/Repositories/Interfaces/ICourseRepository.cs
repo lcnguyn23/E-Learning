@@ -9,7 +9,12 @@ namespace ELearning.Data.Repositories.Interfaces
 {
     public interface ICourseRepository : IRepository<Course>
     {
+        /// <summary>
+        /// Get a record by course name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         Task<Course> GetCourseByNameAsync(string name);
-       
+
     }
 }

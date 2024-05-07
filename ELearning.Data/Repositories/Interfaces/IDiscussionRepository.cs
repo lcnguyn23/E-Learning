@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface IDiscussionRepository : IRepository<Discussion>, IRepository<DiscussionReply>
+    public interface IDiscussionRepository : IRepository<Discussion>
     {
     }
 }

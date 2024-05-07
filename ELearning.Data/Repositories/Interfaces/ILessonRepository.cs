@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace ELearning.Data.Repositories.Interfaces
 {
-    public interface ILessonRepository :    IRepository<Lesson>, 
-                                            IRepository<LessonContent>, 
-                                            IRepository<LessonMedia>,
-                                            IRepository<LessonReport>
+    public interface ILessonRepository : IRepository<Lesson>
     {
-        
 
+        // Lesson type
+        Task<List<LessonType>> GetLessonTypesAsync();
+        Task<LessonType> GetLessonTypeByIdAsync(int id);
+        Task<LessonType> GetLessonTypeByNameAsync(string name);
+        Task<int> CreateLessonTypeAsync(LessonType lessonType);
+        Task<int> UpdateLessonTypeAsync(LessonType lessonType);
+        Task<int> DeleteLessonTypeAsync(LessonType lessonType);
     }
 }
