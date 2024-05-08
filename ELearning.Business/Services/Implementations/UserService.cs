@@ -15,14 +15,19 @@ namespace ELearning.Business.Services.Implementation
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly ILogger<UserService> _logger;
+        private readonly ILogger _logger;
 
-        public UserService(IUserRepository userRepository, ILogger<UserService> logger)
+        public UserService(IUserRepository userRepository, ILogger logger)
         {
             _userRepository = userRepository;
             _logger = logger;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <returns></returns>
         public async Task<Status> CreateUserAsync(ApplicationUser newUser)
         {
             try
@@ -41,6 +46,11 @@ namespace ELearning.Business.Services.Implementation
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="deleteUser"></param>
+        /// <returns></returns>
         public async Task<Status> DeleteUserAsync(ApplicationUser deleteUser)
         {
             try
@@ -48,7 +58,7 @@ namespace ELearning.Business.Services.Implementation
                 var result = await _userRepository.DeleteAsync(deleteUser);
                 if (result == 0)
                 {
-                    throw new Exception("Xóa người dùng thất bại");
+                    return Status.Fail;
                 }
                 return Status.Success;
             }
@@ -59,7 +69,11 @@ namespace ELearning.Business.Services.Implementation
             }
         }
 
-        public async Task<List<ApplicationUser>> GetAllUserAsync()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ApplicationUser>> GetAllUsersAsync()
         {
             try
             {
@@ -77,6 +91,11 @@ namespace ELearning.Business.Services.Implementation
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task<ApplicationUser> GetUserByEmailAsync(string email)
         {
             try
@@ -95,11 +114,16 @@ namespace ELearning.Business.Services.Implementation
             }
         }
 
-        public async Task<ApplicationUser> GetUserByIdAsync(int id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<ApplicationUser> GetUserByUserNameAsync(string name)
         {
             try
             {
-                var user = await _userRepository.GetByIdAnsync(id);
+                var user = await _userRepository.GetUserByEmailAsync(name);
                 if (user is null)
                 {
                     throw new Exception("Không có người dùng nào!");
@@ -113,6 +137,34 @@ namespace ELearning.Business.Services.Implementation
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<ApplicationUser> GetUserByIdAsync(int id)
+        {
+            try
+            {
+                var user = await _userRepository.GetByIdAsync(id);
+                if (user is null)
+                {
+                    throw new Exception("Không có người dùng nào!");
+                }
+                return user;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error: {e.Message}");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public async Task<Status> UpdateUserAsync(ApplicationUser data)
         {
             try

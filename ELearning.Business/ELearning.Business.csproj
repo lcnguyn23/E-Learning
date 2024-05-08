@@ -7,12 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ELearning.Data\ELearning.Data.csproj" />
-    <ProjectReference Include="..\ELearning.DomainModels\ELearning.DomainModels.csproj" />
+    <Compile Remove="Services\Implementations\MediaService.cs" />
+    <Compile Remove="Services\Interfaces\ILessonService.cs" />
+    <Compile Remove="Services\Interfaces\IMediaService.cs" />
+    <Compile Remove="Services\Interfaces\IQuizService.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Interfaces\" />
+    <ProjectReference Include="..\ELearning.Data\ELearning.Data.csproj" />
+    <ProjectReference Include="..\ELearning.DomainModels\ELearning.DomainModels.csproj" />
   </ItemGroup>
 
 </Project>

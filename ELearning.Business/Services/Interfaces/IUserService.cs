@@ -11,11 +11,23 @@ namespace ELearning.Business.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<List<ApplicationUser>> GetAllUserAsync();
+        Task<List<ApplicationUser>> GetAllUsersAsync();
         Task<ApplicationUser> GetUserByIdAsync(int id);
-        Task<ApplicationUser> GetUserByEmailAsync(string email);
         Task<Status> CreateUserAsync(ApplicationUser user);
         Task<Status> UpdateUserAsync(ApplicationUser user);
         Task<Status> DeleteUserAsync(ApplicationUser user);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        Task<ApplicationUser> GetUserByEmailAsync(string email);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        Task<ApplicationUser> GetUserByUserNameAsync(string name);
     }
 }
