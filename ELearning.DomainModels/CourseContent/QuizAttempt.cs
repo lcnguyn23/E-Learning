@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ELearning.Data.Interfaces;
 using ELearning.DomainModels;
 using ELearning.DomainModels.User;
 
@@ -15,7 +16,7 @@ namespace ELearning.DomainModels
         IN_PROGRESS,
         COMPLETED
     }
-    public class QuizAttempt
+    public class QuizAttempt : ISoftDelete
     {
         public int QuizAttemptId { get; set; }
         public int StudentId { get; set; }
@@ -25,6 +26,8 @@ namespace ELearning.DomainModels
         public int Score { get; set; }
         public QuizAttemptStatus Status { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
 
         // relationships
         public ApplicationUser Student { get; set; }

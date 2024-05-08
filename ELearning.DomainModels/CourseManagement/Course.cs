@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ELearning.Data.Interfaces;
 using ELearning.DomainModels.EnrollmentManagement;
 using ELearning.DomainModels.User;
 
@@ -19,8 +20,10 @@ namespace ELearning.DomainModels
         UNPUBLISH,
         PENDING_APPROVAL,
         DELETED
-}
-    public class Course
+    }
+
+    
+    public class Course : ISoftDelete
     {
         public int CourseId { get; set; }
         public string CourseName { get; set; }
@@ -37,6 +40,8 @@ namespace ELearning.DomainModels
         public DateTime? SaleStart { get; set; }
         public DateTime? SaleEnd { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
 
 
         // relationships

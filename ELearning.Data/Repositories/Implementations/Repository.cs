@@ -1,4 +1,5 @@
-﻿using ELearning.Data.Repositories.Interfaces;
+﻿using ELearning.Data.Interfaces;
+using ELearning.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace ELearning.Data.Repositories.Implementations
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> GetByIdAnsync(int? id)
+        public async Task<T> GetByIdAsync(int? id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
@@ -29,18 +30,24 @@ namespace ELearning.Data.Repositories.Implementations
         public async Task<int> CreateAsync(T entity)
         {
             _context.Set<T>().Add(entity);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity.GetType().GetProperty("Id")?.GetValue(entity) as int? ?? 0;
         }
 
-        public async Task<int> UpdateASync(T entity)
+        public async Task<int> UpdateAsync(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity.GetType().GetProperty("Id")?.GetValue(entity) as int? ?? 0;
         }
 
         public async Task<int> DeleteAsync(T entity)
         {
-            _context.Set<T>().Remove(entity);
+            if (entity is ISoftDelete)
+            {
+                ((ISoftDelete)entity).IsDeleted = true;
+            }
+            _context.Entry(entity).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
         }
 

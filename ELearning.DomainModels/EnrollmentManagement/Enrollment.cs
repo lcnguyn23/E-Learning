@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ELearning.Data.Interfaces;
 using ELearning.DomainModels;
 using ELearning.DomainModels.User;
 
@@ -17,7 +18,7 @@ namespace ELearning.DomainModels.EnrollmentManagement
         COMPLETED
 }
 
-    public class Enrollment
+    public class Enrollment : ISoftDelete
     {
         public int EnrollmentId { get; set; }
         public int StudentId { get; set; }
@@ -26,7 +27,8 @@ namespace ELearning.DomainModels.EnrollmentManagement
         public DateTime? EndDate { get; set; }
         public EnrollmentStatus Status { get; set; }
         public DateTime? CreatedAt { get; set; }
-
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
 
         // relationships
         public ApplicationUser Student { get; set; }

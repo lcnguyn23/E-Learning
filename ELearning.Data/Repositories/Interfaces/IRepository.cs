@@ -20,7 +20,7 @@ namespace ELearning.Data.Repositories.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The record with the specified ID, or null if not found</returns>
-        Task<T> GetByIdAnsync(int? id);
+        Task<T> GetByIdAsync(int? id);
 
         /// <summary>
         /// Create a new record
@@ -34,7 +34,7 @@ namespace ELearning.Data.Repositories.Interfaces
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task<int> UpdateASync(T entity);
+        Task<int> UpdateAsync(T entity);
 
         /// <summary>
         /// Delete a record

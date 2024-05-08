@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MediaManagement\**" />
+    <EmbeddedResource Remove="MediaManagement\**" />
+    <None Remove="MediaManagement\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="CourseContent\LessonType.cs" />
+    <Compile Remove="StudentLesson.cs" />
     <Compile Remove="User\ApplicationRole.cs" />
     <Compile Remove="User\ApplicationUserRole.cs" />
   </ItemGroup>

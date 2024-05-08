@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ELearning.Data.Interfaces;
 using ELearning.DomainModels.EnrollmentManagement;
 
 namespace ELearning.DomainModels
@@ -18,7 +19,7 @@ namespace ELearning.DomainModels
     }
 
 
-    public class RefundRequest
+    public class RefundRequest : ISoftDelete
     {
         public int RefundRequestId { get; set;}
         public int EnrollmentId { get; set;}
@@ -28,8 +29,12 @@ namespace ELearning.DomainModels
         public string? Note { get; set;}
         public DateTime? ApprovalAt { get; set;}
         public DateTime? CreatedAt { get; set;}
+        public bool IsDeleted { get; set;} = false;
+        public DateTime? DeletedAt { get; set; }
+
 
         // relationships
         public Enrollment Enrollment { get; set;}
+        
     }
 }

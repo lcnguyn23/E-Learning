@@ -15,7 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELearning.Data", "ELearning
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELearning.DomainModels", "ELearning.DomainModels\ELearning.DomainModels.csproj", "{521D2785-718A-4A65-B7D5-FF369415FEF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ELearning.Web", "ELearning.Web\ELearning.Web.csproj", "{9AD46430-3975-4C15-B9F8-04144EAAD434}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELearning.Web", "ELearning.Web\ELearning.Web.csproj", "{9AD46430-3975-4C15-B9F8-04144EAAD434}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{42F388DB-3D64-4209-A09D-744EA4CABD48}"
+	ProjectSection(SolutionItems) = preProject
+		Documents\Database-diagram.xlsx = Documents\Database-diagram.xlsx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

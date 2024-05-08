@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ELearning.Data.Interfaces;
 using ELearning.DomainModels;
 using ELearning.DomainModels.User;
 
@@ -15,7 +16,7 @@ namespace ELearning.DomainModels
         RESOLVED
     }
 
-    public class LessonReport
+    public class LessonReport : ISoftDelete
     {
         public int ReportId { get; set; }
         public int LessonId { get; set; }
@@ -24,6 +25,8 @@ namespace ELearning.DomainModels
         public string? ProofImage { get; set; }
         public LessonReportStatus Status { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
 
         // relationships
         public Lesson Lesson { get; set; }

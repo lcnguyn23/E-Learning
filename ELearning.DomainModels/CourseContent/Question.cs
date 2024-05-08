@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ELearning.Data.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ELearning.DomainModels
 {
-    public class Question
+    public class Question : ISoftDelete
     {
         public int QuestionId { get; set; }
         public int QuizId { get; set; }
@@ -15,6 +16,8 @@ namespace ELearning.DomainModels
         public int Point { get; set; }
         public int? QuestionOrder { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
 
         // relationships
         public Quiz Quiz { get; set; }

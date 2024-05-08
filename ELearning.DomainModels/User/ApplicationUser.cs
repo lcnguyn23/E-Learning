@@ -1,4 +1,5 @@
-﻿using ELearning.DomainModels.EnrollmentManagement;
+﻿using ELearning.Data.Interfaces;
+using ELearning.DomainModels.EnrollmentManagement;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,10 @@ namespace ELearning.DomainModels.User
     public enum Gender
     {
         Female, // 0
-        Male,   // 1
-        Other   // 2
+        Male    // 1
     }
 
-    public class ApplicationUser : IdentityUser<int>
+    public class ApplicationUser : IdentityUser<int>, ISoftDelete
     {
         public string FullName { get; set; }
         public DateTime BirthDate { get; set; }
@@ -23,6 +23,9 @@ namespace ELearning.DomainModels.User
         public string? ProfilePicture { get; set; }
         public string? Bio { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; }
+
 
         // relationships
         public IEnumerable<Course> Courses { get; set; }
@@ -33,14 +36,14 @@ namespace ELearning.DomainModels.User
         public IEnumerable<QuizAttempt> QuizAttempts { get; set; }
         public IEnumerable<Discussion> Discussions { get; set; }
         public IEnumerable<DiscussionReply> DiscussionReplies { get; set; }
-        public IEnumerable<StudentLesson> StudentLessons { get; set; }
+        
         public IEnumerable<StudentProgress> StudentProgresses { get; set; }
         public IEnumerable<LessonReport> LessonsReports { get; set; }
 
-        ///
+        //public IEnumerable<StudentLesson> StudentLessons { get; set; }
         //public IEnumerable<IdentityUserClaim<int>> UserClaims { get; set; }
         //public IEnumerable<IdentityUserLogin<int>> UserLogins { get; set; }
         //public IEnumerable<IdentityUserToken<int>> UserTokens { get; set; }
-        public IEnumerable<IdentityUserRole<int>> UserRoles { get; set; }
+        //public IEnumerable<IdentityUserRole<int>> UserRoles { get; set; }
     }
 }
