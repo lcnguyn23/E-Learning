@@ -16,7 +16,7 @@ namespace ELearning.Data.Migrations
                     CourseRequestStatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(8674))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(870))
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,7 @@ namespace ELearning.Data.Migrations
                     CourseStatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(9321))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(1983))
                 },
                 constraints: table =>
                 {
@@ -44,7 +44,7 @@ namespace ELearning.Data.Migrations
                     EnrollmentStatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(5580))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(7370))
                 },
                 constraints: table =>
                 {
@@ -58,7 +58,7 @@ namespace ELearning.Data.Migrations
                     LessonReportStatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(3755))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(9278))
                 },
                 constraints: table =>
                 {
@@ -73,7 +73,7 @@ namespace ELearning.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TypeName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(4356))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(573))
                 },
                 constraints: table =>
                 {
@@ -87,7 +87,7 @@ namespace ELearning.Data.Migrations
                     LevelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LevelName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(4925))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(1374))
                 },
                 constraints: table =>
                 {
@@ -101,7 +101,7 @@ namespace ELearning.Data.Migrations
                     MediaTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TypeName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(8319))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(1501))
                 },
                 constraints: table =>
                 {
@@ -115,7 +115,7 @@ namespace ELearning.Data.Migrations
                     PaymentMethodId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PaymentMethodName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(9549))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(3155))
                 },
                 constraints: table =>
                 {
@@ -129,7 +129,7 @@ namespace ELearning.Data.Migrations
                     PaymentStatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(71))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(3933))
                 },
                 constraints: table =>
                 {
@@ -144,7 +144,7 @@ namespace ELearning.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TypeName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(7117))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(4045))
                 },
                 constraints: table =>
                 {
@@ -158,7 +158,7 @@ namespace ELearning.Data.Migrations
                     QuizAttemptStatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(9636))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(7864))
                 },
                 constraints: table =>
                 {
@@ -172,7 +172,7 @@ namespace ELearning.Data.Migrations
                     RefundStatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(1477))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(5918))
                 },
                 constraints: table =>
                 {
@@ -185,9 +185,7 @@ namespace ELearning.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(2144)),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -204,7 +202,7 @@ namespace ELearning.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TopicName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     TopicDescription = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(1857))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(1194))
                 },
                 constraints: table =>
                 {
@@ -222,7 +220,7 @@ namespace ELearning.Data.Migrations
                     Gender = table.Column<bool>(type: "bit", nullable: false),
                     ProfilePicture = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
                     Bio = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(8174)),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 330, DateTimeKind.Local).AddTicks(3957)),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
@@ -255,7 +253,7 @@ namespace ELearning.Data.Migrations
                     FileType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     FileSizeByte = table.Column<long>(type: "bigint", nullable: true),
                     MediaTypeId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(7743))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(497))
                 },
                 constraints: table =>
                 {
@@ -306,9 +304,9 @@ namespace ELearning.Data.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsFree = table.Column<bool>(type: "bit", nullable: false),
                     SalePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    SaleStart = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(2463)),
-                    SaleEnd = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(2745)),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(2896))
+                    SaleStart = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 325, DateTimeKind.Local).AddTicks(751)),
+                    SaleEnd = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 325, DateTimeKind.Local).AddTicks(1208)),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 325, DateTimeKind.Local).AddTicks(1517))
                 },
                 constraints: table =>
                 {
@@ -384,7 +382,8 @@ namespace ELearning.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    ApplicationUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -393,12 +392,19 @@ namespace ELearning.Data.Migrations
                         name: "FK_UserRoles_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserRoles_Users_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UserRoles_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -429,7 +435,7 @@ namespace ELearning.Data.Migrations
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     Comment = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(5479))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 325, DateTimeKind.Local).AddTicks(5847))
                 },
                 constraints: table =>
                 {
@@ -492,7 +498,7 @@ namespace ELearning.Data.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EnrollmentStatusId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(4966))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(6485))
                 },
                 constraints: table =>
                 {
@@ -522,7 +528,7 @@ namespace ELearning.Data.Migrations
                 {
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(6854))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(9337))
                 },
                 constraints: table =>
                 {
@@ -548,7 +554,7 @@ namespace ELearning.Data.Migrations
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SectionOrder = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(1254))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(142))
                 },
                 constraints: table =>
                 {
@@ -571,7 +577,7 @@ namespace ELearning.Data.Migrations
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     PaymentMethodId = table.Column<int>(type: "int", nullable: false),
                     PaymentStatusId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(8948))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(2332))
                 },
                 constraints: table =>
                 {
@@ -608,7 +614,7 @@ namespace ELearning.Data.Migrations
                     RefundStatusId = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     ApprovalAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(890))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(4936))
                 },
                 constraints: table =>
                 {
@@ -637,7 +643,7 @@ namespace ELearning.Data.Migrations
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Order = table.Column<int>(type: "int", nullable: false),
                     LessonTypeId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(954))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(4285))
                 },
                 constraints: table =>
                 {
@@ -667,7 +673,7 @@ namespace ELearning.Data.Migrations
                     TimeLimit = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
                     PassingScore = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
                     Order = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(706)),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(9126)),
                     SectionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -690,7 +696,7 @@ namespace ELearning.Data.Migrations
                     LessonId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(2438))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(2045))
                 },
                 constraints: table =>
                 {
@@ -717,7 +723,7 @@ namespace ELearning.Data.Migrations
                     LessonId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(1596))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(5453))
                 },
                 constraints: table =>
                 {
@@ -738,7 +744,7 @@ namespace ELearning.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LessonId = table.Column<int>(type: "int", nullable: false),
                     MediaId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(2140))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(6544))
                 },
                 constraints: table =>
                 {
@@ -768,7 +774,7 @@ namespace ELearning.Data.Migrations
                     Content = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     ProofImage = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     LessonReportStatusId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(3082))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(7986))
                 },
                 constraints: table =>
                 {
@@ -826,7 +832,7 @@ namespace ELearning.Data.Migrations
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     SectionId = table.Column<int>(type: "int", nullable: false),
                     LessonId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 590, DateTimeKind.Local).AddTicks(4286))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(8698))
                 },
                 constraints: table =>
                 {
@@ -863,7 +869,7 @@ namespace ELearning.Data.Migrations
                     QuestionTypeId = table.Column<int>(type: "int", nullable: false),
                     Point = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     QuestionOrder = table.Column<int>(type: "int", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(6370))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(3291))
                 },
                 constraints: table =>
                 {
@@ -894,7 +900,7 @@ namespace ELearning.Data.Migrations
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Score = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     QuizAttemptStatusId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(8026))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(5262))
                 },
                 constraints: table =>
                 {
@@ -927,7 +933,7 @@ namespace ELearning.Data.Migrations
                     DiscussionId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ReplyContent = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 589, DateTimeKind.Local).AddTicks(3337))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(3717))
                 },
                 constraints: table =>
                 {
@@ -953,7 +959,7 @@ namespace ELearning.Data.Migrations
                     QuestionId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IsCorrect = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 587, DateTimeKind.Local).AddTicks(9936))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(3072))
                 },
                 constraints: table =>
                 {
@@ -976,7 +982,7 @@ namespace ELearning.Data.Migrations
                     QuestionId = table.Column<int>(type: "int", nullable: false),
                     Answer = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Score = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 2, 14, 29, 23, 588, DateTimeKind.Local).AddTicks(5672))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(2210))
                 },
                 constraints: table =>
                 {
@@ -993,41 +999,6 @@ namespace ELearning.Data.Migrations
                         principalTable: "QuizAttempts",
                         principalColumn: "QuizAttemptId");
                 });
-
-            migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "ConcurrencyStamp", "CreatedAt", "Description", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { 1, "0d053e18-bd51-4764-909e-1b2b0439b97f", new DateTime(2024, 5, 2, 14, 29, 23, 592, DateTimeKind.Local).AddTicks(7569), "", "Admin", null },
-                    { 2, "14ca21ba-c696-4db4-be22-e0aca1daa51f", new DateTime(2024, 5, 2, 14, 29, 23, 592, DateTimeKind.Local).AddTicks(7577), "", "Instructor", null },
-                    { 3, "f0fb26c3-9345-4487-98d9-b653f08fb829", new DateTime(2024, 5, 2, 14, 29, 23, 592, DateTimeKind.Local).AddTicks(7579), "", "Student", null }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "AccessFailedCount", "Bio", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "Gender", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePicture", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { 1, 0, null, new DateTime(2024, 5, 2, 14, 29, 23, 592, DateTimeKind.Local).AddTicks(7732), "f9c08b80-df7b-451d-9dc0-6fa7e8773f26", "admin01@example.com", true, "Lê Trí", true, false, null, null, "admin01", "AQAAAAEAACcQAAAAEAFPPiPoCxxeUpq9y5HKS9OY+XN2ejWhm9oiTFPTT3I0MoE7IE5vPJgMlJEQdYHMCQ==", "1234567890", false, null, null, false, "admin01@example.com" },
-                    { 2, 0, null, new DateTime(2024, 5, 2, 14, 29, 23, 593, DateTimeKind.Local).AddTicks(8653), "a6a4464a-f8bf-45b0-980d-b0085362f41d", "instructor01@example.com", true, "Lê Lai", true, false, null, null, "instructor01", "AQAAAAEAACcQAAAAEPk5ZveA0UKvXpaJMWpUaAzoKpnQrFGFIC596e5tmYE2n69Ie5B3HFWA0Sk9x8IJ1Q==", "1234567810", false, null, null, false, "instructor01@example.com" },
-                    { 3, 0, null, new DateTime(2024, 5, 2, 14, 29, 23, 594, DateTimeKind.Local).AddTicks(9764), "1a7a5d3e-6a92-4886-b885-58e0f11ae56e", "student01@example.com", true, "Văn Linh", true, false, null, null, "student01", "AQAAAAEAACcQAAAAECNCsy/ZjjceolPz+8EcDy7Gk25DT72cKWVX5+Z2xSPDNFkLiRMsy1okbLC5Kvpn6A==", "1222567890", false, null, null, false, "student01@example.com" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { 1, 1 });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { 2, 2 });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { 3, 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_QuestionId",
@@ -1281,6 +1252,11 @@ namespace ELearning.Data.Migrations
                 name: "IX_UserLogins_UserId",
                 table: "UserLogins",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserRoles_ApplicationUserId",
+                table: "UserRoles",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",

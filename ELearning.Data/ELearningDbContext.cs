@@ -8,27 +8,25 @@ using ELearning.DomainModels;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using ELearning.DomainModels.EnrollmentManagement;
-using ELearning.DomainModels.UserRole;
+using ELearning.DomainModels.User;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Policy;
 
 namespace ELearning.Data
 {
-    public class ELearningDbContext : IdentityDbContext<ApplicationUser>
+    public class ELearningDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int, IdentityUserClaim<int>,
+    IdentityUserRole<int>, IdentityUserLogin<int>,
+    IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public ELearningDbContext(DbContextOptions<ELearningDbContext> options) : base(options) { }
-
         #region
         public DbSet<FavoriteCourse> FavoriteCourses { get; set; }
         public DbSet<StudentProgress> StudentProgresses { get; set; }
-        public DbSet<StudentLesson> StudentLessons { get; set; }
 
         // Course
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseRating> CourseRatings { get; set; }
         public DbSet<CourseRequest> CourseRequests { get; set; }
-        public DbSet<CourseRequestStatus> CourseRequestsStatus { get; set; }
-        public DbSet<CourseStatus> CourseStatus { get; set; }
 
         // Topic & Level
         public DbSet<Topic> Topics { get; set; }
@@ -42,32 +40,27 @@ namespace ELearning.Data
         public DbSet<LessonContent> LessonContents { get; set; }
         public DbSet<LessonMedia> LessonMedias { get; set; }
         public DbSet<LessonReport> LessonReports { get; set; }
-        public DbSet<LessonReportStatus> LessonReportsStatus { get; set; }
-        public DbSet<LessonType> LessonTypes { get; set; }
+        //public DbSet<LessonType> LessonTypes { get; set; }
 
         // Quiz & Question
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<QuizAttempt> QuizAttempts { get; set; }
-        public DbSet<QuizAttemptStatus> QuizAttemptStatus { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionAttempt> QuestionAttempts { get; set; }
         public DbSet<QuestionType> QuestionTypes { get; set; }
         public DbSet<Answer> Answers { get; set; }
 
         // Media
-        public DbSet<Media> Medias { get; set; }
-        public DbSet<MediaType> MediaTypes { get; set; }
+        //public DbSet<Media> Medias { get; set; }
+        //public DbSet<MediaType> MediaTypes { get; set; }
 
         // Enrollment
         public DbSet<Enrollment> Enrollments { get; set; }
-        public DbSet<EnrollmentStatus> EnrollmentStatus { get; set; }
 
         // Payment & refund
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
-        public DbSet<PaymentStatus> PaymentStatus { get; set; }
         public DbSet<RefundRequest> RefundRequests { get; set; }
-        public DbSet<RefundStatus> RefundStatus { get; set; }
 
         // Discussion
         public DbSet<Discussion> Discussions { get; set; }

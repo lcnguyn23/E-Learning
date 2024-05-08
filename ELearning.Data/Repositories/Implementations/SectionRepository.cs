@@ -1,5 +1,6 @@
 ﻿using ELearning.Data.Repositories.Interfaces;
 using ELearning.DomainModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,12 @@ namespace ELearning.Data.Repositories.Implementations
         public SectionRepository(ELearningDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<List<Section>> GetAllSectionsByCourseIdAsync(int courseId)
+        {
+            var sections = await _context.Sections.Where(s => s.CourseId == courseId).ToListAsync();
+            return sections;
         }
     }
 }

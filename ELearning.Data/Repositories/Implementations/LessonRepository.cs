@@ -18,38 +18,12 @@ namespace ELearning.Data.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<int> CreateLessonTypeAsync(LessonType lessonType)
+
+        public async Task<List<Lesson>> GetAllLessonsBySectionIdAsync(int sectionId)
         {
-            _context.Set<LessonType>().Add(lessonType);
-            return await _context.SaveChangesAsync();
+            var lessons = await _context.Set<Lesson>().Where(l => l.SectionId == sectionId).ToListAsync();
+            return lessons;
         }
 
-        public async Task<int> DeleteLessonTypeAsync(LessonType lessonType)
-        {
-            _context.Set<LessonType>().Remove(lessonType);
-            return await _context.SaveChangesAsync();
-        }
-
-        public async Task<LessonType> GetLessonTypeByIdAsync(int id)
-        {
-            return await _context.Set<LessonType>().FindAsync(id);
-        }
-
-        public async Task<LessonType> GetLessonTypeByNameAsync(string name)
-        {
-            var type = await _context.LessonTypes.FirstOrDefaultAsync(t => t.TypeName.Equals(name));
-            return type;
-        }
-
-        public async Task<List<LessonType>> GetLessonTypesAsync()
-        {
-            return await _context.LessonTypes.ToListAsync();
-        }
-
-        public async Task<int> UpdateLessonTypeAsync(LessonType lessonType)
-        {
-            _context.Entry(lessonType).State = EntityState.Modified;
-            return await _context.SaveChangesAsync();
-        }
     }
 }

@@ -7,8 +7,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Configurations\UserRoleConfig\RoleConfiguration.cs" />
-    <Compile Remove="Configurations\UserRoleConfig\UserRoleConfiguration.cs" />
+    <Compile Remove="Configurations\MediaConfig\**" />
+    <EmbeddedResource Remove="Configurations\MediaConfig\**" />
+    <None Remove="Configurations\MediaConfig\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Configurations\CourseContentConfig\LessonTypeConfiguration.cs" />
+    <Compile Remove="Configurations\UserConfig\RoleConfiguration.cs" />
+    <Compile Remove="Configurations\UserConfig\UserRoleConfiguration.cs" />
+    <Compile Remove="Repositories\Implementations\LessonMediaRepository.cs" />
+    <Compile Remove="Repositories\Implementations\LessonTypeRepository.cs" />
+    <Compile Remove="Repositories\Implementations\MediaRepository.cs" />
+    <Compile Remove="Repositories\Implementations\MediaTypeRepository.cs" />
+    <Compile Remove="Repositories\Implementations\PaymentMethodRepository.cs" />
+    <Compile Remove="Repositories\Implementations\QuestionTypeRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\ILessonMediaRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\ILessonTypeRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IMediaRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IMediaTypeRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IPaymentMethodRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IQuestionTypeRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IRoleRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IStudentLessonRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -45,6 +45,11 @@ namespace ELearning.Data.Repositories
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == email);
             return user;
         }
+        public async Task<ApplicationUser?> GetUserByUserNameAsync(string name)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == name);
+            return user;
+        }
 
         public async Task<IList<string>> GetUserRoleAsync(ApplicationUser data)
         {

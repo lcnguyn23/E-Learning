@@ -126,12 +126,6 @@ namespace ELearning.Data.Configurations.UserConfig
                 .HasForeignKey(l => l.StudentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // student lesson
-            builder
-                .HasMany(u => u.StudentLessons)
-                .WithOne(s => s.Student)
-                .HasForeignKey(u => u.StudentId)
-                .OnDelete(DeleteBehavior.NoAction);
 
             // student progresses
             builder
