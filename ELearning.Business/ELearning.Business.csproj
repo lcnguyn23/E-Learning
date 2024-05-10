@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Compile Remove="Services\Implementations\MediaService.cs" />
-    <Compile Remove="Services\Interfaces\ILessonService.cs" />
     <Compile Remove="Services\Interfaces\IMediaService.cs" />
     <Compile Remove="Services\Interfaces\IQuizService.cs" />
   </ItemGroup>

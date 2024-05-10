@@ -18,26 +18,11 @@ namespace ELearning.Business.Services.Interfaces
         // Course info
         Task<List<Course>> GetAllCoursesAsync();
         Task<Course> GetCourseByIdAsync(int id);
+        Task<Course> GetCourseByNameAsync(string name);
+        Task<List<Course>> GetAllCourseByInstructorIdAsync(int instructorId);
         Task<Status> CreateCourseAsync(Course course, int topicId, int levelId);
         Task<Status> UpdateCourseAsync(Course course, int topicId, int levelId);
         Task<Status> DeleteCourseAsync(Course course);
-        Task<Course> GetCourseByNameAsync(string name);
-
-        #region Section 
-        Task<List<Section>> GetAllSectionsAsync(int courseId);
-        Task<Section> GetSectionByIdAsync(int id);
-        Task<Status> CreateSectionAsync(int courseId, Section section);
-        Task<Status> UpdateSectionAsync(int courseId, Section section);
-        Task<Status> DeleteSectionAsync(int courseId, Section section);
-        #endregion
-
-        // Lesson
-        Task<List<Lesson>> GetAllLessonsAsync(int sectionId);
-        Task<Lesson> GetLessonByIdAsync(int id);
-        Task<Status> CreateLessonAsync(int sectionId, Lesson lesson, LessonContent lessonContent, LessonMedia lessonMedia);
-        Task<Status> UpdateLessonAsync(int sectionId, Lesson lesson, LessonContent lessonContent, LessonMedia lessonMedia);
-        Task<Status> DeleteLessonAsync(int sectionId, Lesson lesson);
-
-        // Quiz
+        
     }
 }
