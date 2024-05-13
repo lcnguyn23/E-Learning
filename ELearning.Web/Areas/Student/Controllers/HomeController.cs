@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ELearning.Web.Areas.Student.Controllers
 {
+
+    [Authorize(Roles = "Student")]
     [Area("Student")]
     public class HomeController : Controller
     {

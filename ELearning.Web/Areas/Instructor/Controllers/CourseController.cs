@@ -1,10 +1,12 @@
 ﻿using ELearning.Business.Services.Interfaces;
 using ELearning.DomainModels;
 using ELearning.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ELearning.Web.Areas.Instructor.Controllers
 {
+    [Authorize(Roles = "Instructor")]
     [Area("Instructor")]
     public class CourseController : Controller
     {
