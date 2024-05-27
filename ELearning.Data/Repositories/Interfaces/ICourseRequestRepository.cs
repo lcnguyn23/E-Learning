@@ -9,5 +9,7 @@ namespace ELearning.Data.Repositories.Interfaces
 {
     public interface ICourseRequestRepository : IRepository<CourseRequest>
     {
+        Task<List<CourseRequest>> GetAllCourseRequestsByInstructorIdAsync(int instructorId);
+        Task<string> GetCourseRequestNameAsync(int coursesId);
     }
 }

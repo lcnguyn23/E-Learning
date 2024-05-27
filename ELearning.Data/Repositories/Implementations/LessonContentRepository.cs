@@ -45,5 +45,15 @@ namespace ELearning.Data.Repositories.Implementations
             _context.Entry(lessonMedia).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
         }
+
+        public async Task<LessonMedia> GetLessonMediaByLessonIdAsync(int lessonId)
+        {
+            return await _context.Set<LessonMedia>().FirstOrDefaultAsync(l => l.LessonId == lessonId);
+        }
+
+        public async Task<LessonContent> GetLessonContentByLessonIdAsync(int lessonId)
+        {
+            return await _context.Set<LessonContent>().FirstOrDefaultAsync(l => l.LessonId == lessonId);
+        }
     }
 }

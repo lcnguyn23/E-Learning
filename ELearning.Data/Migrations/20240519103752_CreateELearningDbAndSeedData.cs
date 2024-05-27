@@ -5,81 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ELearning.Data.Migrations
 {
-    public partial class CreateELearningDb : Migration
+    public partial class CreateELearningDbAndSeedData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "CourseRequestStatus",
-                columns: table => new
-                {
-                    CourseRequestStatusId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(870))
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseRequestStatus", x => x.CourseRequestStatusId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CourseStatus",
-                columns: table => new
-                {
-                    CourseStatusId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(1983))
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseStatus", x => x.CourseStatusId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EnrollmentStatus",
-                columns: table => new
-                {
-                    EnrollmentStatusId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(7370))
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EnrollmentStatus", x => x.EnrollmentStatusId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LessonReportStatus",
-                columns: table => new
-                {
-                    LessonReportStatusId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(9278))
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LessonReportStatus", x => x.LessonReportStatusId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LessonTypes",
-                columns: table => new
-                {
-                    LessonTypeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TypeName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(573))
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LessonTypes", x => x.LessonTypeId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Levels",
                 columns: table => new
@@ -87,25 +16,13 @@ namespace ELearning.Data.Migrations
                     LevelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LevelName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(1374))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Levels", x => x.LevelId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MediaTypes",
-                columns: table => new
-                {
-                    MediaTypeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TypeName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(1501))
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MediaTypes", x => x.MediaTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,25 +32,13 @@ namespace ELearning.Data.Migrations
                     PaymentMethodId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PaymentMethodName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(3155))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentMethods", x => x.PaymentMethodId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PaymentStatus",
-                columns: table => new
-                {
-                    PaymentStatusId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(3933))
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PaymentStatus", x => x.PaymentStatusId);
                 });
 
             migrationBuilder.CreateTable(
@@ -144,39 +49,13 @@ namespace ELearning.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TypeName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(4045))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QuestionTypes", x => x.QuestionTypeId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuizAttemptStatus",
-                columns: table => new
-                {
-                    QuizAttemptStatusId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(7864))
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuizAttemptStatus", x => x.QuizAttemptStatusId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RefundStatus",
-                columns: table => new
-                {
-                    RefundStatusId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(5918))
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RefundStatus", x => x.RefundStatusId);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,7 +81,9 @@ namespace ELearning.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TopicName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     TopicDescription = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(1194))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -217,10 +98,12 @@ namespace ELearning.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     BirthDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Gender = table.Column<bool>(type: "bit", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProfilePicture = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
                     Bio = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 330, DateTimeKind.Local).AddTicks(3957)),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
@@ -239,31 +122,6 @@ namespace ELearning.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Medias",
-                columns: table => new
-                {
-                    MediaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    FilePath = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    FileContent = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    FileType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    FileSizeByte = table.Column<long>(type: "bigint", nullable: true),
-                    MediaTypeId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(497))
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Medias", x => x.MediaId);
-                    table.ForeignKey(
-                        name: "FK_Medias_MediaTypes_MediaTypeId",
-                        column: x => x.MediaTypeId,
-                        principalTable: "MediaTypes",
-                        principalColumn: "MediaTypeId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -294,29 +152,26 @@ namespace ELearning.Data.Migrations
                     CourseId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourseName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     InstructorId = table.Column<int>(type: "int", nullable: false),
                     TopicId = table.Column<int>(type: "int", nullable: false),
                     LevelId = table.Column<int>(type: "int", nullable: false),
                     Duration = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     CourseImage = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    CourseStatusId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsFree = table.Column<bool>(type: "bit", nullable: false),
                     SalePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    SaleStart = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 325, DateTimeKind.Local).AddTicks(751)),
-                    SaleEnd = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 325, DateTimeKind.Local).AddTicks(1208)),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 325, DateTimeKind.Local).AddTicks(1517))
+                    SaleStart = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SaleEnd = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 19, 17, 37, 52, 56, DateTimeKind.Local).AddTicks(9296)),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Courses", x => x.CourseId);
-                    table.ForeignKey(
-                        name: "FK_Courses_CourseStatus_CourseStatusId",
-                        column: x => x.CourseStatusId,
-                        principalTable: "CourseStatus",
-                        principalColumn: "CourseStatusId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Courses_Levels_LevelId",
                         column: x => x.LevelId,
@@ -382,8 +237,7 @@ namespace ELearning.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<int>(type: "int", nullable: true)
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -394,11 +248,6 @@ namespace ELearning.Data.Migrations
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Users_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UserRoles_Users_UserId",
                         column: x => x.UserId,
@@ -435,7 +284,9 @@ namespace ELearning.Data.Migrations
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     Comment = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 325, DateTimeKind.Local).AddTicks(5847))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -461,19 +312,15 @@ namespace ELearning.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     InstructorId = table.Column<int>(type: "int", nullable: false),
-                    CourseRequestStatusId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RequestAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ResponseAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ResponseAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CourseRequests", x => x.CourseRequestId);
-                    table.ForeignKey(
-                        name: "FK_CourseRequests_CourseRequestStatus_CourseRequestStatusId",
-                        column: x => x.CourseRequestStatusId,
-                        principalTable: "CourseRequestStatus",
-                        principalColumn: "CourseRequestStatusId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CourseRequests_Courses_CourseId",
                         column: x => x.CourseId,
@@ -497,8 +344,10 @@ namespace ELearning.Data.Migrations
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EnrollmentStatusId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(6485))
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -508,12 +357,6 @@ namespace ELearning.Data.Migrations
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Enrollments_EnrollmentStatus_EnrollmentStatusId",
-                        column: x => x.EnrollmentStatusId,
-                        principalTable: "EnrollmentStatus",
-                        principalColumn: "EnrollmentStatusId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Enrollments_Users_StudentId",
@@ -528,7 +371,9 @@ namespace ELearning.Data.Migrations
                 {
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(9337))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -554,7 +399,9 @@ namespace ELearning.Data.Migrations
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SectionOrder = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(142))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -576,8 +423,10 @@ namespace ELearning.Data.Migrations
                     EnrollmentId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     PaymentMethodId = table.Column<int>(type: "int", nullable: false),
-                    PaymentStatusId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(2332))
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -594,16 +443,10 @@ namespace ELearning.Data.Migrations
                         principalTable: "PaymentMethods",
                         principalColumn: "PaymentMethodId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Payments_PaymentStatus_PaymentStatusId",
-                        column: x => x.PaymentStatusId,
-                        principalTable: "PaymentStatus",
-                        principalColumn: "PaymentStatusId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RefundRequest",
+                name: "RefundRequests",
                 columns: table => new
                 {
                     RefundRequestId = table.Column<int>(type: "int", nullable: false)
@@ -611,25 +454,21 @@ namespace ELearning.Data.Migrations
                     EnrollmentId = table.Column<int>(type: "int", nullable: false),
                     RefundAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     RefundReason = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    RefundStatusId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     ApprovalAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(4936))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RefundRequest", x => x.RefundRequestId);
+                    table.PrimaryKey("PK_RefundRequests", x => x.RefundRequestId);
                     table.ForeignKey(
-                        name: "FK_RefundRequest_Enrollments_EnrollmentId",
+                        name: "FK_RefundRequests_Enrollments_EnrollmentId",
                         column: x => x.EnrollmentId,
                         principalTable: "Enrollments",
                         principalColumn: "EnrollmentId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RefundRequest_RefundStatus_RefundStatusId",
-                        column: x => x.RefundStatusId,
-                        principalTable: "RefundStatus",
-                        principalColumn: "RefundStatusId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -642,18 +481,13 @@ namespace ELearning.Data.Migrations
                     SectionId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Order = table.Column<int>(type: "int", nullable: false),
-                    LessonTypeId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(4285))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Lessons", x => x.LessonId);
-                    table.ForeignKey(
-                        name: "FK_Lessons_LessonTypes_LessonTypeId",
-                        column: x => x.LessonTypeId,
-                        principalTable: "LessonTypes",
-                        principalColumn: "LessonTypeId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Lessons_Sections_SectionId",
                         column: x => x.SectionId,
@@ -668,13 +502,15 @@ namespace ELearning.Data.Migrations
                 {
                     QuizId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SectionId = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: true),
                     TimeLimit = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
                     PassingScore = table.Column<int>(type: "int", nullable: true, defaultValue: 0),
                     Order = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(9126)),
-                    SectionId = table.Column<int>(type: "int", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -696,7 +532,9 @@ namespace ELearning.Data.Migrations
                     LessonId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(2045))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -721,9 +559,11 @@ namespace ELearning.Data.Migrations
                     LessonContentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LessonId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(5453))
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -743,8 +583,15 @@ namespace ELearning.Data.Migrations
                     LessonMediaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LessonId = table.Column<int>(type: "int", nullable: false),
-                    MediaId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(6544))
+                    MediaName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MediaPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MediaUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MediaContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MediaType = table.Column<int>(type: "int", nullable: true),
+                    FileSizeByte = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -754,12 +601,6 @@ namespace ELearning.Data.Migrations
                         column: x => x.LessonId,
                         principalTable: "Lessons",
                         principalColumn: "LessonId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LessonMedias_Medias_MediaId",
-                        column: x => x.MediaId,
-                        principalTable: "Medias",
-                        principalColumn: "MediaId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -773,18 +614,14 @@ namespace ELearning.Data.Migrations
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     ProofImage = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    LessonReportStatusId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(7986))
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LessonReports", x => x.ReportId);
-                    table.ForeignKey(
-                        name: "FK_LessonReports_LessonReportStatus_LessonReportStatusId",
-                        column: x => x.LessonReportStatusId,
-                        principalTable: "LessonReportStatus",
-                        principalColumn: "LessonReportStatusId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_LessonReports_Lessons_LessonId",
                         column: x => x.LessonId,
@@ -793,30 +630,6 @@ namespace ELearning.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_LessonReports_Users_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StudentLessons",
-                columns: table => new
-                {
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: false),
-                    CompletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StudentLessons", x => new { x.StudentId, x.LessonId });
-                    table.ForeignKey(
-                        name: "FK_StudentLessons_Lessons_LessonId",
-                        column: x => x.LessonId,
-                        principalTable: "Lessons",
-                        principalColumn: "LessonId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StudentLessons_Users_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -832,7 +645,9 @@ namespace ELearning.Data.Migrations
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     SectionId = table.Column<int>(type: "int", nullable: false),
                     LessonId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 329, DateTimeKind.Local).AddTicks(8698))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -869,7 +684,9 @@ namespace ELearning.Data.Migrations
                     QuestionTypeId = table.Column<int>(type: "int", nullable: false),
                     Point = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     QuestionOrder = table.Column<int>(type: "int", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(3291))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -899,18 +716,14 @@ namespace ELearning.Data.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Score = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    QuizAttemptStatusId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(5262))
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QuizAttempts", x => x.QuizAttemptId);
-                    table.ForeignKey(
-                        name: "FK_QuizAttempts_QuizAttemptStatus_QuizAttemptStatusId",
-                        column: x => x.QuizAttemptStatusId,
-                        principalTable: "QuizAttemptStatus",
-                        principalColumn: "QuizAttemptStatusId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_QuizAttempts_Quizzes_QuizId",
                         column: x => x.QuizId,
@@ -933,7 +746,9 @@ namespace ELearning.Data.Migrations
                     DiscussionId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     ReplyContent = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 328, DateTimeKind.Local).AddTicks(3717))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -959,7 +774,9 @@ namespace ELearning.Data.Migrations
                     QuestionId = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IsCorrect = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 326, DateTimeKind.Local).AddTicks(3072))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -982,7 +799,9 @@ namespace ELearning.Data.Migrations
                     QuestionId = table.Column<int>(type: "int", nullable: false),
                     Answer = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Score = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2024, 5, 3, 22, 29, 28, 327, DateTimeKind.Local).AddTicks(2210))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -998,6 +817,115 @@ namespace ELearning.Data.Migrations
                         column: x => x.QuizAttemptId,
                         principalTable: "QuizAttempts",
                         principalColumn: "QuizAttemptId");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Levels",
+                columns: new[] { "LevelId", "CreatedAt", "DeletedAt", "IsDeleted", "LevelName" },
+                values: new object[,]
+                {
+                    { 1, null, null, false, "Beginner" },
+                    { 2, null, null, false, "Intermediate" },
+                    { 3, null, null, false, "Advance" },
+                    { 4, null, null, false, "All level" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { 1, "f5ec39b0-6ea3-4db6-9673-551860729de5", "Admin", null },
+                    { 2, "83a15354-1a27-43bb-8199-e03aafa46efb", "Instructor", null },
+                    { 3, "68d691b6-0876-4185-a073-14a34c3eed34", "Student", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Topics",
+                columns: new[] { "TopicId", "CreatedAt", "DeletedAt", "IsDeleted", "TopicDescription", "TopicName" },
+                values: new object[,]
+                {
+                    { 1, null, null, false, null, "Công nghệ thông tin" },
+                    { 2, null, null, false, null, "Nhiếp ảnh" },
+                    { 3, null, null, false, null, "Mỹ thuật" },
+                    { 4, null, null, false, null, "Digital marketing" },
+                    { 5, null, null, false, null, "Âm nhạc" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AccessFailedCount", "Bio", "BirthDate", "ConcurrencyStamp", "CreatedAt", "DeletedAt", "Email", "EmailConfirmed", "FullName", "Gender", "IsDeleted", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePicture", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { 1, 0, null, new DateTime(2024, 5, 19, 17, 37, 52, 61, DateTimeKind.Local).AddTicks(6899), "b8438ead-3536-43b7-bc19-84b2d8b8f82f", null, null, "admin01@example.com", true, "Lê Trí", "Male", false, false, null, null, "admin01", "AQAAAAEAACcQAAAAEFRfRVE2FWcPlIhwkW2Op+Hd6hSI3cguEeLDlReIkXbETOwZlurCjf2wX44ZgsnSOw==", "1234567890", false, null, null, false, "admin01@example.com" },
+                    { 2, 0, null, new DateTime(2024, 5, 19, 17, 37, 52, 63, DateTimeKind.Local).AddTicks(417), "1617bbde-fcec-4d8d-aa8e-140f43ca0811", null, null, "instructor01@example.com", true, "Lê Lai", "Male", false, false, null, null, "instructor01", "AQAAAAEAACcQAAAAEA1UfAnEDLKyH989lcqb6U4IuXC+caH1aoFR3oQocC+aDVnXfzqWgTqH8xSqUUgpFQ==", "1234567810", false, null, null, false, "instructor01@example.com" },
+                    { 3, 0, null, new DateTime(2024, 5, 19, 17, 37, 52, 64, DateTimeKind.Local).AddTicks(4985), "76ec8101-0006-49cc-b3d4-7cf6a03f0c34", null, null, "student01@example.com", true, "Văn Linh", "Male", false, false, null, null, "student01", "AQAAAAEAACcQAAAAEMCKBJlmt5lYzZOpcsjNFi2Y3ijDj2AzXN9MIwZpyWc6gKDwnWsZPEa+5ZNbX4X4Mw==", "1222567890", false, null, null, false, "student01@example.com" },
+                    { 12, 0, null, new DateTime(2024, 5, 19, 17, 37, 52, 65, DateTimeKind.Local).AddTicks(8149), "555380b2-d82b-49e3-8643-c3b754336ecf", null, null, "linhlinhins11@example.com", true, "Nguyễn Linh", "Male", false, false, null, "linhlinhins11@example.com", "linhlinhins11@example.com", "AQAAAAEAACcQAAAAEBH0bkVuul+RM8Bo6FEsEL9QvKyUtdLaTKEadFT6ZQxEOlPX5rKP3sJvO8QudiVykw==", "1234522810", false, null, null, false, "linhlinhins11@example.com" },
+                    { 13, 0, null, new DateTime(2024, 5, 19, 17, 37, 52, 67, DateTimeKind.Local).AddTicks(3399), "85d4d6cd-b084-480b-8056-83c25028b961", null, null, "studentlinh11@example.com", true, "Hồ Linh", "Male", false, false, null, "studentlinh11@example.com", "studentlinh11@example.com", "AQAAAAEAACcQAAAAEE2y1w2AJ9YY0TvxmOG/MEfaNzsWW8Tb3dr+e0suEUbxn21RJwkRWynlj8Vzmi0xfA==", "12312567890", false, null, null, false, "studentlinh11@example.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "CourseId", "CourseImage", "CourseName", "DeletedAt", "Description", "Duration", "InstructorId", "IsDeleted", "IsFree", "LevelId", "Price", "SaleEnd", "SalePrice", "SaleStart", "ShortDescription", "Status", "TopicId" },
+                values: new object[,]
+                {
+                    { 1, "", "Lập trình C# cơ bản", null, "Khóa học mang đến những kiến thức cơ bản về C#", "10 tiếng", 2, false, false, 1, 100000m, null, null, null, null, "PUBLISH", 1 },
+                    { 2, "", "Guitar cơ bản", null, "Khóa học cơ bản về Guitar", "20 tiếng", 2, false, false, 1, 100000m, null, null, null, null, "PUBLISH", 5 },
+                    { 3, "", "SEO cơ bản", null, "Khóa học SEO cơ bản cho website", "30 tiếng", 2, false, false, 1, 100000m, null, null, null, null, "PUBLISH", 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 },
+                    { 3, 3 },
+                    { 2, 12 },
+                    { 3, 13 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Sections",
+                columns: new[] { "SectionId", "CourseId", "CreatedAt", "DeletedAt", "IsDeleted", "SectionOrder", "Title" },
+                values: new object[,]
+                {
+                    { 1, 1, null, null, false, 1, "Basic syntax" },
+                    { 2, 1, null, null, false, 2, "Basic syntax" },
+                    { 3, 2, null, null, false, 1, "Giới thiệu" },
+                    { 4, 2, null, null, false, 2, "Tìm hiểu về đàn Guitar" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Lessons",
+                columns: new[] { "LessonId", "CreatedAt", "DeletedAt", "IsDeleted", "Order", "SectionId", "Title" },
+                values: new object[,]
+                {
+                    { 1, null, null, false, 1, 1, "Lesson 1" },
+                    { 2, null, null, false, 2, 1, "Lesson 2" },
+                    { 3, null, null, false, 1, 2, "Lesson 3" },
+                    { 4, null, null, false, 2, 2, "Lesson 4" },
+                    { 5, null, null, false, 3, 2, "Lesson 5" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "LessonContents",
+                columns: new[] { "LessonContentId", "Content", "CreatedAt", "DeletedAt", "Description", "IsDeleted", "LessonId" },
+                values: new object[,]
+                {
+                    { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", null, null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", false, 1 },
+                    { 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", null, null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", false, 2 },
+                    { 3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", null, null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", false, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "LessonMedias",
+                columns: new[] { "LessonMediaId", "CreatedAt", "DeletedAt", "FileSizeByte", "IsDeleted", "LessonId", "MediaContent", "MediaName", "MediaPath", "MediaType", "MediaUrl" },
+                values: new object[,]
+                {
+                    { 1, null, null, null, false, 1, "<iframe width=\"875\" height=\"492\" src=\"https://www.youtube.com/embed/DZFne4v2Z4Q?list=RDDZFne4v2Z4Q\" title=\"JVKE - This Is What Slow Dancing Feels Like (Lyrics)\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>", "ytbCourse1", null, 2, null },
+                    { 2, null, null, null, false, 2, "<iframe width=\"875\" height=\"492\" src=\"https://www.youtube.com/embed/DZFne4v2Z4Q?list=RDDZFne4v2Z4Q\" title=\"JVKE - This Is What Slow Dancing Feels Like (Lyrics)\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>", "ytbCourse2", null, 2, null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -1017,19 +945,9 @@ namespace ELearning.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseRequests_CourseRequestStatusId",
-                table: "CourseRequests",
-                column: "CourseRequestStatusId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CourseRequests_InstructorId",
                 table: "CourseRequests",
                 column: "InstructorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Courses_CourseStatusId",
-                table: "Courses",
-                column: "CourseStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_InstructorId",
@@ -1039,8 +957,7 @@ namespace ELearning.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_LevelId",
                 table: "Courses",
-                column: "LevelId",
-                unique: true);
+                column: "LevelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_TopicId",
@@ -1074,11 +991,6 @@ namespace ELearning.Data.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollments_EnrollmentStatusId",
-                table: "Enrollments",
-                column: "EnrollmentStatusId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Enrollments_StudentId",
                 table: "Enrollments",
                 column: "StudentId");
@@ -1100,19 +1012,9 @@ namespace ELearning.Data.Migrations
                 column: "LessonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LessonMedias_MediaId",
-                table: "LessonMedias",
-                column: "MediaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_LessonReports_LessonId",
                 table: "LessonReports",
                 column: "LessonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LessonReports_LessonReportStatusId",
-                table: "LessonReports",
-                column: "LessonReportStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LessonReports_StudentId",
@@ -1120,19 +1022,9 @@ namespace ELearning.Data.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lessons_LessonTypeId",
-                table: "Lessons",
-                column: "LessonTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Lessons_SectionId",
                 table: "Lessons",
                 column: "SectionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Medias_MediaTypeId",
-                table: "Medias",
-                column: "MediaTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_EnrollmentId",
@@ -1144,11 +1036,6 @@ namespace ELearning.Data.Migrations
                 name: "IX_Payments_PaymentMethodId",
                 table: "Payments",
                 column: "PaymentMethodId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Payments_PaymentStatusId",
-                table: "Payments",
-                column: "PaymentStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionAttempts_QuestionId",
@@ -1171,11 +1058,6 @@ namespace ELearning.Data.Migrations
                 column: "QuizId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuizAttempts_QuizAttemptStatusId",
-                table: "QuizAttempts",
-                column: "QuizAttemptStatusId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_QuizAttempts_QuizId",
                 table: "QuizAttempts",
                 column: "QuizId");
@@ -1191,15 +1073,10 @@ namespace ELearning.Data.Migrations
                 column: "SectionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RefundRequest_EnrollmentId",
-                table: "RefundRequest",
+                name: "IX_RefundRequests_EnrollmentId",
+                table: "RefundRequests",
                 column: "EnrollmentId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RefundRequest_RefundStatusId",
-                table: "RefundRequest",
-                column: "RefundStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
@@ -1217,11 +1094,6 @@ namespace ELearning.Data.Migrations
                 name: "IX_Sections_CourseId",
                 table: "Sections",
                 column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentLessons_LessonId",
-                table: "StudentLessons",
-                column: "LessonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentProgresses_CourseId",
@@ -1252,11 +1124,6 @@ namespace ELearning.Data.Migrations
                 name: "IX_UserLogins_UserId",
                 table: "UserLogins",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_ApplicationUserId",
-                table: "UserRoles",
-                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",
@@ -1309,13 +1176,10 @@ namespace ELearning.Data.Migrations
                 name: "QuestionAttempts");
 
             migrationBuilder.DropTable(
-                name: "RefundRequest");
+                name: "RefundRequests");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
-
-            migrationBuilder.DropTable(
-                name: "StudentLessons");
 
             migrationBuilder.DropTable(
                 name: "StudentProgresses");
@@ -1333,22 +1197,10 @@ namespace ELearning.Data.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "CourseRequestStatus");
-
-            migrationBuilder.DropTable(
                 name: "Discussions");
 
             migrationBuilder.DropTable(
-                name: "Medias");
-
-            migrationBuilder.DropTable(
-                name: "LessonReportStatus");
-
-            migrationBuilder.DropTable(
                 name: "PaymentMethods");
-
-            migrationBuilder.DropTable(
-                name: "PaymentStatus");
 
             migrationBuilder.DropTable(
                 name: "Questions");
@@ -1360,40 +1212,22 @@ namespace ELearning.Data.Migrations
                 name: "Enrollments");
 
             migrationBuilder.DropTable(
-                name: "RefundStatus");
-
-            migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Lessons");
 
             migrationBuilder.DropTable(
-                name: "MediaTypes");
-
-            migrationBuilder.DropTable(
                 name: "QuestionTypes");
 
             migrationBuilder.DropTable(
-                name: "QuizAttemptStatus");
-
-            migrationBuilder.DropTable(
                 name: "Quizzes");
-
-            migrationBuilder.DropTable(
-                name: "EnrollmentStatus");
-
-            migrationBuilder.DropTable(
-                name: "LessonTypes");
 
             migrationBuilder.DropTable(
                 name: "Sections");
 
             migrationBuilder.DropTable(
                 name: "Courses");
-
-            migrationBuilder.DropTable(
-                name: "CourseStatus");
 
             migrationBuilder.DropTable(
                 name: "Levels");

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Data.Migrations
 {
     [DbContext(typeof(ELearningDbContext))]
-    [Migration("20240507164309_UpdateDatabaseSchema2")]
-    partial class UpdateDatabaseSchema2
+    [Migration("20240522072305_UpdateDb")]
+    partial class UpdateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,11 +38,15 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 580, DateTimeKind.Local).AddTicks(7373));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<int>("QuestionId")
@@ -75,7 +79,10 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 580, DateTimeKind.Local).AddTicks(1164));
+                        .HasDefaultValue(new DateTime(2024, 5, 22, 14, 23, 4, 883, DateTimeKind.Local).AddTicks(6839));
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
@@ -88,6 +95,9 @@ namespace ELearning.Data.Migrations
                     b.Property<int>("InstructorId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsFree")
                         .HasColumnType("bit");
 
@@ -98,17 +108,16 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("SaleEnd")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 580, DateTimeKind.Local).AddTicks(1029));
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal?>("SalePrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("SaleStart")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 580, DateTimeKind.Local).AddTicks(779));
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ShortDescription")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -121,8 +130,7 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.HasIndex("LevelId")
-                        .IsUnique();
+                    b.HasIndex("LevelId");
 
                     b.HasIndex("TopicId");
 
@@ -142,9 +150,13 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 580, DateTimeKind.Local).AddTicks(4041));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Rating")
                         .ValueGeneratedOnAdd()
@@ -169,8 +181,14 @@ namespace ELearning.Data.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("InstructorId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("RequestAt")
                         .HasColumnType("datetime2");
@@ -206,9 +224,13 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(9303));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -235,12 +257,16 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReplyId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 582, DateTimeKind.Local).AddTicks(170));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("DiscussionId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ReplyContent")
                         .IsRequired()
@@ -271,12 +297,16 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 582, DateTimeKind.Local).AddTicks(1653));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
@@ -306,9 +336,13 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 582, DateTimeKind.Local).AddTicks(3087));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("UserId", "CourseId");
 
@@ -326,12 +360,13 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 580, DateTimeKind.Local).AddTicks(8070));
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("LessonTypeId")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Order")
                         .HasColumnType("int");
@@ -345,8 +380,6 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("LessonId");
-
-                    b.HasIndex("LessonTypeId");
 
                     b.HasIndex("SectionId");
 
@@ -362,17 +395,21 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonContentId"), 1L, 1);
 
                     b.Property<string>("Content")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 580, DateTimeKind.Local).AddTicks(8678));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -394,21 +431,39 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonMediaId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 580, DateTimeKind.Local).AddTicks(9227));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("FileSizeByte")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MediaId")
+                    b.Property<string>("MediaContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MediaName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MediaPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MediaType")
                         .HasColumnType("int");
+
+                    b.Property<string>("MediaUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LessonMediaId");
 
-                    b.HasIndex("LessonId");
-
-                    b.HasIndex("MediaId");
+                    b.HasIndex("LessonId")
+                        .IsUnique();
 
                     b.ToTable("LessonMedias", (string)null);
                 });
@@ -427,9 +482,13 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(388));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -454,33 +513,6 @@ namespace ELearning.Data.Migrations
                     b.ToTable("LessonReports", (string)null);
                 });
 
-            modelBuilder.Entity("ELearning.DomainModels.LessonType", b =>
-                {
-                    b.Property<int>("LessonTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonTypeId"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(1413));
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("LessonTypeId");
-
-                    b.ToTable("LessonTypes", (string)null);
-                });
-
             modelBuilder.Entity("ELearning.DomainModels.Level", b =>
                 {
                     b.Property<int>("LevelId")
@@ -490,9 +522,13 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LevelId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(2110));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LevelName")
                         .IsRequired()
@@ -502,72 +538,6 @@ namespace ELearning.Data.Migrations
                     b.HasKey("LevelId");
 
                     b.ToTable("Levels", (string)null);
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.Media", b =>
-                {
-                    b.Property<int>("MediaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MediaId"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 582, DateTimeKind.Local).AddTicks(3938));
-
-                    b.Property<string>("FileContent")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("FilePath")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<long?>("FileSizeByte")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("FileType")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("MediaTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MediaId");
-
-                    b.HasIndex("MediaTypeId");
-
-                    b.ToTable("Media", (string)null);
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.MediaType", b =>
-                {
-                    b.Property<int>("MediaTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MediaTypeId"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 582, DateTimeKind.Local).AddTicks(4486));
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("MediaTypeId");
-
-                    b.ToTable("MediaTypes", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Payment", b =>
@@ -582,12 +552,16 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 582, DateTimeKind.Local).AddTicks(5033));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PaymentMethodId")
                         .HasColumnType("int");
@@ -615,9 +589,13 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentMethodId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 582, DateTimeKind.Local).AddTicks(5756));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PaymentMethodName")
                         .IsRequired()
@@ -638,9 +616,13 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(3977));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Point")
                         .ValueGeneratedOnAdd()
@@ -678,9 +660,13 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(3233));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
@@ -711,13 +697,17 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionTypeId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(4579));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("TypeName")
                         .IsRequired()
@@ -738,13 +728,17 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(7430));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Order")
                         .ValueGeneratedOnAdd()
@@ -785,12 +779,16 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizAttemptId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(5337));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
@@ -831,12 +829,16 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 582, DateTimeKind.Local).AddTicks(6420));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Note")
                         .HasMaxLength(255)
@@ -873,9 +875,13 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(7979));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("SectionOrder")
                         .HasColumnType("int");
@@ -904,9 +910,13 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 582, DateTimeKind.Local).AddTicks(7338));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("LessonId")
                         .IsRequired()
@@ -941,9 +951,13 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 581, DateTimeKind.Local).AddTicks(8595));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("TopicDescription")
                         .HasMaxLength(200)
@@ -982,9 +996,10 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 7, 23, 43, 9, 583, DateTimeKind.Local).AddTicks(2079));
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -1002,6 +1017,9 @@ namespace ELearning.Data.Migrations
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -1162,12 +1180,7 @@ namespace ELearning.Data.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ApplicationUserId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("RoleId");
 
@@ -1213,8 +1226,8 @@ namespace ELearning.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("ELearning.DomainModels.Level", "Level")
-                        .WithOne("Course")
-                        .HasForeignKey("ELearning.DomainModels.Course", "LevelId")
+                        .WithMany("Courses")
+                        .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1347,19 +1360,11 @@ namespace ELearning.Data.Migrations
 
             modelBuilder.Entity("ELearning.DomainModels.Lesson", b =>
                 {
-                    b.HasOne("ELearning.DomainModels.LessonType", "LessonType")
-                        .WithMany("Lessons")
-                        .HasForeignKey("LessonTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ELearning.DomainModels.Section", "Section")
                         .WithMany("Lessons")
                         .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("LessonType");
 
                     b.Navigation("Section");
                 });
@@ -1378,20 +1383,12 @@ namespace ELearning.Data.Migrations
             modelBuilder.Entity("ELearning.DomainModels.LessonMedia", b =>
                 {
                     b.HasOne("ELearning.DomainModels.Lesson", "Lesson")
-                        .WithMany("LessonMedias")
-                        .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ELearning.DomainModels.Media", "Media")
-                        .WithMany("LessonMedias")
-                        .HasForeignKey("MediaId")
+                        .WithOne("LessonMedia")
+                        .HasForeignKey("ELearning.DomainModels.LessonMedia", "LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Lesson");
-
-                    b.Navigation("Media");
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.LessonReport", b =>
@@ -1411,17 +1408,6 @@ namespace ELearning.Data.Migrations
                     b.Navigation("Lesson");
 
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.Media", b =>
-                {
-                    b.HasOne("ELearning.DomainModels.MediaType", "MediaType")
-                        .WithMany("Medias")
-                        .HasForeignKey("MediaTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MediaType");
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Payment", b =>
@@ -1597,10 +1583,6 @@ namespace ELearning.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("ELearning.DomainModels.User.ApplicationUser", null)
-                        .WithMany("UserRoles")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -1661,32 +1643,17 @@ namespace ELearning.Data.Migrations
                     b.Navigation("LessonContent")
                         .IsRequired();
 
-                    b.Navigation("LessonMedias");
+                    b.Navigation("LessonMedia")
+                        .IsRequired();
 
                     b.Navigation("LessonReports");
 
                     b.Navigation("StudentProgresses");
                 });
 
-            modelBuilder.Entity("ELearning.DomainModels.LessonType", b =>
-                {
-                    b.Navigation("Lessons");
-                });
-
             modelBuilder.Entity("ELearning.DomainModels.Level", b =>
                 {
-                    b.Navigation("Course")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.Media", b =>
-                {
-                    b.Navigation("LessonMedias");
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.MediaType", b =>
-                {
-                    b.Navigation("Medias");
+                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.PaymentMethod", b =>
@@ -1753,8 +1720,6 @@ namespace ELearning.Data.Migrations
                     b.Navigation("QuizAttempts");
 
                     b.Navigation("StudentProgresses");
-
-                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

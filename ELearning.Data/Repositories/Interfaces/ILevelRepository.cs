@@ -9,6 +9,7 @@ namespace ELearning.Data.Repositories.Interfaces
 {
     public interface ILevelRepository : IRepository<Level>
     {
-        
+        Task<Level> GetLevelByNameAsync(string levelName);
+
     }
 }

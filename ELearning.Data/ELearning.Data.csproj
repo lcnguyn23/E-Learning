@@ -13,21 +13,37 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Configurations\CourseContentConfig\AnswerConfiguration.cs" />
     <Compile Remove="Configurations\CourseContentConfig\LessonTypeConfiguration.cs" />
+    <Compile Remove="Configurations\CourseContentConfig\QuestionAttemptConfiguration.cs" />
+    <Compile Remove="Configurations\CourseContentConfig\QuestionConfiguration.cs" />
+    <Compile Remove="Configurations\CourseContentConfig\QuestionTypeConfiguration.cs" />
+    <Compile Remove="Configurations\CourseContentConfig\QuizAttemptConfiguration.cs" />
+    <Compile Remove="Configurations\CourseContentConfig\QuizConfiguration.cs" />
     <Compile Remove="Configurations\UserConfig\RoleConfiguration.cs" />
     <Compile Remove="Configurations\UserConfig\UserRoleConfiguration.cs" />
+    <Compile Remove="Repositories\Implementations\AnswerRepository.cs" />
     <Compile Remove="Repositories\Implementations\LessonMediaRepository.cs" />
     <Compile Remove="Repositories\Implementations\LessonTypeRepository.cs" />
     <Compile Remove="Repositories\Implementations\MediaRepository.cs" />
     <Compile Remove="Repositories\Implementations\MediaTypeRepository.cs" />
     <Compile Remove="Repositories\Implementations\PaymentMethodRepository.cs" />
+    <Compile Remove="Repositories\Implementations\QuestionAttemptRepository.cs" />
+    <Compile Remove="Repositories\Implementations\QuestionRepository.cs" />
     <Compile Remove="Repositories\Implementations\QuestionTypeRepository.cs" />
+    <Compile Remove="Repositories\Implementations\QuizAttemptRepository.cs" />
+    <Compile Remove="Repositories\Implementations\QuizRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IAnswerRepository.cs" />
     <Compile Remove="Repositories\Interfaces\ILessonMediaRepository.cs" />
     <Compile Remove="Repositories\Interfaces\ILessonTypeRepository.cs" />
     <Compile Remove="Repositories\Interfaces\IMediaRepository.cs" />
     <Compile Remove="Repositories\Interfaces\IMediaTypeRepository.cs" />
     <Compile Remove="Repositories\Interfaces\IPaymentMethodRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IQuestionAttemptRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IQuestionRepository.cs" />
     <Compile Remove="Repositories\Interfaces\IQuestionTypeRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IQuizAttemptRepository.cs" />
+    <Compile Remove="Repositories\Interfaces\IQuizRepository.cs" />
     <Compile Remove="Repositories\Interfaces\IRoleRepository.cs" />
     <Compile Remove="Repositories\Interfaces\IStudentLessonRepository.cs" />
   </ItemGroup>

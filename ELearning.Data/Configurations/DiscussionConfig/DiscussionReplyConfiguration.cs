@@ -26,8 +26,7 @@ namespace ELearning.Data.Configurations.DiscussionConfig
 
             builder
                 .Property(d => d.CreatedAt)
-                .HasColumnType("datetime2")
-                .HasDefaultValue(DateTime.Now);
+                .HasColumnType("datetime2");
 
             // relationships configuration
             builder

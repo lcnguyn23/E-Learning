@@ -30,8 +30,7 @@ namespace ELearning.Data.Configurations.EnrollmentConfig
 
             builder
                 .Property(e => e.CreatedAt)
-                .HasColumnType("datetime2")
-                .HasDefaultValue(DateTime.Now);
+                .HasColumnType("datetime2");
 
             // relationships configuration
 

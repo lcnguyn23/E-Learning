@@ -16,5 +16,12 @@ namespace ELearning.Data.Repositories.Interfaces
         /// <returns></returns>
         Task<Course> GetCourseByNameAsync(string name);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instructorId"></param>
+        /// <returns></returns>
+        Task<List<Course>> GetAllCouresByInstructorIdAsync(int instructorId);
+
     }
 }

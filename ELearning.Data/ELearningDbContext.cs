@@ -43,12 +43,12 @@ namespace ELearning.Data
         //public DbSet<LessonType> LessonTypes { get; set; }
 
         // Quiz & Question
-        public DbSet<Quiz> Quizzes { get; set; }
-        public DbSet<QuizAttempt> QuizAttempts { get; set; }
-        public DbSet<Question> Questions { get; set; }
-        public DbSet<QuestionAttempt> QuestionAttempts { get; set; }
-        public DbSet<QuestionType> QuestionTypes { get; set; }
-        public DbSet<Answer> Answers { get; set; }
+        //public DbSet<Quiz> Quizzes { get; set; }
+        //public DbSet<QuizAttempt> QuizAttempts { get; set; }
+        //public DbSet<Question> Questions { get; set; }
+        //public DbSet<QuestionAttempt> QuestionAttempts { get; set; }
+        //public DbSet<QuestionType> QuestionTypes { get; set; }
+        //public DbSet<Answer> Answers { get; set; }
 
         // Media
         //public DbSet<Media> Medias { get; set; }
@@ -65,6 +65,9 @@ namespace ELearning.Data
         // Discussion
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<DiscussionReply> DiscussionReplies { get; set; }
+
+        // notification
+        public DbSet<Notification> Notifications { get; set; }
         #endregion
 
 
@@ -192,99 +195,416 @@ namespace ELearning.Data
             //});
             #endregion
 
-            //modelBuilder.Entity<ApplicationRole>(entity =>
+
+            // Role seed data
+            modelBuilder.Entity<IdentityRole<int>>(entity =>
+            {
+                entity.HasData(
+                    new IdentityRole<int>
+                    {
+                        Id = 1,
+                        Name = "Admin",
+                        NormalizedName = "ADMIN",
+                    },
+                    new IdentityRole<int>
+                    {
+                        Id = 2,
+                        Name = "Instructor",
+                        NormalizedName = "INSTRUCTOR",
+                    },
+                    new IdentityRole<int>
+                    {
+                        Id = 3,
+                        Name = "Student",
+                        NormalizedName = "STUDENT",
+                    }
+                );
+            });
+
+            var hasher = new PasswordHasher<ApplicationUser>();
+
+            // // user seed data
+            modelBuilder.Entity<ApplicationUser>(entity =>
+            {
+                entity.HasData(
+                    new ApplicationUser
+                    {
+                        Id = 1,
+                        FullName = "Lê Trí",
+                        BirthDate = DateTime.Now,
+                        Gender = Gender.Male,
+                        PhoneNumber = "1234567890",
+                        UserName = "admin01@example.com",
+                        NormalizedUserName = "admin01",
+                        Email = "admin01@example.com",
+                        NormalizedEmail = "admin01@example.com",
+                        EmailConfirmed = true,
+                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+                    },
+                    new ApplicationUser
+                    {
+                        Id = 2,
+                        FullName = "Lê Lai",
+                        BirthDate = DateTime.Now,
+                        Gender = Gender.Male,
+                        PhoneNumber = "1234567810",
+                        UserName = "instructor01@example.com",
+                        NormalizedUserName = "instructor01",
+                        Email = "instructor01@example.com",
+                        NormalizedEmail = "instructor01@example.com",
+                        EmailConfirmed = true,
+                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+                    },
+                    new ApplicationUser
+                    {
+                        Id = 3,
+                        FullName = "Văn Linh",
+                        BirthDate = DateTime.Now,
+                        Gender = Gender.Male,
+                        PhoneNumber = "1222567890",
+                        UserName = "student01@example.com",
+                        NormalizedUserName = "student01",
+                        Email = "student01@example.com",
+                        NormalizedEmail = "student01@example.com",
+                        EmailConfirmed = true,
+                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+                    },
+                    new ApplicationUser
+                    {
+                        Id = 12,
+                        FullName = "Nguyễn Linh",
+                        BirthDate = DateTime.Now,
+                        Gender = Gender.Male,
+                        PhoneNumber = "1234522810",
+                        UserName = "linhlinhins11@example.com",
+                        NormalizedUserName = "linhlinhins11@example.com",
+                        Email = "linhlinhins11@example.com",
+                        NormalizedEmail = "linhlinhins11@example.com",
+                        EmailConfirmed = true,
+                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+                    },
+                    new ApplicationUser
+                    {
+                        Id = 13,
+                        FullName = "Hồ Linh",
+                        BirthDate = DateTime.Now,
+                        Gender = Gender.Male,
+                        PhoneNumber = "12312567890",
+                        UserName = "studentlinh11@example.com",
+                        NormalizedUserName = "studentlinh11@example.com",
+                        Email = "studentlinh11@example.com",
+                        NormalizedEmail = "studentlinh11@example.com",
+                        EmailConfirmed = true,
+                        PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
+                    }
+                    );
+            });
+
+            // user role
+            modelBuilder.Entity<IdentityUserRole<int>>(entity =>
+            {
+                entity.HasData(
+                    new IdentityUserRole<int>
+                    {
+                        UserId = 1,
+                        RoleId = 1
+                    },
+                    new IdentityUserRole<int>
+                    {
+                        UserId = 2,
+                        RoleId = 2
+                    },
+                    new IdentityUserRole<int>
+                    {
+                        UserId = 3,
+                        RoleId = 3
+                    },
+                    new IdentityUserRole<int>
+                    {
+                        UserId = 12,
+                        RoleId = 2
+                    },
+                    new IdentityUserRole<int>
+                    {
+                        UserId = 13,
+                        RoleId = 3
+                    }
+                    );
+            });
+
+            // // topic seed data
+            modelBuilder.Entity<Topic>(entity =>
+            {
+                entity.HasData(
+                    new Topic
+                    {
+                        TopicId = 1,
+                        TopicName = "Công nghệ thông tin",
+                    },
+                    new Topic
+                    {
+                        TopicId = 2,
+                        TopicName = "Nhiếp ảnh"
+                    },
+                    new Topic
+                    {
+                        TopicId = 3,
+                        TopicName = "Mỹ thuật"
+                    },
+                    new Topic
+                    {
+                        TopicId = 4,
+                        TopicName = "Digital marketing"
+                    },
+                    new Topic
+                    {
+                        TopicId = 5,
+                        TopicName = "Âm nhạc"
+                    }
+
+                );
+            });
+            // // level seed data
+            modelBuilder.Entity<Level>(entity =>
+            {
+                entity.HasData(
+                    new Level
+                    {
+                        LevelId = 1,
+                        LevelName = "Cơ bản",
+                    },
+                    new Level
+                    {
+                        LevelId = 2,
+                        LevelName = "Trung cấp"
+                    },
+                    new Level
+                    {
+                        LevelId = 3,
+                        LevelName = "Nâng cao"
+                    },
+                    new Level
+                    {
+                        LevelId = 4,
+                        LevelName = "Mọi cấp độ"
+                    }
+
+                 );
+            });
+            // // course seed data
+            modelBuilder.Entity<Course>(entity =>
+           {
+               entity.HasData(
+                   new Course
+                   {
+                       CourseId = 1,
+                       CourseName = "Lập trình C# cơ bản",
+                       Description = "Khóa học mang đến những kiến thức cơ bản về C#",
+                       InstructorId = 2,
+                       TopicId = 1,
+                       LevelId = 1,
+                       Duration = "10 tiếng",
+                       CourseImage = "",
+                       Price = 100000,
+                       IsFree = false,
+                       Status = CourseStatus.PUBLISH,
+                   },
+                   new Course
+                   {
+                       CourseId = 2,
+                       CourseName = "Guitar cơ bản",
+                       Description = "Khóa học cơ bản về Guitar",
+                       InstructorId = 2,
+                       TopicId = 5,
+                       LevelId = 1,
+                       Duration = "20 tiếng",
+                       CourseImage = "",
+                       Price = 100000,
+                       IsFree = false,
+                       Status = CourseStatus.PUBLISH,
+                   },
+                   new Course
+                   {
+                       CourseId = 3,
+                       CourseName = "SEO cơ bản",
+                       Description = "Khóa học SEO cơ bản cho website",
+                       InstructorId = 2,
+                       TopicId = 4,
+                       LevelId = 1,
+                       Duration = "30 tiếng",
+                       CourseImage = "",
+                       Price = 100000,
+                       IsFree = false,
+                       Status = CourseStatus.PUBLISH,
+                   }
+
+               );
+           });
+            // section seed data
+            modelBuilder.Entity<Section>(entity =>
+            {
+                entity.HasData(
+                    new Section
+                    {
+                        SectionId = 1,
+                        CourseId = 1,
+                        Title = "Basic syntax",
+                        SectionOrder = 1
+
+                    },
+                    new Section
+                    {
+                        SectionId = 2,
+                        CourseId = 1,
+                        Title = "Basic syntax 2",
+                        SectionOrder = 2
+
+                    },
+                    new Section
+                    {
+                        SectionId = 3,
+                        CourseId = 2,
+                        Title = "Giới thiệu",
+                        SectionOrder = 1
+
+                    },
+                    new Section
+                    {
+                        SectionId = 4,
+                        CourseId = 2,
+                        Title = "Tìm hiểu về đàn Guitar",
+                        SectionOrder = 2
+
+                    }
+                );
+            });
+            // // lesson seed data
+            modelBuilder.Entity<Lesson>(entity =>
+            {
+                entity.HasData(
+                    new Lesson
+                    {
+                        LessonId = 1,
+                        SectionId = 1,
+                        Title = "Lesson 1",
+                        Order = 1
+
+                    },
+                    new Lesson
+                    {
+                        LessonId = 2,
+                        SectionId = 1,
+                        Title = "Lesson 2",
+                        Order = 2
+
+                    },
+                    new Lesson
+                    {
+                        LessonId = 3,
+                        SectionId = 2,
+                        Title = "Lesson 3",
+                        Order = 1
+
+                    },
+                    new Lesson
+                    {
+                        LessonId = 4,
+                        SectionId = 2,
+                        Title = "Lesson 4",
+                        Order = 2
+
+                    },
+                    new Lesson
+                    {
+                        LessonId = 5,
+                        SectionId = 2,
+                        Title = "Lesson 5",
+                        Order = 3
+
+                    }
+                );
+            });
+            modelBuilder.Entity<LessonContent>(entity =>
+            {
+                entity.HasData(
+                    new LessonContent
+                    {
+                        LessonContentId = 1,
+                        LessonId = 1,
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                        Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+                    },
+                    new LessonContent
+                    {
+                        LessonContentId = 2,
+                        LessonId = 2,
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                        Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+                    },
+                    new LessonContent
+                    {
+                        LessonContentId = 3,
+                        LessonId = 3,
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                        Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+                    }
+                );
+            });
+
+            //
+            modelBuilder.Entity<LessonMedia>(entity =>
+            {
+                entity.HasData(
+                    new LessonMedia
+                    {
+                        LessonMediaId = 1,
+                        LessonId = 1,
+                        MediaName = "ytbCourse1",
+                        MediaContent = "<iframe width=\"875\" height=\"492\" src=\"https://www.youtube.com/embed/DZFne4v2Z4Q?list=RDDZFne4v2Z4Q\" title=\"JVKE - This Is What Slow Dancing Feels Like (Lyrics)\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+                        MediaType = MediaType.Embed
+                    },
+                    new LessonMedia
+                    {
+                        LessonMediaId = 2,
+                        LessonId = 2,
+                        MediaName = "ytbCourse2",
+                        MediaContent = "<iframe width=\"875\" height=\"492\" src=\"https://www.youtube.com/embed/DZFne4v2Z4Q?list=RDDZFne4v2Z4Q\" title=\"JVKE - This Is What Slow Dancing Feels Like (Lyrics)\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+                        MediaType = MediaType.Embed
+                    }
+                );
+            });
+
+            //string date_string = "2024-05-09 15:58:49.6334339";
+            //string date2 = "2024-05-15 15:58:49.6334339";
+            //string format_string = "yyyy-MM-dd HH:mm:ss.fffffff";
+
+            //DateTime date_time_obj = DateTime.ParseExact(date_string, format_string, null);
+            //DateTime date_time_2 = DateTime.ParseExact(date2, format_string, null);
+
+            //modelBuilder.Entity<Enrollment>(entity =>
             //{
             //    entity.HasData(
-            //        new ApplicationRole
+            //        new Enrollment
             //        {
-            //            Id = 1,
-            //            Name = "Admin",
-            //            Description = "",
-            //            CreatedAt = DateTime.Now,
+            //            EnrollmentId = 1,
+            //            StudentId = 3,
+            //            CourseId = 1,
+            //            StartDate = date_time_obj,
+            //            Status = EnrollmentStatus.IN_PROGRESS,
             //        },
-            //        new ApplicationRole
+            //        new Enrollment
             //        {
-            //            Id = 2,
-            //            Name = "Instructor",
-            //            Description = "",
-            //            CreatedAt = DateTime.Now,
-            //        },
-            //        new ApplicationRole
-            //        {
-            //            Id = 3,
-            //            Name = "Student",
-            //            Description = "",
-            //            CreatedAt = DateTime.Now,
+            //            EnrollmentId = 2,
+            //            StudentId = 13,
+            //            CourseId = 3,
+            //            StartDate = date_time_2,
+            //            Status = EnrollmentStatus.ENROLLED,
+
             //        }
             //    );
-            //});
-
-            //var hasher = new PasswordHasher<ApplicationUser>();
-
-            //modelBuilder.Entity<ApplicationUser>(entity =>
-            //{
-            //    entity.HasData(
-            //        new ApplicationUser
-            //        {
-            //            Id = 1,
-            //            FullName = "Lê Trí",
-            //            BirthDate = DateTime.Now,
-            //            Gender = true,
-            //            PhoneNumber = "1234567890",
-            //            UserName = "admin01@example.com",
-            //            NormalizedUserName = "admin01",
-            //            Email = "admin01@example.com",
-            //            EmailConfirmed = true,
-            //            PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
-            //        },
-            //        new ApplicationUser
-            //        {
-            //            Id = 2,
-            //            FullName = "Lê Lai",
-            //            BirthDate = DateTime.Now,
-            //            Gender = true,
-            //            PhoneNumber = "1234567810",
-            //            UserName = "instructor01@example.com",
-            //            NormalizedUserName = "instructor01",
-            //            Email = "instructor01@example.com",
-            //            EmailConfirmed = true,
-            //            PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
-            //        },
-            //        new ApplicationUser
-            //        {
-            //            Id = 3,
-            //            FullName = "Văn Linh",
-            //            BirthDate = DateTime.Now,
-            //            Gender = true,
-            //            PhoneNumber = "1222567890",
-            //            UserName = "student01@example.com",
-            //            NormalizedUserName = "student01",
-            //            Email = "student01@example.com",
-            //            EmailConfirmed = true,
-            //            PasswordHash = hasher.HashPassword(null, "P@ssw@rd"),
-            //        }
-            //        );
-            //});
-
-            //modelBuilder.Entity<ApplicationUserRole>(entity =>
-            //{
-            //    entity.HasData(
-            //        new ApplicationUserRole
-            //        {
-            //            UserId = 1,
-            //            RoleId = 1
-            //        },
-            //        new ApplicationUserRole
-            //        {
-            //            UserId = 2,
-            //            RoleId = 2
-            //        },
-            //        new ApplicationUserRole
-            //        {
-            //            UserId = 3,
-            //            RoleId = 3
-            //        }
-            //        );
             //});
         }
 

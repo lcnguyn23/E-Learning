@@ -26,8 +26,7 @@ namespace ELearning.Data.Configurations.CourseContentConfig
 
             builder
                 .Property(a => a.CreatedAt)
-                .HasColumnType("datetime2")
-                .HasDefaultValue(DateTime.Now);
+                .HasColumnType("datetime2");
         }
     }
 }

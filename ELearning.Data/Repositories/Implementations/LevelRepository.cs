@@ -1,5 +1,6 @@
 ﻿using ELearning.Data.Repositories.Interfaces;
 using ELearning.DomainModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,10 @@ namespace ELearning.Data.Repositories.Implementations
         public LevelRepository(ELearningDbContext context) : base(context)
         {
             _context = context;
+        }
+        public async Task<Level> GetLevelByNameAsync(string levelName)
+        {
+            return await _context.Set<Level>().FirstOrDefaultAsync(p => p.LevelName == levelName);
         }
     }
 }

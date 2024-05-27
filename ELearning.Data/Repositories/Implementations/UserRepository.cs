@@ -15,19 +15,13 @@ namespace ELearning.Data.Repositories
     {
         private readonly ELearningDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public UserRepository(
             ELearningDbContext context,
-            UserManager<ApplicationUser> userManager, 
-            RoleManager<IdentityRole> roleManager,
-            SignInManager<ApplicationUser> signInManager  ) : base(context)
+            UserManager<ApplicationUser> userManager ) : base(context)
         {
             _context = context;
             _userManager = userManager;
-            _roleManager = roleManager;
-            _signInManager = signInManager;
         }
 
         public async Task<IdentityResult> AddUserToRoleAsync(ApplicationUser data, string role)

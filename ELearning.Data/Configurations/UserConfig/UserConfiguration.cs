@@ -28,25 +28,21 @@ namespace ELearning.Data.Configurations.UserConfig
 
             builder
                 .Property(u => u.BirthDate)
-                .IsRequired()
                 .HasColumnType("date");
 
             builder
-                .Property(u => u.Gender)
-                .IsRequired();
+                .Property(u => u.Gender);
 
             builder
-                .Property(u => u.UserName)
-                .IsRequired();
+                .Property(u => u.UserName);
 
             builder
                 .Property(u => u.Email)
                 .IsRequired();
 
             builder
-                .Property(u => u.PhoneNumber)
-                .IsRequired();
-
+                .Property(u => u.PhoneNumber);
+                
 
             builder
                 .Property(u => u.ProfilePicture)
@@ -58,9 +54,9 @@ namespace ELearning.Data.Configurations.UserConfig
 
             builder
                 .Property(u => u.CreatedAt)
-                .HasColumnType("datetime2")
-                .HasDefaultValue(DateTime.Now);
-                                            
+                .HasColumnType("datetime2");
+            
+            
 
             // relationships configuration
             // course - instructor
@@ -126,6 +122,12 @@ namespace ELearning.Data.Configurations.UserConfig
                 .HasForeignKey(l => l.StudentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // notification
+            builder
+                .HasMany(u => u.Notifications)
+                .WithOne(l => l.User)
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             // student progresses
             builder
@@ -135,11 +137,11 @@ namespace ELearning.Data.Configurations.UserConfig
                 .OnDelete(DeleteBehavior.NoAction);
 
             // quiz attempts
-            builder
-                .HasMany(u => u.QuizAttempts)
-                .WithOne(u => u.Student)
-                .HasForeignKey(u => u.StudentId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //builder
+            //    .HasMany(u => u.QuizAttempts)
+            //    .WithOne(u => u.Student)
+            //    .HasForeignKey(u => u.StudentId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
             // gender (enum)
             builder

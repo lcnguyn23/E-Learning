@@ -26,8 +26,7 @@ namespace ELearning.Data.Configurations.PaymentRefundConfig
 
             builder
                 .Property(p => p.CreatedAt)
-                .HasColumnType("datetime2")
-                .HasDefaultValue(DateTime.Now);
+                .HasColumnType("datetime2");
         }
     }
 }

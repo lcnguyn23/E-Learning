@@ -25,5 +25,20 @@ namespace ELearning.Data.Repositories.Implementations
             return lessons;
         }
 
+        public async Task<int> GetCourseIdByLessonIdAsync(int lessonId)
+        {
+            var courseId = await _context.Lessons
+                    .Where(l => l.LessonId == lessonId)
+                    .Select(l => l.Section.CourseId)
+                    .FirstOrDefaultAsync();
+
+            return courseId;
+        }
+
+        public async Task<int> GetLessonIdByTitleAsync(string title)
+        {
+            var lessonId = await _context.Lessons.Where(l => l.Title.Equals(title)).Select(l => l.LessonId).FirstOrDefaultAsync();
+            return lessonId;
+        }
     }
 }

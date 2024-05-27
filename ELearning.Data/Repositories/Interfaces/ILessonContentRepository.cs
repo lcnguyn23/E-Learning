@@ -18,6 +18,8 @@ namespace ELearning.Data.Repositories.Interfaces
         Task<int> UpdateLessonMediaAsync(LessonMedia lessonMedia);
         Task<int> DeleteLessonMediaAsync(LessonMedia lessonMedia);
 
-        
+        Task<LessonMedia> GetLessonMediaByLessonIdAsync(int lessonId);
+
+        Task<LessonContent> GetLessonContentByLessonIdAsync(int lessonId);
     }
 }

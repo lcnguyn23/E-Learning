@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ELearning.Data.Repositories.Implementations
 {
@@ -16,6 +17,12 @@ namespace ELearning.Data.Repositories.Implementations
         public CourseRepository(ELearningDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<List<Course>> GetAllCouresByInstructorIdAsync(int instructorId)
+        {
+            var course = await _context.Courses!.Where(c => c.InstructorId == instructorId).ToListAsync();
+            return course;
         }
 
         public async Task<Course> GetCourseByNameAsync(string name)

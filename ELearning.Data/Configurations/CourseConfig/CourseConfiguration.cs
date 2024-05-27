@@ -26,6 +26,10 @@ namespace ELearning.Data.Configurations.CourseConfig
 
             builder
                 .Property(e => e.Description)
+                .HasMaxLength(255);
+
+            builder
+                .Property(e => e.Description)
                 .HasMaxLength(500);
 
             builder
@@ -46,13 +50,11 @@ namespace ELearning.Data.Configurations.CourseConfig
 
             builder
                 .Property(e => e.SaleStart)
-                .HasColumnType("datetime2")
-                .HasDefaultValue(DateTime.Now);
+                .HasColumnType("datetime2");
 
             builder
                 .Property(e => e.SaleEnd)
-                .HasColumnType("datetime2")
-                .HasDefaultValue(DateTime.Now);
+                .HasColumnType("datetime2");
 
             builder
                 .Property(e => e.CreatedAt)

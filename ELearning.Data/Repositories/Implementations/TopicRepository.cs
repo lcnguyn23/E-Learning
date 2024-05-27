@@ -1,5 +1,6 @@
 ﻿using ELearning.Data.Repositories.Interfaces;
 using ELearning.DomainModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,10 @@ namespace ELearning.Data.Repositories.Implementations
         {
             _context = context;
         }
+        public async Task<Topic> GetTopicByNameAsync(string topicName)
+        {
+            return await _context.Set<Topic>().FirstOrDefaultAsync(p => p.TopicName == topicName);
+        }
+
     }
 }

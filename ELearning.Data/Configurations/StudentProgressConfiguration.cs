@@ -21,8 +21,7 @@ namespace ELearning.Data.Configurations
             // properties
             builder
                 .Property(s => s.CreatedAt)
-                .HasColumnType("datetime2")
-                .HasDefaultValue(DateTime.Now);
+                .HasColumnType("datetime2");
 
             // relationships configuration
             builder

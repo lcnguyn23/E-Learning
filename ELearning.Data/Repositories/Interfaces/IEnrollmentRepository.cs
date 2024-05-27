@@ -9,6 +9,8 @@ namespace ELearning.Data.Repositories.Interfaces
 {
     public interface IEnrollmentRepository : IRepository<Enrollment>
     {
-        
+        Task<int> GetEnrollmentStudentCountAsync(int courseId);
+        Task<Enrollment> GetEnrollmentByCourseIdAsync(int courseId);
+        Task<Enrollment> GetEnrollmentByStudentIdAsync(int studentId);
     }
 }

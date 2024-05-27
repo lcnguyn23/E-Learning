@@ -17,6 +17,18 @@ namespace ELearning.Data.Repositories.Implementations
             _context = context;
         }
 
-        
+        public async Task<double> GetAverageRating(int courseId)
+        {
+            //var rating = await _context.CourseRatings
+            //                                .Where(r => r.CourseId == courseId)
+            //                                .AverageAsync(r => r.Rating);
+            //if (rating == null)
+            //{
+            //    rating = 0;
+            //}
+            //double averageRating = rating;
+            return 0;
+        }
+
     }
 }

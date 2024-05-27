@@ -9,6 +9,6 @@ namespace ELearning.Data.Repositories.Interfaces
 {
     public interface ITopicRepository : IRepository<Topic>
     {
-        
+        Task<Topic> GetTopicByNameAsync(string topicName);
     }
 }

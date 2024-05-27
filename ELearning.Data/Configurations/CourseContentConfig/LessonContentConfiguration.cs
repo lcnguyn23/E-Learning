@@ -21,16 +21,15 @@ namespace ELearning.Data.Configurations.CourseContentConfig
             // properties
             builder
                 .Property(l => l.Description)
-                .HasMaxLength(255);
+                .HasMaxLength(2000);
 
             builder
                 .Property(l => l.Content)
-                .HasMaxLength(1000);
+                .HasMaxLength(4000);
 
             builder
                 .Property(l => l.CreatedAt)
-                .HasColumnType("datetime2")
-                .HasDefaultValue(DateTime.Now);
+                .HasColumnType("datetime2"); 
         }
     }
 }

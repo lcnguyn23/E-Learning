@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Data.Migrations
 {
     [DbContext(typeof(ELearningDbContext))]
-    [Migration("20240508152104_UpdateDatabaseSchema5")]
-    partial class UpdateDatabaseSchema5
+    [Migration("20240526154014_UpdateDatabaseSchema4")]
+    partial class UpdateDatabaseSchema4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,43 +23,6 @@ namespace ELearning.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("ELearning.DomainModels.Answer", b =>
-                {
-                    b.Property<int>("AnswerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnswerId"), 1L, 1);
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 36, DateTimeKind.Local).AddTicks(9089));
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AnswerId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("Answers", (string)null);
-                });
 
             modelBuilder.Entity("ELearning.DomainModels.Course", b =>
                 {
@@ -81,7 +44,7 @@ namespace ELearning.Data.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 36, DateTimeKind.Local).AddTicks(2363));
+                        .HasDefaultValue(new DateTime(2024, 5, 26, 22, 40, 13, 255, DateTimeKind.Local).AddTicks(8380));
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -110,17 +73,16 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("SaleEnd")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 36, DateTimeKind.Local).AddTicks(2229));
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal?>("SalePrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("SaleStart")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 36, DateTimeKind.Local).AddTicks(2009));
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ShortDescription")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -133,12 +95,58 @@ namespace ELearning.Data.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.HasIndex("LevelId")
-                        .IsUnique();
+                    b.HasIndex("LevelId");
 
                     b.HasIndex("TopicId");
 
                     b.ToTable("Courses", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CourseId = 1,
+                            CourseImage = "",
+                            CourseName = "Lập trình C# cơ bản",
+                            Description = "Khóa học mang đến những kiến thức cơ bản về C#",
+                            Duration = "10 tiếng",
+                            InstructorId = 2,
+                            IsDeleted = false,
+                            IsFree = false,
+                            LevelId = 1,
+                            Price = 100000m,
+                            Status = "PUBLISH",
+                            TopicId = 1
+                        },
+                        new
+                        {
+                            CourseId = 2,
+                            CourseImage = "",
+                            CourseName = "Guitar cơ bản",
+                            Description = "Khóa học cơ bản về Guitar",
+                            Duration = "20 tiếng",
+                            InstructorId = 2,
+                            IsDeleted = false,
+                            IsFree = false,
+                            LevelId = 1,
+                            Price = 100000m,
+                            Status = "PUBLISH",
+                            TopicId = 5
+                        },
+                        new
+                        {
+                            CourseId = 3,
+                            CourseImage = "",
+                            CourseName = "SEO cơ bản",
+                            Description = "Khóa học SEO cơ bản cho website",
+                            Duration = "30 tiếng",
+                            InstructorId = 2,
+                            IsDeleted = false,
+                            IsFree = false,
+                            LevelId = 1,
+                            Price = 100000m,
+                            Status = "PUBLISH",
+                            TopicId = 4
+                        });
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.CourseRating", b =>
@@ -154,9 +162,7 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 36, DateTimeKind.Local).AddTicks(5775));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -230,9 +236,7 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(9651));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -265,9 +269,7 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReplyId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 38, DateTimeKind.Local).AddTicks(535));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -307,9 +309,7 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 38, DateTimeKind.Local).AddTicks(2127));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -348,9 +348,7 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 38, DateTimeKind.Local).AddTicks(3609));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -374,9 +372,7 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 36, DateTimeKind.Local).AddTicks(9742));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -400,6 +396,48 @@ namespace ELearning.Data.Migrations
                     b.HasIndex("SectionId");
 
                     b.ToTable("Lessons", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            LessonId = 1,
+                            IsDeleted = false,
+                            Order = 1,
+                            SectionId = 1,
+                            Title = "Lesson 1"
+                        },
+                        new
+                        {
+                            LessonId = 2,
+                            IsDeleted = false,
+                            Order = 2,
+                            SectionId = 1,
+                            Title = "Lesson 2"
+                        },
+                        new
+                        {
+                            LessonId = 3,
+                            IsDeleted = false,
+                            Order = 1,
+                            SectionId = 2,
+                            Title = "Lesson 3"
+                        },
+                        new
+                        {
+                            LessonId = 4,
+                            IsDeleted = false,
+                            Order = 2,
+                            SectionId = 2,
+                            Title = "Lesson 4"
+                        },
+                        new
+                        {
+                            LessonId = 5,
+                            IsDeleted = false,
+                            Order = 3,
+                            SectionId = 2,
+                            Title = "Lesson 5"
+                        });
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.LessonContent", b =>
@@ -411,20 +449,18 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonContentId"), 1L, 1);
 
                     b.Property<string>("Content")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(367));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -438,6 +474,32 @@ namespace ELearning.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("LessonContents", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            LessonContentId = 1,
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            IsDeleted = false,
+                            LessonId = 1
+                        },
+                        new
+                        {
+                            LessonContentId = 2,
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            IsDeleted = false,
+                            LessonId = 2
+                        },
+                        new
+                        {
+                            LessonContentId = 3,
+                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            IsDeleted = false,
+                            LessonId = 3
+                        });
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.LessonMedia", b =>
@@ -449,28 +511,13 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonMediaId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(931));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FileContent")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FilePath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long?>("FileSizeByte")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("FileType")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -478,11 +525,47 @@ namespace ELearning.Data.Migrations
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
 
+                    b.Property<string>("MediaContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MediaName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MediaPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MediaType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MediaUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("LessonMediaId");
 
-                    b.HasIndex("LessonId");
+                    b.HasIndex("LessonId")
+                        .IsUnique();
 
                     b.ToTable("LessonMedias", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            LessonMediaId = 1,
+                            IsDeleted = false,
+                            LessonId = 1,
+                            MediaContent = "<iframe width=\"875\" height=\"492\" src=\"https://www.youtube.com/embed/DZFne4v2Z4Q?list=RDDZFne4v2Z4Q\" title=\"JVKE - This Is What Slow Dancing Feels Like (Lyrics)\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+                            MediaName = "ytbCourse1",
+                            MediaType = 2
+                        },
+                        new
+                        {
+                            LessonMediaId = 2,
+                            IsDeleted = false,
+                            LessonId = 2,
+                            MediaContent = "<iframe width=\"875\" height=\"492\" src=\"https://www.youtube.com/embed/DZFne4v2Z4Q?list=RDDZFne4v2Z4Q\" title=\"JVKE - This Is What Slow Dancing Feels Like (Lyrics)\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+                            MediaName = "ytbCourse2",
+                            MediaType = 2
+                        });
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.LessonReport", b =>
@@ -499,9 +582,7 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(1879));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -541,9 +622,7 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LevelId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(2680));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -559,6 +638,61 @@ namespace ELearning.Data.Migrations
                     b.HasKey("LevelId");
 
                     b.ToTable("Levels", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            LevelId = 1,
+                            IsDeleted = false,
+                            LevelName = "Cơ bản"
+                        },
+                        new
+                        {
+                            LevelId = 2,
+                            IsDeleted = false,
+                            LevelName = "Trung cấp"
+                        },
+                        new
+                        {
+                            LevelId = 3,
+                            IsDeleted = false,
+                            LevelName = "Nâng cao"
+                        },
+                        new
+                        {
+                            LevelId = 4,
+                            IsDeleted = false,
+                            LevelName = "Mọi cấp độ"
+                        });
+                });
+
+            modelBuilder.Entity("ELearning.DomainModels.Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NotificationType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotificationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.Payment", b =>
@@ -573,9 +707,7 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 38, DateTimeKind.Local).AddTicks(4431));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -612,9 +744,7 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentMethodId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 38, DateTimeKind.Local).AddTicks(5179));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -632,226 +762,6 @@ namespace ELearning.Data.Migrations
                     b.ToTable("PaymentMethods", (string)null);
                 });
 
-            modelBuilder.Entity("ELearning.DomainModels.Question", b =>
-                {
-                    b.Property<int>("QuestionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(4087));
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Point")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<int?>("QuestionOrder")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuizId")
-                        .HasColumnType("int");
-
-                    b.HasKey("QuestionId");
-
-                    b.HasIndex("QuestionTypeId");
-
-                    b.HasIndex("QuizId");
-
-                    b.ToTable("Questions", (string)null);
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.QuestionAttempt", b =>
-                {
-                    b.Property<int>("QuestionAttemptId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionAttemptId"), 1L, 1);
-
-                    b.Property<string>("Answer")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(3430));
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuizAttemptId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.HasKey("QuestionAttemptId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("QuizAttemptId");
-
-                    b.ToTable("QuestionAttempts", (string)null);
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.QuestionType", b =>
-                {
-                    b.Property<int>("QuestionTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionTypeId"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(4705));
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("QuestionTypeId");
-
-                    b.ToTable("QuestionTypes", (string)null);
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.Quiz", b =>
-                {
-                    b.Property<int>("QuizId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizId"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(7684));
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Order")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<int?>("PassingScore")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<int>("SectionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TimeLimit")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("QuizId");
-
-                    b.HasIndex("SectionId");
-
-                    b.ToTable("Quizzes", (string)null);
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.QuizAttempt", b =>
-                {
-                    b.Property<int>("QuizAttemptId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizAttemptId"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(5430));
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("QuizId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("QuizAttemptId");
-
-                    b.HasIndex("QuizId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("QuizAttempts", (string)null);
-                });
-
             modelBuilder.Entity("ELearning.DomainModels.RefundRequest", b =>
                 {
                     b.Property<int>("RefundRequestId")
@@ -864,9 +774,7 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 38, DateTimeKind.Local).AddTicks(5863));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -912,9 +820,7 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(8350));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -935,6 +841,40 @@ namespace ELearning.Data.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Sections", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            SectionId = 1,
+                            CourseId = 1,
+                            IsDeleted = false,
+                            SectionOrder = 1,
+                            Title = "Basic syntax"
+                        },
+                        new
+                        {
+                            SectionId = 2,
+                            CourseId = 1,
+                            IsDeleted = false,
+                            SectionOrder = 2,
+                            Title = "Basic syntax 2"
+                        },
+                        new
+                        {
+                            SectionId = 3,
+                            CourseId = 2,
+                            IsDeleted = false,
+                            SectionOrder = 1,
+                            Title = "Giới thiệu"
+                        },
+                        new
+                        {
+                            SectionId = 4,
+                            CourseId = 2,
+                            IsDeleted = false,
+                            SectionOrder = 2,
+                            Title = "Tìm hiểu về đàn Guitar"
+                        });
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.StudentProgress", b =>
@@ -949,9 +889,7 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 38, DateTimeKind.Local).AddTicks(6889));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -992,9 +930,7 @@ namespace ELearning.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicId"), 1L, 1);
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 37, DateTimeKind.Local).AddTicks(9056));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -1014,6 +950,38 @@ namespace ELearning.Data.Migrations
                     b.HasKey("TopicId");
 
                     b.ToTable("Topics", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            TopicId = 1,
+                            IsDeleted = false,
+                            TopicName = "Công nghệ thông tin"
+                        },
+                        new
+                        {
+                            TopicId = 2,
+                            IsDeleted = false,
+                            TopicName = "Nhiếp ảnh"
+                        },
+                        new
+                        {
+                            TopicId = 3,
+                            IsDeleted = false,
+                            TopicName = "Mỹ thuật"
+                        },
+                        new
+                        {
+                            TopicId = 4,
+                            IsDeleted = false,
+                            TopicName = "Digital marketing"
+                        },
+                        new
+                        {
+                            TopicId = 5,
+                            IsDeleted = false,
+                            TopicName = "Âm nhạc"
+                        });
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.User.ApplicationUser", b =>
@@ -1031,7 +999,7 @@ namespace ELearning.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("date");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -1039,9 +1007,7 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 5, 8, 22, 21, 4, 39, DateTimeKind.Local).AddTicks(1860));
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -1060,7 +1026,6 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -1084,7 +1049,6 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -1101,7 +1065,6 @@ namespace ELearning.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -1116,6 +1079,108 @@ namespace ELearning.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2024, 5, 26, 22, 40, 13, 258, DateTimeKind.Local).AddTicks(9156),
+                            ConcurrencyStamp = "834fd74a-7a39-4575-b011-0cd220b7c2e0",
+                            Email = "admin01@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Lê Trí",
+                            Gender = "Male",
+                            IsDeleted = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "admin01@example.com",
+                            NormalizedUserName = "admin01",
+                            PasswordHash = "AQAAAAEAACcQAAAAENYQljYEGsRfR0fFHh2nGakXQfgWgV9nyqOPxz6MEqT0CSWPJJHSJtU17AVilwYxJw==",
+                            PhoneNumber = "1234567890",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "admin01@example.com"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2024, 5, 26, 22, 40, 13, 260, DateTimeKind.Local).AddTicks(85),
+                            ConcurrencyStamp = "454b8a04-fe68-4bc0-baa7-d96786827e6f",
+                            Email = "instructor01@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Lê Lai",
+                            Gender = "Male",
+                            IsDeleted = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "instructor01@example.com",
+                            NormalizedUserName = "instructor01",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFLF8Ef8oO4fdxpk7+y6iasJ+IUOYdkol57C5D1SwUfHI9dKrhAan6zLe/1KL5CVJQ==",
+                            PhoneNumber = "1234567810",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "instructor01@example.com"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2024, 5, 26, 22, 40, 13, 261, DateTimeKind.Local).AddTicks(948),
+                            ConcurrencyStamp = "8d52b14e-78ef-4837-8e4f-b143d93c0dc3",
+                            Email = "student01@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Văn Linh",
+                            Gender = "Male",
+                            IsDeleted = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "student01@example.com",
+                            NormalizedUserName = "student01",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOFDdnEZz0eS6ALHan4JL5c6/N3cvLv3QCc9cO5oEBAtG+z4x2yand4Er0/FKe8ELA==",
+                            PhoneNumber = "1222567890",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "student01@example.com"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2024, 5, 26, 22, 40, 13, 262, DateTimeKind.Local).AddTicks(1539),
+                            ConcurrencyStamp = "336de601-d7a8-49f3-81d5-ce6705e8c27c",
+                            Email = "linhlinhins11@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Nguyễn Linh",
+                            Gender = "Male",
+                            IsDeleted = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "linhlinhins11@example.com",
+                            NormalizedUserName = "linhlinhins11@example.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMTOKVVXJlVH57qMXjXOeDOjDob6xbXly468FeX7DnaAwHFXQDKJ4iX2F4H/8H610g==",
+                            PhoneNumber = "1234522810",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "linhlinhins11@example.com"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2024, 5, 26, 22, 40, 13, 263, DateTimeKind.Local).AddTicks(2269),
+                            ConcurrencyStamp = "a07dd038-e43c-48db-9308-c085e338769c",
+                            Email = "studentlinh11@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Hồ Linh",
+                            Gender = "Male",
+                            IsDeleted = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "studentlinh11@example.com",
+                            NormalizedUserName = "studentlinh11@example.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFC26WU0Ua6qzUdcPMKzSLV2AuwLTs6QQOf10895oeQN6FkpAqch+ctA6rTzeKZyGw==",
+                            PhoneNumber = "12312567890",
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "studentlinh11@example.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -1146,6 +1211,26 @@ namespace ELearning.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "ca6c888a-eb18-4718-9ef4-b6eb4467f966",
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "16a87e33-158e-4e36-b0c7-3defddcc20e4",
+                            Name = "Instructor"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "7124b4fd-4b2b-4df5-89e6-a9469921719e",
+                            Name = "Student"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -1230,6 +1315,33 @@ namespace ELearning.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 12,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 13,
+                            RoleId = 3
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -1251,17 +1363,6 @@ namespace ELearning.Data.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ELearning.DomainModels.Answer", b =>
-                {
-                    b.HasOne("ELearning.DomainModels.Question", "Question")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-                });
-
             modelBuilder.Entity("ELearning.DomainModels.Course", b =>
                 {
                     b.HasOne("ELearning.DomainModels.User.ApplicationUser", "Instructor")
@@ -1271,8 +1372,8 @@ namespace ELearning.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("ELearning.DomainModels.Level", "Level")
-                        .WithOne("Course")
-                        .HasForeignKey("ELearning.DomainModels.Course", "LevelId")
+                        .WithMany("Courses")
+                        .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1428,8 +1529,8 @@ namespace ELearning.Data.Migrations
             modelBuilder.Entity("ELearning.DomainModels.LessonMedia", b =>
                 {
                     b.HasOne("ELearning.DomainModels.Lesson", "Lesson")
-                        .WithMany("LessonMedias")
-                        .HasForeignKey("LessonId")
+                        .WithOne("LessonMedia")
+                        .HasForeignKey("ELearning.DomainModels.LessonMedia", "LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1455,6 +1556,17 @@ namespace ELearning.Data.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("ELearning.DomainModels.Notification", b =>
+                {
+                    b.HasOne("ELearning.DomainModels.User.ApplicationUser", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ELearning.DomainModels.Payment", b =>
                 {
                     b.HasOne("ELearning.DomainModels.EnrollmentManagement.Enrollment", "Enrollment")
@@ -1472,74 +1584,6 @@ namespace ELearning.Data.Migrations
                     b.Navigation("Enrollment");
 
                     b.Navigation("PaymentMethod");
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.Question", b =>
-                {
-                    b.HasOne("ELearning.DomainModels.QuestionType", "QuestionType")
-                        .WithMany("Questions")
-                        .HasForeignKey("QuestionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ELearning.DomainModels.Quiz", "Quiz")
-                        .WithMany("Questions")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("QuestionType");
-
-                    b.Navigation("Quiz");
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.QuestionAttempt", b =>
-                {
-                    b.HasOne("ELearning.DomainModels.Question", "Question")
-                        .WithMany("QuestionAttempts")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ELearning.DomainModels.QuizAttempt", "QuizAttempt")
-                        .WithMany("QuestionAttempts")
-                        .HasForeignKey("QuizAttemptId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-
-                    b.Navigation("QuizAttempt");
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.Quiz", b =>
-                {
-                    b.HasOne("ELearning.DomainModels.Section", "Section")
-                        .WithMany("Quizzes")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Section");
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.QuizAttempt", b =>
-                {
-                    b.HasOne("ELearning.DomainModels.Quiz", "Quiz")
-                        .WithMany("QuizAttempts")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ELearning.DomainModels.User.ApplicationUser", "Student")
-                        .WithMany("QuizAttempts")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Quiz");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.RefundRequest", b =>
@@ -1688,7 +1732,8 @@ namespace ELearning.Data.Migrations
                     b.Navigation("LessonContent")
                         .IsRequired();
 
-                    b.Navigation("LessonMedias");
+                    b.Navigation("LessonMedia")
+                        .IsRequired();
 
                     b.Navigation("LessonReports");
 
@@ -1697,8 +1742,7 @@ namespace ELearning.Data.Migrations
 
             modelBuilder.Entity("ELearning.DomainModels.Level", b =>
                 {
-                    b.Navigation("Course")
-                        .IsRequired();
+                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("ELearning.DomainModels.PaymentMethod", b =>
@@ -1706,35 +1750,9 @@ namespace ELearning.Data.Migrations
                     b.Navigation("Payments");
                 });
 
-            modelBuilder.Entity("ELearning.DomainModels.Question", b =>
-                {
-                    b.Navigation("Answers");
-
-                    b.Navigation("QuestionAttempts");
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.QuestionType", b =>
-                {
-                    b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.Quiz", b =>
-                {
-                    b.Navigation("Questions");
-
-                    b.Navigation("QuizAttempts");
-                });
-
-            modelBuilder.Entity("ELearning.DomainModels.QuizAttempt", b =>
-                {
-                    b.Navigation("QuestionAttempts");
-                });
-
             modelBuilder.Entity("ELearning.DomainModels.Section", b =>
                 {
                     b.Navigation("Lessons");
-
-                    b.Navigation("Quizzes");
 
                     b.Navigation("StudentProgresses");
                 });
@@ -1762,7 +1780,7 @@ namespace ELearning.Data.Migrations
 
                     b.Navigation("LessonsReports");
 
-                    b.Navigation("QuizAttempts");
+                    b.Navigation("Notifications");
 
                     b.Navigation("StudentProgresses");
                 });
