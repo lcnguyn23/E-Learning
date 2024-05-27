@@ -1,4 +1,5 @@
-﻿using ELearning.Business.Services.Interfaces;
+﻿using ELearning.Business.DTOs.TopicDTOs;
+using ELearning.Business.Services.Interfaces;
 using ELearning.Data.Repositories.Implementations;
 using ELearning.Data.Repositories.Interfaces;
 using ELearning.DomainModels;
@@ -22,7 +23,7 @@ namespace ELearning.Business.Services.Implementations
             _topicRepository = topicRepository;
         }
 
-        public async Task<List<Topic>> GetAllTopicsAsync()
+        public async Task<List<TopicDetailDTO>> GetAllTopicsAsync()
         {
             try
             {
@@ -33,7 +34,7 @@ namespace ELearning.Business.Services.Implementations
                     throw new Exception("Không có khóa học nào");
                 }
 
-                return topics;
+                return new List<TopicDetailDTO>();
             }
             catch (Exception ex)
             {
@@ -42,7 +43,7 @@ namespace ELearning.Business.Services.Implementations
             }
         }
 
-        public async Task<Topic> GetTopicByIdAsync(int id)
+        public async Task<TopicDetailDTO> GetTopicByIdAsync(int id)
         {
             try
             {
@@ -53,7 +54,9 @@ namespace ELearning.Business.Services.Implementations
                     throw new Exception("Không có khóa học nào");
                 }
 
-                return topics;
+
+
+                return new TopicDetailDTO();
             }
             catch (Exception ex)
             {
@@ -62,5 +65,31 @@ namespace ELearning.Business.Services.Implementations
             }
         }
 
+        public async Task<TopicDetailDTO> GetTopicByNameAsync(string topicName)
+        {
+            try
+            {
+                var topics = await _topicRepository.GetTopicByNameAsync(topicName);
+                if (topics == null)
+                {
+                    throw new Exception("Không có khóa học nào");
+                }
+
+                var topicDTO = new TopicDetailDTO()
+                {
+                    TopicId = topics.TopicId,
+                    TopicName = topics.TopicName,
+                    TopicDescription = topics.TopicDescription,
+                    CreatedAt = topics.CreatedAt
+                };
+
+                return topicDTO;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

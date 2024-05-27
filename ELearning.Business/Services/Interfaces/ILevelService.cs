@@ -1,4 +1,5 @@
-﻿using ELearning.DomainModels;
+﻿using ELearning.Business.DTOs.LevelDTOs;
+using ELearning.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace ELearning.Business.Services.Interfaces
 {
     public interface ILevelService
     {
-        Task<List<Level>> GetAllLevelsAsync();
-        Task<Level> GetLevelByIdAsync(int id);
+        Task<List<LevelDetailDTO>> GetAllLevelsAsync();
+        Task<LevelDetailDTO> GetLevelByIdAsync(int id);
+        Task<LevelDetailDTO> GetLevelByNameAsync(string name);
     }
 }

@@ -1,4 +1,6 @@
-﻿using ELearning.Business.Services.Interfaces;
+﻿using ELearning.Business.DTOs.CoursesDTOs.Lessons;
+using ELearning.Business.DTOs.CoursesDTOs.Sections;
+using ELearning.Business.Services.Interfaces;
 using ELearning.Business.Utility;
 using ELearning.Data.Repositories.Interfaces;
 using ELearning.DomainModels;
@@ -14,15 +16,18 @@ namespace ELearning.Business.Services.Implementations
     public class SectionService : ISectionService
     {
         private readonly ISectionRepository _sectionRepository;
+        private readonly ILessonRepository _lessonRepository;
         private readonly ILogger<SectionService> _logger;
 
-        public SectionService(ISectionRepository sectionRepository, ILogger<SectionService> logger)
+       
+        public SectionService(ISectionRepository sectionRepository, ILessonRepository lessonRepository, ILogger<SectionService> logger)
         {
             _sectionRepository = sectionRepository;
+            _lessonRepository = lessonRepository;
             _logger = logger;
         }
 
-        public async Task<List<Section>> GetAllSectionsAsync(int courseId)
+        public async Task<List<SectionDetailDTO>> GetAllSectionsAsync(int courseId)
         {
             try
             {
@@ -32,7 +37,25 @@ namespace ELearning.Business.Services.Implementations
                     throw new Exception("Không có chương nào");
                 }
 
-                return sections;
+                List<SectionDetailDTO> data = new List<SectionDetailDTO>();
+
+                foreach(var section in sections)
+                {
+
+                    var lessonCount = await _lessonRepository.GetAllLessonsBySectionIdAsync(section.SectionId);
+                    var sectionDetailDTO = new SectionDetailDTO()
+                    {
+                        CourseId = courseId,
+                        SectionId = section.SectionId,
+                        Title = section.Title,
+                        SectionOrder = section.SectionOrder,
+                        LessonCount = lessonCount.Count(),
+
+                    };
+                    data.Add(sectionDetailDTO);
+                }
+
+                return data;
             }
             catch (Exception ex)
             {
@@ -41,27 +64,25 @@ namespace ELearning.Business.Services.Implementations
             }
         }
 
-        public async Task<Section> GetSectionByIdAsync(int id)
+        public async Task<SectionDetailDTO> GetSectionByIdAsync(int id)
         {
             try
             {
-                // current user
-                //var currentUserName = _httpContextAccessor.HttpContext!.Items["UserName"]?.ToString();
-                //var currentUser = await _userService.GetUserByUserNameAsync(currentUserName);
+                _logger.LogInformation($"int id: {id}");
+                var section = await _sectionRepository.GetByIdAsync(id);
+                _logger.LogInformation($"int id2: {section.SectionId}");
+                var lessonCount = await _lessonRepository.GetAllLessonsBySectionIdAsync(section.SectionId);
 
-                //if (currentUser == null)
-                //{
-                //    return Status.NotFound;
-                //}
-
-                var courses = await _sectionRepository.GetByIdAsync(id);
-
-                if (courses == null)
+                _logger.LogInformation($"int id3: {lessonCount}");
+                var sectionDetailDTO = new SectionDetailDTO()
                 {
-                    throw new Exception("Không có chương nào");
-                }
-
-                return courses;
+                    CourseId = section.CourseId,
+                    SectionId = section.SectionId,
+                    Title = section.Title,
+                    SectionOrder = section.SectionOrder,
+                    LessonCount = lessonCount.Count() == null ? 0 : lessonCount.Count(),
+                };
+                return sectionDetailDTO;
             }
             catch (Exception ex)
             {
@@ -70,16 +91,18 @@ namespace ELearning.Business.Services.Implementations
             }
         }
 
-        public async Task<Status> CreateSectionAsync(int id, Section section)
+        public async Task<Status> CreateSectionAsync(SectionCreateDTO section)
         {
             try
             {
-                if (section.CourseId != id)
+                var sectionData = new Section()
                 {
-                    return Status.NotFound;
-                }
-
-                var result = await _sectionRepository.CreateAsync(section);
+                    CourseId = section.CourseId,
+                    Title = section.Title,
+                    SectionOrder = section.Order,
+                    CreatedAt = DateTime.Now,
+                };
+                var result = await _sectionRepository.CreateAsync(sectionData);
 
                 if (result == 0)
                 {
@@ -95,16 +118,18 @@ namespace ELearning.Business.Services.Implementations
             }
         }
 
-        public async Task<Status> UpdateSectionAsync(int id, Section section)
+        public async Task<Status> UpdateSectionAsync(SectionUpdateDTO section)
         {
             try
             {
-                if (section.CourseId != id)
-                {
-                    return Status.NotFound;
-                }
+                var sectionData = await _sectionRepository.GetByIdAsync(section.SectionId);
 
-                var result = await _sectionRepository.UpdateAsync(section);
+                sectionData.CourseId = section.CourseId;
+                sectionData.Title = section.Title;
+                sectionData.SectionOrder = section.Order;
+                sectionData.CreatedAt = DateTime.Now;
+                
+                var result = await _sectionRepository.UpdateAsync(sectionData);
 
                 if (result == 0)
                 {
@@ -120,16 +145,13 @@ namespace ELearning.Business.Services.Implementations
             }
         }
 
-        public async Task<Status> DeleteSectionAsync(int id, Section section)
+        public async Task<Status> DeleteSectionAsync(SectionDetailDTO section)
         {
             try
             {
-                if (section.CourseId != id)
-                {
-                    return Status.NotFound;
-                }
-
-                var result = await _sectionRepository.DeleteAsync(section);
+                var data = await _sectionRepository.GetByIdAsync(section.SectionId);
+                
+                var result = await _sectionRepository.DeleteAsync(data);
 
                 if (result == 0)
                 {
@@ -144,5 +166,7 @@ namespace ELearning.Business.Services.Implementations
                 throw;
             }
         }
+
+       
     }
 }

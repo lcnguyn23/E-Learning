@@ -1,4 +1,5 @@
-﻿using ELearning.Business.Services.Interfaces;
+﻿using ELearning.Business.DTOs.LevelDTOs;
+using ELearning.Business.Services.Interfaces;
 using ELearning.Data.Repositories.Implementations;
 using ELearning.Data.Repositories.Interfaces;
 using ELearning.DomainModels;
@@ -22,18 +23,32 @@ namespace ELearning.Business.Services.Implementations
             _levelRepository = levelRepository;
         }
 
-        public async Task<List<Level>> GetAllLevelsAsync()
+        public async Task<List<LevelDetailDTO>> GetAllLevelsAsync()
         {
             try
             {
-                var topics = await _levelRepository.GetAllAsync();
+                var levels = await _levelRepository.GetAllAsync();
 
-                if (topics == null)
+                if (levels == null)
                 {
                     throw new Exception("Không có khóa học nào");
                 }
 
-                return topics;
+                var listLevelDTO = new List<LevelDetailDTO>();
+
+                foreach (var level in levels)
+                {
+                    var levelDTO = new LevelDetailDTO()
+                    {
+                        LevelId = level.LevelId,
+                        LevelName = level.LevelName,
+                        CreatedAt = level.CreatedAt,
+                    };
+                    listLevelDTO.Add(levelDTO);
+                }
+                
+
+                return listLevelDTO;
             }
             catch (Exception ex)
             {
@@ -42,18 +57,51 @@ namespace ELearning.Business.Services.Implementations
             }
         }
 
-        public async Task<Level> GetLevelByIdAsync(int id)
+        public async Task<LevelDetailDTO> GetLevelByIdAsync(int id)
         {
             try
             {
-                var topics = await _levelRepository.GetByIdAsync(id);
+                var level = await _levelRepository.GetByIdAsync(id);
 
-                if (topics == null)
+                if (level == null)
                 {
                     throw new Exception("Không có khóa học nào");
                 }
 
-                return topics;
+                var levelDTO = new LevelDetailDTO()
+                {
+                    LevelId = level.LevelId,
+                    LevelName = level.LevelName,   
+                    CreatedAt = level.CreatedAt,
+                };
+
+                return levelDTO;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<LevelDetailDTO> GetLevelByNameAsync(string name)
+        {
+            try
+            {
+                var level = await _levelRepository.GetLevelByNameAsync(name);
+
+                if (level == null)
+                {
+                    throw new Exception("Không có khóa học nào");
+                }
+                var levelDTO = new LevelDetailDTO()
+                {
+                    LevelId = level.LevelId,
+                    LevelName = level.LevelName,
+                    CreatedAt = level.CreatedAt,
+                };
+
+                return levelDTO;
             }
             catch (Exception ex)
             {

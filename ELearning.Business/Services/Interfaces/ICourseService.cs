@@ -1,4 +1,7 @@
-﻿using ELearning.Business.Services.Implementation;
+﻿using ELearning.Business.DTOs.CourseDTOs.CourseRequest;
+using ELearning.Business.DTOs.CoursesDTOs.CourseDetail;
+using ELearning.Business.Services.Implementation;
+using ELearning.Business.Services.Implementations;
 using ELearning.Business.Utility;
 using ELearning.Data.Repositories.Interfaces;
 using ELearning.DomainModels;
@@ -16,13 +19,12 @@ namespace ELearning.Business.Services.Interfaces
     public interface ICourseService
     {
         // Course info
-        Task<List<Course>> GetAllCoursesAsync();
-        Task<Course> GetCourseByIdAsync(int id);
-        Task<Course> GetCourseByNameAsync(string name);
-        Task<List<Course>> GetAllCourseByInstructorIdAsync(int instructorId);
-        Task<Status> CreateCourseAsync(Course course, int topicId, int levelId);
-        Task<Status> UpdateCourseAsync(Course course, int topicId, int levelId);
-        Task<Status> DeleteCourseAsync(Course course);
-        
-    }
+        Task<List<CourseDetailDTO>> GetAllCoursesAsync();
+        Task<CourseDetailDTO> GetCourseByIdAsync(int id);
+        Task<CourseDetailDTO> GetCourseByNameAsync(string name);
+        Task<List<CourseDetailDTO>> GetAllCourseByInstructorIdAsync(int instructorId);
+        Task<Status> CreateCourseAsync(CourseCreateDTO course);
+        Task<Status> UpdateCourseAsync(CourseUpdateDTO course);
+        Task<Status> DeleteCourseAsync(CourseDetailDTO course);
+     }
 }

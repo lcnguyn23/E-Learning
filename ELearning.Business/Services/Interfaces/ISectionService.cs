@@ -1,4 +1,6 @@
-﻿using ELearning.Business.Utility;
+﻿using ELearning.Business.DTOs.CoursesDTOs.Lessons;
+using ELearning.Business.DTOs.CoursesDTOs.Sections;
+using ELearning.Business.Utility;
 using ELearning.DomainModels;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,10 @@ namespace ELearning.Business.Services.Interfaces
 {
     public interface ISectionService
     {
-        Task<List<Section>> GetAllSectionsAsync(int courseId);
-        Task<Section> GetSectionByIdAsync(int id);
-        Task<Status> CreateSectionAsync(int courseId, Section section);
-        Task<Status> UpdateSectionAsync(int courseId, Section section);
-        Task<Status> DeleteSectionAsync(int courseId, Section section);
+        Task<List<SectionDetailDTO>> GetAllSectionsAsync(int courseId);
+        Task<SectionDetailDTO> GetSectionByIdAsync(int id);
+        Task<Status> CreateSectionAsync(SectionCreateDTO section);
+        Task<Status> UpdateSectionAsync(SectionUpdateDTO section);
+        Task<Status> DeleteSectionAsync(SectionDetailDTO section);
     }
 }

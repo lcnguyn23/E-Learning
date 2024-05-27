@@ -8,13 +8,10 @@
         public const string ROLE_STUDENT = "Student";
 
         // Course status
-        public const string COURSE_DRAFT = "Draft";
-        public const string COURSE_PUBLIC = "Public";
-        public const string COURSE_PRIVATE = "Private";
+        public const string COURSE_PRIVATE = "Riêng tư";
         public const string COURSE_PUBLISH = "Published";
         public const string COURSE_UNPUBLISH = "Unpublished";
         public const string COURSE_PENDING_APPROVAL = "Pending approval";
-        public const string COURSE_DELETED = "Deleted";
 
         // Course request status
         public const string REQUEST_NEW = "New";

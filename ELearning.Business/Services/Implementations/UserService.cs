@@ -78,7 +78,7 @@ namespace ELearning.Business.Services.Implementation
             try
             {
                 var users = await _userRepository.GetAllAsync();
-                if (users is null)
+                if (users == null)
                 {
                     throw new Exception("Không có người dùng nào!");
                 }
@@ -101,9 +101,9 @@ namespace ELearning.Business.Services.Implementation
             try
             {
                 var user = await _userRepository.GetUserByEmailAsync(email);
-                if (user is null)
+                if (user == null)
                 {
-                    throw new Exception("Không có người dùng nào!");
+                    throw new Exception($"Không có người dùng nào! 222{email}22");
                 }
                 return user;
             }
@@ -124,7 +124,7 @@ namespace ELearning.Business.Services.Implementation
             try
             {
                 var user = await _userRepository.GetUserByEmailAsync(name);
-                if (user is null)
+                if (user == null)
                 {
                     throw new Exception("Không có người dùng nào!");
                 }
@@ -175,6 +175,33 @@ namespace ELearning.Business.Services.Implementation
                     throw new Exception("Cập nhật người dùng thất bại");
                 }
                 return Status.Success;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error: {e.Message}");
+                throw;
+            }
+        }
+
+        public async Task<List<ApplicationUser>> GetInstructorAsync()
+        {
+            try
+            {
+                var userlist = await _userRepository.GetAllAsync();
+                var listIns = new List<ApplicationUser>();
+                foreach (var user in userlist)
+                {
+                    var userRole = await _userRepository.GetUserRoleAsync(user);
+                    if (userRole.Contains("Instructor"))
+                    {
+                        listIns.Add(user);
+                    }
+                }
+                if (userlist == null)
+                {
+                    throw new Exception("Không có người dùng nào");
+                }
+                return listIns;
             }
             catch (Exception e)
             {

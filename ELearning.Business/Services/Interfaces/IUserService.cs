@@ -29,5 +29,7 @@ namespace ELearning.Business.Services.Interfaces
         /// <param name="name"></param>
         /// <returns></returns>
         Task<ApplicationUser> GetUserByUserNameAsync(string name);
+
+        Task<List<ApplicationUser>> GetInstructorAsync();
     }
 }
