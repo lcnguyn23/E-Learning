@@ -1,0 +1,109 @@
+﻿@using ELearning.DomainModels.User;
+
+@model ApplicationUser
+<div class="container-xxl flex-grow-1 container-p-y">
+
+
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">Hồ sơ của tôi /</span> Thông tin cá nhân
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-pills flex-column flex-md-row mb-3">
+                <li class="nav-item"><a class="nav-link active" asp-action="Index" asp-controller="Profile" asp-area="Student"><i class="bx bx-user me-1"></i> Thông tin</a></li>
+                <li class="nav-item"><a class="nav-link" asp-action="Security" asp-controller="Profile" asp-area="Student"><i class="bx bx-bell me-1"></i> Bảo mật</a></li>
+            </ul>
+            <div class="card mb-4">
+                <h5 class="card-header">Thông tin chi tiết</h5>
+                <!-- Account -->
+                <div class="card-body">
+                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+                        <input asp-for="ProfilePicture" class="form-control"
+                               type="hidden" value="@Model.ProfilePicture" />
+                        <img src="~/media/avatar/@Model.ProfilePicture"
+                             alt="course-image"
+                             class="d-block rounded"
+                             height="100"
+                             width="100"
+                             id="photo" />
+                        <div class="button-wrapper">
+                            <label for="uploadPhoto" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                <span class="d-none d-sm-block">Tải ảnh lên</span>
+                                <i class="bx bx-upload d-block d-sm-none"></i>
+                                <input type="file"
+                                       id="uploadPhoto"
+                                       class="account-file-input"
+                                       name="uploadPhoto"
+                                       accept="image/*"
+                                       onchange="document.getElementById('photo').src = window.URL.createObjectURL(this.files[0])" hidden />
+
+                            </label>
+                            <button type="button" class="btn btn-outline-secondary account-image-reset mb-4" onclick="resetCourseImage()">
+                                <i class="bx bx-reset d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Đặt lại</span>
+                            </button>
+
+                            <p class="text-muted mb-0">Ảnh thuộc loại JPG, GIF hoặc PNG. Kích thước tối đa 800Kb</p>
+                            @Html.ValidationMessageFor(m => m.ProfilePicture, "", new {@class="text-danger"})
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-0">
+                <div class="card-body">
+                    <form id="formAccountSettings" method="POST" onsubmit="return false">
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="firstName" class="form-label">Họ và tên</label>
+                                <input asp-for="FullName" class="form-control" type="text" id="firstName" name="firstName" value="@Model.FullName" autofocus="">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="lastName" class="form-label">Email</label>
+                                <input asp-for="Email" class="form-control" type="email" name="lastName" id="lastName" value="@Model.Email">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="salestart" class="form-label">Ngày sinh</label>
+                                <input asp-for="BirthDate" id="datepicker1" class="form-control" type="datetime" value="@Model.BirthDate">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="phoneNumber">Phone Number</label>
+                                <div class="input-group input-group-merge">
+                                    <span class="input-group-text">VN (+84)</span>
+                                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="" value="@Model.PhoneNumber">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="mt-2">
+                            <button type="submit" class="btn btn-primary me-2">Lưu thay đổi</button>
+                            <button type="reset" class="btn btn-outline-secondary">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /Account -->
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+@section Scripts {
+    <script>
+        function resetCourseImage() {
+            document.getElementById('photo').src = "";
+            document.getElementById('uploadPhoto').value = "";
+        }
+
+    </script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker1").datepicker();
+        });
+    </script>
+
+}

@@ -1,0 +1,230 @@
+﻿@using ELearning.DomainModels;
+@model LessonPageViewModel
+
+<div class="container-xxl flex-grow-1 container-p-y" data-select2-id="9">
+
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">
+            <a asp-action="Index" asp-controller="Course" style="text-decoration: none;">Khóa học của tôi</a>
+            /
+        </span> @ViewBag.Title
+    </h4>
+
+    <div class="card g-3 mt-5">
+        <div class="card-body row g-3">
+            @{
+                var courseVM = Model.CourseContent;
+                var sections = courseVM.SectionDetails;
+                var lessonCount = 0;
+                foreach (var section in sections)
+                {
+                    lessonCount += section.LessonCount;
+                }
+
+                <div class="col-lg-8">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap mb-2 gap-1">
+                        <div class="me-1">
+                            <h5 class="mb-1">@courseVM.CourseDetail.CourseName</h5>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-label-danger">@Model.LessonMedia.MediaType</span>
+                        </div>
+                    </div>
+                    <div class="card academy-content shadow-none border">
+                        <div class="p-2">
+                            @if (Model.LessonMedia.MediaType.Equals(MediaType.Mp4))
+                            {
+                                <div class="ratio ratio-16x9">
+                                    <video id="player" playsinline controls>
+                                        <source src="~/media/lessonmedia/@Model.LessonMedia.MediaPath" type="video/mp4" />
+                                    </video>
+                                </div>
+                            }
+
+                            @if (Model.LessonMedia.MediaType.Equals(MediaType.Url))
+                            {
+                                <div class="ratio ratio-16x9">
+                                    <iframe src="@Model.LessonMedia.MediaUrl" title="video from url"
+                                            allowfullscreen></iframe>
+                                </div>
+                            }
+
+                            @if (Model.LessonMedia.MediaType.Equals(MediaType.Embed))
+                            {
+                                <div class="ratio ratio-16x9">
+                                    @Html.Raw(Model.LessonMedia.MediaContent)
+                                </div>
+                            }
+
+                            @if (Model.LessonMedia.MediaType.Equals(MediaType.Mp3))
+                            {
+                                <div class="card-body" style="max-width: 100%">
+                                    <audio id="player" controls>
+                                        <source src="~/media/lessonmedia/@Model.LessonMedia.MediaPath" type="audio/mp3" />
+                                    </audio>
+                                </div>
+                            }
+
+                        </div>
+                        <div class="card-body">
+                            <hr class="my-3">
+                            <p class="mb-0 pt-1">
+                                @Html.Raw(Model.LessonContent.Content)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+            <!-- Content -->
+            <div class="col-lg-4">
+                <div class="accordion stick-top accordion-bordered course-content-fixed" id="courseContent">
+                    @{
+                        if (sections == null || sections.Count == 0)
+                        {
+                            <p class="text-center">Không có chương nào.</p>
+                            
+                        }
+                        else
+                        {
+                            foreach (var ch in sections)
+                            {
+                                if (ch.SectionOrder == 1)
+                                {
+                                    <div class="accordion-item shadow-none border border-bottom-0 active mb-0">
+                                        <div class="accordion-header" id="headingOne">
+                                            <button type="button" class="accordion-button bg-lighter rounded-0" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="true" aria-controls="@($"chapter{ch.SectionOrder}")">
+                                                <span class="d-flex flex-column">
+                                                    <span class="h5 mb-1">@ch.Title</span>
+                                                    <span class="fw-normal">@ch.LessonCount bài học</span>
+                                                </span>
+                                            </button>
+                                            
+                                        </div>
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
+                                            <div class="accordion-body py-3 border-top">
+                                                @if (ch.Lessons == null || ch.Lessons.Count == 0)
+                                                {
+                                                    <div class="d-flex justify-content-center align-items-center mb-3">
+                                                        <label for="defaultCheck1" class="form-check-label">
+                                                            <span class="mb-0 h6">Không có bài giảng nào.</span>
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var lesson in ch.Lessons)
+                                                    {
+                                                        <div class="form-check d-flex align-items-center mb-3">
+                                                            <input class="form-check-input" type="checkbox" id="defaultCheck1">
+                                                            <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
+                                                                <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                            </a>
+                                                        </div>
+
+                                                    }
+                                                }
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                else if (ch.SectionOrder > 1 && ch.SectionOrder < sections[sections.Count - 1].SectionOrder)
+                                {
+                                    
+                                    <div class="accordion-item shadow-none border border-bottom-0 mb-0">
+                                        <div class="accordion-header" id="headingTwo">
+                                            <button type="button" class="bg-lighter rounded-0 accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="false" aria-controls="@($"chapter{ch.SectionOrder}")">
+                                                <span class="d-flex flex-column">
+                                                    <span class="h5 mb-1">@ch.Title</span>
+                                                    <span class="fw-normal">@ch.LessonCount bài học</span>
+                                                </span>
+                                            </button>
+                                            
+                                        </div>
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                            <div class="accordion-body py-3 border-top">
+                                                @if (ch.Lessons == null || ch.Lessons.Count == 0)
+                                                {
+                                                    <div class="d-flex justify-content-center align-items-center mb-3">
+                                                        <label for="defaultCheck1" class="form-check-label">
+                                                            <span class="mb-0 h6">Không có bài giảng nào.</span>
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var lesson in ch.Lessons)
+                                                    {
+                                                        <div class="form-check d-flex align-items-center mb-3">
+                                                            <input class="form-check-input" type="checkbox" id="defaultCheck1">
+                                                            <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
+                                                                <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                else
+                                {
+                                    
+                                    <div class="accordion-item shadow-none border mb-0">
+                                        <div class="accordion-header" id="headingFour">
+                                            <button type="button" class="bg-lighter rounded-0 accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="false" aria-controls="@($"chapter{ch.SectionOrder}")">
+                                                <span class="d-flex flex-column">
+                                                    <span class="h5 mb-1">@ch.Title</span>
+                                                    <span class="fw-normal">@ch.LessonCount bài học</span>
+                                                </span>
+                                            </button>
+                                            
+                                        </div>
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                            <div class="accordion-body py-3 border-top">
+                                                @if (ch.Lessons == null || ch.Lessons.Count == 0)
+                                                {
+                                                    <div class="d-flex justify-content-center align-items-center mb-3">
+                                                        <label for="defaultCheck1" class="form-check-label">
+                                                            <span class="mb-0 h6">Không có bài giảng nào.</span>
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var lesson in ch.Lessons)
+                                                    {
+                                                        <div class="form-check d-flex align-items-center mb-3">
+                                                            <input class="form-check-input" type="checkbox" id="defaultCheck1">
+                                                            <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
+                                                                <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                }
+                                                
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+
+
+                            }
+                            
+
+
+                        }
+                    }
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
