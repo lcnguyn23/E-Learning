@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ELearning.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin", AuthenticationSchemes = "AdminLogin")]
     [Area("Admin")]
     public class HomeController : Controller
     {
