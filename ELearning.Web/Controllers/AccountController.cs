@@ -1,7 +1,12 @@
 ﻿using ELearning.DomainModels.User;
 using ELearning.Web.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Data;
+using ELearning.Web.AppCodes;
 
 namespace ELearning.Web.Controllers
 {
@@ -23,7 +28,7 @@ namespace ELearning.Web.Controllers
             _logger = logger;
         }
 
-        
+
         [HttpGet]
         public async Task<IActionResult> Login()
         {
@@ -33,54 +38,51 @@ namespace ELearning.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            
             if (ModelState.IsValid)
             {
-                //return RedirectToAction("Index", "Home", new { area = "Student" });
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 await _userManager.UpdateSecurityStampAsync(user);
-                if (user != null)
+                if (user == null)
                 {
+                    ModelState.AddModelError(string.Empty, "Invalid email or password");
+                }
 
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
                     var roles = await _userManager.GetRolesAsync(user);
+                    _logger.LogInformation($"roles : {roles[0].ToString()}");
 
-                    if (model.IsInstructor == false && roles.Contains("Student"))
+                    List<Claim> claims = new List<Claim>()
                     {
-                        var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, lockoutOnFailure: true);
-                        if (result.Succeeded)
-                        {
+                        new Claim(nameof(user.Id), user.Id.ToString() ?? ""),
+                        new Claim(nameof(user.UserName), user.UserName ?? ""),
+                        new Claim(nameof(user.FullName), user.FullName ?? ""),
+                        new Claim(nameof(user.Email), user.Email ?? ""),
+                        new Claim(nameof(user.ProfilePicture), user.ProfilePicture ?? ""),
+                        new Claim(ClaimTypes.Role, model.IsInstructor==true && roles.Contains("Instructor") ? "Instructor" : "Student")
+                    };
 
-                            return RedirectToAction("Index", "Home", new { area = "Student" });
+                    
+                    var identity = new ClaimsIdentity(claims, "StudentInstructorLogin");
+                    var principal = new ClaimsPrincipal(identity);
 
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
-                        }
-                    }
+                    await HttpContext.SignInAsync("StudentInstructorLogin", principal);
+
+                    // Redirect based on the user's role
                     if (model.IsInstructor == true && roles.Contains("Instructor"))
                     {
-                        var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, lockoutOnFailure: true);
-                        if (result.Succeeded)
-                        {
-
-                            return RedirectToAction("Index", "Home", new { area = "Instructor" });
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
-                        }
+                        return RedirectToAction("Index", "Home", new { area = "Instructor" });
+                    } else
+                    {
+                        return RedirectToAction("Index", "Home");
                     }
+                    
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid username or password");
-                }
+                
             }
-
-
-
             return View();
-            
         }
 
         [HttpGet]
@@ -94,48 +96,66 @@ namespace ELearning.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                await HttpContext.SignOutAsync("AdminLogin");
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 await _userManager.UpdateSecurityStampAsync(user);
-                if (user != null)
+                if (user == null)
                 {
+                    ModelState.AddModelError(string.Empty, "Invalid email or password");
+                }
 
+
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
                     var roles = await _userManager.GetRolesAsync(user);
-
                     if (roles.Contains("Admin"))
                     {
-                        var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, lockoutOnFailure: true);
-                        if (result.Succeeded)
+                        List<Claim> claims = new List<Claim>()
                         {
+                            new Claim(nameof(user.Id), user.Id.ToString() ?? ""),
+                            new Claim(nameof(user.UserName), user.UserName ?? ""),
+                            new Claim(nameof(user.FullName), user.FullName ?? ""),
+                            new Claim(nameof(user.Email), user.Email ?? ""),
+                            new Claim(nameof(user.ProfilePicture), user.ProfilePicture ?? ""),
+                            new Claim(ClaimTypes.Role, "Admin")
+                        };
 
-                            return RedirectToAction("Index", "Home", new { area = "Admin" });
+                        var identity = new ClaimsIdentity(claims, "AdminLogin");
 
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
-                        }
-                    } else
-                    {
-                        return View();
+                        await HttpContext.SignInAsync("AdminLogin", new ClaimsPrincipal(identity));
+
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid username or password");
                 }
             }
 
-
-
-            return View();
+            return View("AdminLogin");
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Session.Clear();
+            if (HttpContext.User.HasClaim(ClaimTypes.Role, "Admin"))
+            {
+                await HttpContext.SignOutAsync("AdminLogin");
+            }
+            else
+            {
+                await HttpContext.SignOutAsync("StudentInstructorLogin");
+            }
+
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpGet]
         public async Task<IActionResult> Register()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -145,20 +165,28 @@ namespace ELearning.Web.Controllers
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
-                    FullName = model.FullName,
                     Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
-                    BirthDate = DateTime.Now,
-                    Gender = Gender.Male
+                    FullName = model.FullName,
                 };
+
+                
+
                 // Store user data in AspNetUsers database table
                 var result = await _userManager.CreateAsync(user, model.Password);
+                
                 // If user is successfully created, sign-in the user using
                 // SignInManager and redirect to index action of HomeController
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("index", "home");
+                    if (model.IsInstructor == true)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Instructor");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "Student");
+                    }
+                    return RedirectToAction("Login", "Account");
                 }
                 // If there are any errors, add them to the ModelState object
                 // which will be displayed by the validation summary tag helper

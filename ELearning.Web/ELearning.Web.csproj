@@ -24,11 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AppCodes\" />
-    <Folder Include="Areas\Admin\Controllers\" />
-    <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="wwwroot\media\course\" />
+    <Folder Include="wwwroot\media\lessonmedia\audio\" />
+    <Folder Include="wwwroot\media\lessonmedia\video\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,498 @@
+﻿@using ELearning.DomainModels;
+@model CourseContentViewModel
+
+@{
+    ViewBag.Title = "Thông tin khóa học";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y" data-select2-id="9">
+
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">
+            <a asp-action="Index" asp-controller="Home" asp-area="" style="text-decoration: none;">Quay lại</a>
+            /
+        </span> @ViewBag.Title
+    </h4>
+
+    <div class="card g-3 mt-5">
+        <div class="card-body row g-3">
+            @{
+                var course = Model.CourseDetail;
+                var sections = Model.SectionDetails;
+                var lessonCount = 0;
+                foreach (var section in sections)
+                {
+                    lessonCount += section.LessonCount;
+                }
+
+                <div class="col-lg-8">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap mb-2 gap-1">
+                        <div class="me-1">
+                            <h5 class="mb-1">@course.CourseName</h5>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-label-primary">@course.TopicName</span>
+                            <h5 class="d-flex align-items-center justify-content-center gap-1 mb-0 mx-3">
+                                4.4 <span class="text-warning"><i class="bx bxs-star me-1"></i></span><span class="text-muted">(1.23k)</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="card academy-content shadow-none border">
+                        <div class="ratio ratio-16x9">
+                            @if (String.IsNullOrEmpty(course.CourseImage))
+                            {
+                                <img class="img-fluid rounded px-2 py-2"
+                                     src="~/media/placeimg/dummy_600x400_ffffff_cccccc.png" alt="course-image">
+                            }
+                            else
+                            {
+                                <img class="img-fluid rounded px-2 py-2"
+                                     src="~/media/course/@course.CourseImage" alt="course-image">
+                            }
+                        </div>
+                        <div class="card-body">
+                            <h5 class="mb-2">About this course</h5>
+                            <p class="mb-0 pt-1">
+                                @course.ShortDescription
+                            </p>
+                            <hr class="my-4">
+                            <h5>Thông tin cơ bản</h5>
+                            <div class="d-flex flex-wrap">
+                                <div class="me-5">
+                                    <p class="text-nowrap"><i class="bx bx-check-double bx-sm me-2"></i>Skill level: @course.LevelName</p>
+                                    <p class="text-nowrap"><i class="bx bx-user bx-sm me-2"></i>Students: @course.EnrolledStudentCount</p>
+                                </div>
+                                <div>
+                                    <p class="text-nowrap"><i class="bx bx-pencil bx-sm me-2"></i>Lessons: @lessonCount</p>
+                                    <p class="text-nowrap "><i class="bx bxs-watch bx-sm me-2"></i>Duration: @course.Duration</p>
+                                </div>
+                            </div>
+                            <hr class="mb-4 mt-2">
+                            <h5>Mô tả</h5>
+                            <p class="mb-4">
+                                @Html.Raw(course.Description)
+                            </p>
+                            <hr class="mb-4 mt-2">
+                            @if (course.IsFree)
+                            {
+                                <h5>FREE</h5>
+                            }
+                            else
+                            {
+                                <p class="mb-4">
+                                    Giá bán: <span><strong>@course.Price VND</strong></span>
+                                </p>
+                                if (course.SalePrice != null || course.SalePrice == 0)
+                                {
+                                    <p class="mb-4">
+                                        Giá sale: <span><strong>@course.SalePrice VND</strong></span>
+                                    </p>
+                                    <p class="mb-4">
+                                        Ngày bắt đầu giảm giá: <span><strong>@course.SaleStart</strong></span>
+                                    </p>
+                                    <p class="mb-4">
+                                        Ngày kết thúc giảm giá: <span><strong>@course.SaleEnd</strong></span>
+                                    </p>
+                                }
+
+                            }
+                            @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                            {
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    @ViewBag.ErrorMessage
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+                            {
+                                <div class="alert alert-success alert-dismissible" role="alert">
+                                    @ViewBag.SuccessMessage
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            <hr class="my-4">
+                            <h5>Giảng viên</h5>
+                            <div class="demo-inline-spacing d-flex justify-content-between">
+                                <div class="d-flex justify-content-center align-items-center user-name mt-3">
+                                    <div class="avatar-wrapper">
+                                        <div class="avatar avatar-sm me-2"><img src="~/media/avatar/11.png" alt="Avatar" class="rounded-circle"></div>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="fw-medium">@course.InstructorName</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <!-- Content -->
+            <div class="col-lg-4">
+                <div class="d-flex justify-content-around align-content-center">
+                    <div class="d-flex align-content-center">
+                        @if (course.IsFree)
+                        {
+                            <span class="fs-3"><strong>FREE</strong></span>
+                        }
+                        else
+                        {
+
+                            <span class="fs-3 flex align-content-center"><strong>@course.Price VND</strong></span>
+
+                            if (course.SalePrice != null || course.SalePrice == 0)
+                            {
+                                <span><strong>Sale: @course.SalePrice VND</strong></span>
+
+                            }
+
+                        }
+                    </div>
+                    
+                    <button type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalCenter">
+                        <span class="d-none d-md-block fs-5"></span>Đăng ký khóa học
+                    </button>
+                    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content ">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="modalCenterTitle">Xác nhận đăng ký khóa học</h5>
+                                    <button type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <span class="fs-4 flex align-content-center">@course.CourseName</span> <br />
+                                            <span class="fs-5 flex align-content-center"><strong>@course.Price VND</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-center align-content-center">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                        Hủy
+                                    </button>
+                                    <a asp-action="EnrollCourse" asp-controller="Home" asp-area="" asp-route-id="@course.CourseId" class="btn btn-primary" >
+                                        Đồng ý
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion stick-top accordion-bordered course-content-fixed mt-3" id="courseContent">
+                    @{
+                        if (sections == null || sections.Count == 0)
+                        {
+                            <p class="text-center">Không có chương nào.</p>
+                        }
+                        else
+                        {
+                            foreach (var ch in sections)
+                            {
+                                if (ch.SectionOrder == 1)
+                                {
+                                    <div class="accordion-item shadow-none border border-bottom-0 active mb-0">
+                                        <div class="accordion-header" id="headingOne">
+                                            <button type="button" class="accordion-button bg-lighter rounded-0" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="true" aria-controls="@($"chapter{ch.SectionOrder}")">
+                                                <span class="d-flex flex-column">
+                                                    <span class="h5 mb-1">@ch.Title</span>
+                                                    <span class="fw-normal">@ch.LessonCount bài học</span>
+                                                </span>
+                                            </button>
+
+                                        </div>
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
+                                            <div class="accordion-body py-3 border-top">
+                                                @if (ch.Lessons == null || ch.Lessons.Count == 0)
+                                                {
+                                                    <div class="d-flex justify-content-center align-items-center mb-3">
+                                                        <label for="defaultCheck1" class="form-check-label">
+                                                            <span class="mb-0 h6">Không có bài giảng nào.</span>
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var lesson in ch.Lessons)
+                                                    {
+                                                        <div class="form-check d-flex justify-content-between align-items-center mb-3">
+                                                            <label for="defaultCheck1" class="form-check-label ms-3">
+                                                                <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                            </label>
+                                                        </div>
+
+                                                    }
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                if (ch.SectionOrder > 1 && ch.SectionId < sections[sections.Count - 1].SectionOrder)
+                                {
+                                    <div class="accordion-item shadow-none border border-bottom-0 mb-0">
+                                        <div class="accordion-header" id="headingTwo">
+                                            <button type="button" class="bg-lighter rounded-0 accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="false" aria-controls="@($"chapter{ch.SectionOrder}")">
+                                                <span class="d-flex flex-column">
+                                                    <span class="h5 mb-1">@ch.Title</span>
+                                                    <span class="fw-normal">@ch.LessonCount bài học</span>
+                                                </span>
+                                            </button>
+
+                                        </div>
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                            <div class="accordion-body py-3 border-top">
+                                                @if (ch.Lessons == null || ch.Lessons.Count == 0)
+                                                {
+                                                    <div class="d-flex justify-content-center align-items-center mb-3">
+                                                        <label for="defaultCheck1" class="form-check-label">
+                                                            <span class="mb-0 h6">Không có bài giảng nào.</span>
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var lesson in ch.Lessons)
+                                                    {
+                                                        <div class="form-check d-flex justify-content-between align-items-center mb-3">
+
+                                                            <label for="defaultCheck1" class="form-check-label ms-3">
+                                                                <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                            </label>
+
+
+                                                        </div>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                if (ch.SectionOrder > 1 && ch.SectionOrder == sections[sections.Count - 1].SectionOrder)
+                                {
+                                    <div class="accordion-item shadow-none border mb-0">
+                                        <div class="accordion-header" id="headingFour">
+                                            <button type="button" class="bg-lighter rounded-0 accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="false" aria-controls="@($"chapter{ch.SectionOrder}")">
+                                                <span class="d-flex flex-column">
+                                                    <span class="h5 mb-1">@ch.Title</span>
+                                                    <span class="fw-normal">@ch.LessonCount bài học</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                            <div class="accordion-body py-3 border-top">
+                                                @if (ch.Lessons == null || ch.Lessons.Count == 0)
+                                                {
+                                                    <div class="d-flex justify-content-center align-items-center mb-3">
+                                                        <label for="defaultCheck1" class="form-check-label">
+                                                            <span class="mb-0 h6">Không có bài giảng nào.</span>
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var lesson in ch.Lessons)
+                                                    {
+                                                        <div class="form-check d-flex justify-content-between align-items-center mb-3">
+
+                                                            <label for="defaultCheck1" class="form-check-label ms-3">
+                                                                <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                            </label>
+
+
+                                                        </div>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+
+
+                            }
+
+                        }
+                    }
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="card g-3 mt-5">
+        <h3 class="text-center mt-2">Đánh giá</h3>
+        <div class="card h-100">
+            <div class="card-body row widget-separator">
+                <div class="col-sm-5 border-shift border-end">
+                    <h2 class="text-warning">4.89<i class="bx bxs-star mb-2 ms-1"></i></h2>
+                    <p class="fw-medium mb-1">Tổng 187 reviews</p>
+                    <p class="text-muted">Tất cả review đến từ học viên đã đăng ký khóa học</p>
+                    <span class="badge bg-label-primary p-2 mb-3 mb-sm-0"></span>
+                    <hr class="d-sm-none">
+                </div>
+
+                <div class="col-sm-7 gy-1 text-nowrap d-flex flex-column justify-content-between ps-4 gap-2 pe-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <small>5 <i class="text-warning bx bxs-star mb-2 ms-1"></i></small>
+                        <div class="progress w-100" style="height:10px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 70%" aria-valuenow="61.50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="w-px-20 text-end">124</small>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <small>4 <i class="text-warning bx bxs-star mb-2 ms-1"></i></small>
+                        <div class="progress w-100" style="height:10px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="24" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="w-px-20 text-end">40</small>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <small>3 <i class="text-warning bx bxs-star mb-2 ms-1"></i></small>
+                        <div class="progress w-100" style="height:10px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="w-px-20 text-end">12</small>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <small>2 <i class="text-warning bx bxs-star mb-2 ms-1"></i></small>
+                        <div class="progress w-100" style="height:10px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 10%" aria-valuenow="7" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="w-px-20 text-end">7</small>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <small>1 <i class="text-warning bx bxs-star mb-2 ms-1"></i></small>
+                        <div class="progress w-100" style="height:10px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 5%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="w-px-20 text-end">2</small>
+                    </div>
+
+                </div>
+
+                <hr class="my-4">
+            </div>
+
+            <div class="card-body row widget-seperator">
+                <div class="d-flex justify-content-start align-items-center customer-name col-md-5">
+                    <div class="avatar-wrapper">
+                        <div class="avatar me-2">
+                            <img src="~/media/avatar/11.png" alt="Avatar"
+                                 class="rounded-circle">
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <a href="app-ecommerce-customer-details-overview.html">
+                            <span class="fw-medium">Gisela Leppard</span>
+                        </a><small class="text-muted text-nowrap">gleppard8@yandex.ru</small>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="read-only-ratings ps-0 mb-2 jq-ry-container" style="width: 130px;"
+                         readonly="readonly">
+                        <div class="jq-ry-group-wrapper">
+                            <div class="jq-ry-normal-group jq-ry-group">
+                                <i class="text-warning bx bxs-star mb-2 ms-1"></i>
+                                <i class="text-warning bx bxs-star mb-2 ms-1"></i>
+                                <i class="text-warning bx bxs-star mb-2 ms-1"></i>
+                                <i class="text-warning bx bxs-star mb-2 ms-1"></i>
+                                <i class="text-warning bx bxs-star mb-2 ms-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fw-medium mb-1 text-truncate text-capitalize">Fusce consequat. Nulla nisl. Nunc nisl.</p>
+                </div>
+
+                <hr class="my-4">
+            </div>
+            <div class="card-body row widget-seperator">
+                <div class="d-flex justify-content-start align-items-center customer-name col-md-5">
+                    <div class="avatar-wrapper">
+                        <div class="avatar me-2">
+                            <img src="~/media/avatar/11.png" alt="Avatar"
+                                 class="rounded-circle">
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <a href="app-ecommerce-customer-details-overview.html">
+                            <span class="fw-medium">Gisela Leppard</span>
+                        </a><small class="text-muted text-nowrap">gleppard8@yandex.ru</small>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="read-only-ratings ps-0 mb-2 jq-ry-container" style="width: 130px;"
+                         readonly="readonly">
+                        <div class="jq-ry-group-wrapper">
+                            <div class="jq-ry-normal-group jq-ry-group">
+                                <i class="text-warning bx bxs-star mb-2 ms-1"></i>
+                                <i class="text-warning bx bxs-star mb-2 ms-1"></i>
+                                <i class="text-warning bx bxs-star mb-2 ms-1"></i>
+                                <i class="text-warning bx bxs-star mb-2 ms-1"></i>
+                                <i class="text-warning bx bxs-star mb-2 ms-1"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fw-medium mb-1 text-truncate text-capitalize">Fusce consequat. Nulla nisl. Nunc nisl.</p>
+                </div>
+
+                <hr class="my-4">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".btn-modal").click(function (e) {
+                e.preventDefault();
+
+                var sectionUrl = $(this).prop("href");
+                console.log(sectionUrl);
+                $.ajax({
+                    url: sectionUrl,
+                    type: "GET",
+                    success: function (data) {
+                        $("#modal-content").html(data);
+                        $("#modalCenter2").modal('show');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("Error fetching content: " + textStatus + ", " + errorThrown);
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $(".btn-modal2").click(function (e) {
+                e.preventDefault();
+
+                var sectionUrl = $(this).prop("href");
+                console.log(sectionUrl);
+                $.ajax({
+                    url: sectionUrl,
+                    type: "GET",
+                    success: function (data) {
+                        $("#modal-content").html(data);
+                        $("#modalCenter3").modal('show');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("Error fetching content: " + textStatus + ", " + errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+}

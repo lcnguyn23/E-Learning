@@ -1,5 +1,7 @@
 ﻿@model LoginViewModel
-
+@{
+    Layout = null;
+}
 <!DOCTYPE html>
 
 <html lang="en"
@@ -102,25 +104,23 @@
                                         </g>
                                     </svg>
                                 </span>
-                                <span class="app-brand-text demo text-body fw-bold">Sneat</span>
+                                <span class="app-brand-text demo text-body fw-bold">LearningOasis</span>
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-2">Welcome to Sneat! 👋</h4>
-                        <p class="mb-4">Please sign-in to your account and start the adventure</p>
+                        <h4 class="mb-2">Chào mừng đến với LearningOasis! 👋</h4>
+                        <p class="mb-4">Hãy đăng nhập để tiếp tục.</p>
 
                         <form class="mb-3" asp-controller="Account" asp-action="Login" method="post">
+                            @Html.AntiForgeryToken()
                             <!-- Radio -->
                             <div class="mb-3 btn-group col-md-12" role="group" aria-label="Basic radio toggle button group">
                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="false" checked />
                                 <label class="btn btn-outline-primary" for="btnradio1">Học viên</label>
                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="true" />
                                 <label class="btn btn-outline-primary" for="btnradio2">Giảng viên</label>
-
-
-                                <input type="hidden" asp-for="IsInstructor" />
-
                             </div>
+                            <input type="hidden" asp-for="IsInstructor" />
                             <div class="mb-3">
                                 <label asp-for="Email" for="email" class="form-label">Email</label>
                                 <input asp-for="Email"
@@ -156,14 +156,14 @@
                               </div>
                             </div> -->
                             <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                                <button class="btn btn-primary d-grid w-100" type="submit">Đăng nhập</button>
                             </div>
                         </form>
 
                         <p class="text-center">
-                            <span>New on our platform?</span>
-                            <a href="auth-register-basic.html">
-                                <span>Create an account</span>
+                            <span>Chưa có tài khoản?</span>
+                            <a asp-action="Register" asp-controller="Account">
+                                <span>Đăng ký ngay</span>
                             </a>
                         </p>
                         
