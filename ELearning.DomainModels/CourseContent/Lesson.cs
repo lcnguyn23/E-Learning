@@ -23,7 +23,7 @@ namespace ELearning.DomainModels
         // relationships
         public Section Section { get; set; }
         //public LessonType LessonType { get; set; }
-        public IEnumerable<LessonMedia> LessonMedias { get; set; }
+        public LessonMedia LessonMedia { get; set; }
         public LessonContent LessonContent { get; set; }
         public IEnumerable<LessonReport> LessonReports { get; set; }
         public Discussion Discussion { get; set; }

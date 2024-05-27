@@ -15,7 +15,7 @@ namespace ELearning.DomainModels.EnrollmentManagement
     {
         ENROLLED,
         IN_PROGRESS,
-        COMPLETED
+        COMPLETED,
 }
 
     public class Enrollment : ISoftDelete

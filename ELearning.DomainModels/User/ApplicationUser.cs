@@ -18,8 +18,8 @@ namespace ELearning.DomainModels.User
     public class ApplicationUser : IdentityUser<int>, ISoftDelete
     {
         public string FullName { get; set; }
-        public DateTime BirthDate { get; set; }
-        public Gender Gender { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public Gender? Gender { get; set; }
         public string? ProfilePicture { get; set; }
         public string? Bio { get; set; }
         public DateTime? CreatedAt { get; set; }
@@ -33,13 +33,12 @@ namespace ELearning.DomainModels.User
         public IEnumerable<FavoriteCourse> FavoriteCourses { get; set; }
         public IEnumerable<CourseRequest> CourseRequests { get; set; }
         public IEnumerable<CourseRating> CourseRatings { get; set; }
-        public IEnumerable<QuizAttempt> QuizAttempts { get; set; }
         public IEnumerable<Discussion> Discussions { get; set; }
         public IEnumerable<DiscussionReply> DiscussionReplies { get; set; }
         
         public IEnumerable<StudentProgress> StudentProgresses { get; set; }
         public IEnumerable<LessonReport> LessonsReports { get; set; }
-
+        public IEnumerable<Notification> Notifications { get; set; }
         //public IEnumerable<StudentLesson> StudentLessons { get; set; }
         //public IEnumerable<IdentityUserClaim<int>> UserClaims { get; set; }
         //public IEnumerable<IdentityUserLogin<int>> UserLogins { get; set; }

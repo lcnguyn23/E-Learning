@@ -13,7 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="CourseContent\Answer.cs" />
     <Compile Remove="CourseContent\LessonType.cs" />
+    <Compile Remove="CourseContent\Question.cs" />
+    <Compile Remove="CourseContent\QuestionAttempt.cs" />
+    <Compile Remove="CourseContent\QuestionType.cs" />
+    <Compile Remove="CourseContent\Quiz.cs" />
+    <Compile Remove="CourseContent\QuizAttempt.cs" />
     <Compile Remove="StudentLesson.cs" />
     <Compile Remove="User\ApplicationRole.cs" />
     <Compile Remove="User\ApplicationUserRole.cs" />

@@ -13,13 +13,9 @@ namespace ELearning.DomainModels
 {
     public enum CourseStatus
     {
-        DRAFT,
-        PRIVATE,
-        PUBLIC,
-        PUBLISH,
-        UNPUBLISH,
-        PENDING_APPROVAL,
-        DELETED
+        PUBLISH = 1,
+        UNPUBLISH = 2,
+        PENDING_APPROVAL = 3,
     }
 
     
@@ -27,13 +23,14 @@ namespace ELearning.DomainModels
     {
         public int CourseId { get; set; }
         public string CourseName { get; set; }
+        public string? ShortDescription { get; set; }
         public string? Description { get; set; }
         public int InstructorId { get; set; }
         public int TopicId { get; set; }
         public int LevelId { get; set; }
         public string? Duration { get; set; }
         public string? CourseImage { get; set; }
-        public CourseStatus Status { get; set; } = CourseStatus.DRAFT;
+        public CourseStatus Status { get; set; }
         public decimal Price { get; set; }
         public bool IsFree { get; set; }
         public decimal? SalePrice { get; set; }
