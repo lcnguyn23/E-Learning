@@ -1,0 +1,42 @@
+﻿@model SectionCreateViewModel;
+@{
+    Layout = null;
+}
+
+<div class="modal fade" id="modalCenter2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form asp-action="CreateSection" asp-controller="Course" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">Tạo chương mới</h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <input type="hidden" asp-for="CourseId" value="@Model.CourseId" />
+                            <input type="hidden" asp-for="SectionId" value="@Model.SectionId" />
+                            <label for="nameWithTitle" class="form-label">Tên chương</label>
+                            <input type="text" asp-for="Title"
+                                   id="sectionTitle"
+                                   class="form-control"
+                                   placeholder="Nhập tên chương" />
+                        </div>
+                    </div>                    
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Tạo</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                        Hủy
+                    </button>
+
+                </div>
+            </form>
+            
+        </div>
+    </div>
+
+</div>

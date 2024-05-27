@@ -1,0 +1,197 @@
+﻿@using ELearning.Web.AppCodes;
+@model LessonCreateViewModel
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">
+            <a asp-action="Index" asp-controller="Course" style="text-decoration: none;">Khóa học của tôi</a>
+            /
+        </span>
+         @ViewBag.Title
+    </h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4 col-md-10 col-lg-10 mx-md-auto">
+                <h5 class="card-header">@ViewBag.Title</h5>
+                <!-- Account -->
+
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                    {
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            @ViewBag.ErrorMessage
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+
+                    }
+
+                    <form asp-action="SaveLesson" asp-controller="Course" method="post" id="formSaveLesson" enctype="multipart/form-data">
+                        <div class="row">
+                            <input asp-for="SectionId" class="form-control"
+                                   type="hidden" />
+                            <div class="mb-3 mt-3 col-md-12">
+                                <label for="CourseName" class="form-label">Tên bài giảng</label>
+                                <input asp-for="Title" class="form-control"
+                                       type="text"
+                                       autofocus value="@Model.Title" required />
+
+                            </div>
+
+                            <hr class="my-0" />
+                            <div class="mb-3 col-md-4">
+                                <label class="form-label" for="mediatype">Loại media</label>
+                                <select asp-for="LessonMedia.MediaType" id="mediatype1" class="select2 form-select" onchange="toggleCardVisibility()">
+                                    <option value="">Chọn loại media</option>
+                                    @{
+                                        var mediatype = SelectListHelper.LessonTypeList();
+                                        foreach (var media in mediatype)
+                                        {
+                                            <option value="@media.Value">@media.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            
+
+                            <!-- file upload - mp4, mp3 -->
+                            <div id="cardfile" class="card-body" style="display:none">
+                                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                    <div class="button-wrapper">
+                                        <label for="uploadFile" class="btn btn-primary me-2 mb-3" tabindex="0">
+                                            <span class="d-none d-sm-block">Tải file lên</span>
+                                            <i class="bx bx-upload d-block d-sm-none"></i>
+                                            <input type="file"
+                                                   id="uploadFile"
+                                                   class="account-file-input"
+                                                   name="uploadFile"
+                                                   accept="audio/*,video/*"
+                                                   onchange="previewFile(this)"
+                                                   style="display: none;" />
+                                        </label>
+                                        <button type="button" class="btn btn-outline-secondary account-image-reset mb-3" onclick="resetUploadFile()">
+                                            <i class="bx bx-reset d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Đặt lại</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- url -->
+                            <div id="url" class="mb-3 col-md-12" style="display:none">
+                                <label for="CourseName" class="form-label">URL</label>
+                                <input asp-for="LessonMedia.MediaUrl" class="form-control"
+                                       type="text"
+                                       value="@Model.LessonMedia.MediaUrl"/>
+                            </div>
+
+                            <!-- embed code -->
+                            <div id="embed" class="mb-3 col-md-12" style="display:none">
+                                <label for="exampleFormControlTextarea1" class="form-label">Embed code</label>
+                                <textarea asp-for="LessonMedia.MediaContent" id="autosize-demo" rows="2" class="form-control" style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 64.6px;" placeholder="">@Model.LessonMedia.MediaContent</textarea>
+                            </div>
+
+                            <hr class="my-0" />
+
+
+
+                            <div class="mb-3 col-md-12">
+                                <label for="exampleFormControlTextarea1" class="form-label">Mô tả ngắn</label>
+                                <textarea asp-for="LessonContent.Description" id="autosize-demo" rows="2" class="form-control" style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 64.6px;" placeholder="">@Model.LessonContent.Description</textarea>
+
+                            </div>
+
+                            <div class="mb-3 col-md-12 ql-container">
+                                <label for="LessonContent" class="form-label"><strong>Nội dung bài giảng</strong></label>
+                                <input asp-for="LessonContent.Content" id="Content" type="hidden" />
+                                <div id="editor2" class="ql-container ql-snow">
+                                    @Html.Raw(Model.LessonContent.Content)
+                                </div>
+
+                            </div>
+
+                            <div class="mt-2">
+
+                                @if (ViewBag.Title == "Cập nhật bài giảng")
+                                {
+                                    <button type="submit" class="btn btn-primary me-2" id="getTextBtn2">Lưu thay đổi</button>
+                                    <a asp-action="CourseDetail" asp-controller="Course" asp-route-id="@Model.CourseId" type="button" class="btn btn-outline-secondary">Quay lại</a>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-primary me-2" id="getTextBtn2">Tạo bài giảng</button>
+                                    <a asp-action="Index" asp-controller="Course" type="button" class="btn btn-outline-secondary">Hủy</a>
+                                }
+                            </div>
+                    </form>
+                </div>
+                <!-- /Account -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleCardVisibility() {
+            var select = document.getElementById("mediatype1");
+            var cardFile = document.getElementById("cardfile");
+            var cardUrl = document.getElementById("url");
+            var cardEmbed = document.getElementById("embed");
+
+            // Reset visibility
+            cardFile.style.display = "none";
+            cardUrl.style.display = "none";
+            cardEmbed.style.display = "none";
+
+            // Show the appropriate card based on the selected value
+            if (select.value === "0") {
+                cardUrl.style.display = "block";
+            } else if (select.value === "1" || select.value === "3") {
+                cardFile.style.display = "block";
+            } else if (select.value === "2") {
+                cardEmbed.style.display = "block";
+            }
+        }
+
+        function previewFile(input) {
+            const file = input.files[0];
+            if (file) {
+                const src = URL.createObjectURL(file);
+                document.getElementById('file').src = src;
+            }
+        }
+
+        function resetUploadFile() {
+            document.getElementById('file').src = "";
+            document.getElementById('uploadFile').value = "";
+        }
+
+
+        const quill2 = new Quill('#editor2', {
+            theme: 'snow'
+        });
+
+
+        document.getElementById('getTextBtn2').addEventListener('click', (e) => {
+            e.preventDefault();
+            const editorContent2 = quill2.getText();
+            const editorHTML2 = quill2.root.innerHTML;
+            console.log(editorContent2);
+            console.log(editorHTML2);
+
+            // Select the hidden input using its id
+            const contentInput = document.getElementById('Content');
+
+            // Set the value of the hidden input to the HTML content
+            contentInput.value = editorHTML2;
+
+            // Submit the form
+            document.getElementById('formSaveLesson').submit();
+        });
+
+        
+    </script>
+}

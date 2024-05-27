@@ -1,0 +1,482 @@
+﻿@using ELearning.DomainModels;
+@model CourseContentViewModel
+
+@{
+    var sectionVM = ViewData["sectionData"] as SectionCreateViewModel;
+}
+
+<div class="container-xxl flex-grow-1 container-p-y" data-select2-id="9">
+
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">
+            <a asp-action="Index" asp-controller="Course" style="text-decoration: none;">Khóa học của tôi</a>
+            /
+        </span> @ViewBag.Title
+    </h4>
+
+    <div class="card g-3 mt-5">
+        <div class="card-body row g-3">
+            @{
+                var course = Model.CourseDetail;
+                var sections = Model.SectionDetails;
+                var lessonCount = 0;
+                foreach (var section in sections)
+                {
+                    lessonCount += section.LessonCount;
+                }
+
+                <div class="col-lg-8">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap mb-2 gap-1">
+                        <div class="me-1">
+                            <h5 class="mb-1">@course.CourseName</h5>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-label-primary">@course.TopicName</span>
+                            <h5 class="d-flex align-items-center justify-content-center gap-1 mb-0 mx-3">
+                                4.4 <span class="text-warning"><i class="bx bxs-star me-1"></i></span><span class="text-muted">(1.23k)</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="card academy-content shadow-none border">
+                        <div class="ratio ratio-16x9">
+                            @if (String.IsNullOrEmpty(course.CourseImage))
+                            {
+                                <img class="img-fluid rounded px-2 py-2"
+                                     src="~/media/placeimg/dummy_600x400_ffffff_cccccc.png" alt="course-image">
+                            }
+                            else
+                            {
+                                <img class="img-fluid rounded px-2 py-2"
+                                     src="~/media/course/@course.CourseImage" alt="course-image">
+                            }
+                        </div>
+                        <div class="card-body">
+                            <h5 class="mb-2">About this course</h5>
+                            <p class="mb-0 pt-1">
+                                @course.ShortDescription
+                            </p>
+                            <hr class="my-4">
+                            <h5>Basic infomation</h5>
+                            <div class="d-flex flex-wrap">
+                                <div class="me-5">
+                                    <p class="text-nowrap"><i class="bx bx-check-double bx-sm me-2"></i>Skill level: @course.LevelName</p>
+                                    <p class="text-nowrap"><i class="bx bx-user bx-sm me-2"></i>Students: @course.EnrolledStudentCount</p>
+                                </div>
+                                <div>
+                                    <p class="text-nowrap"><i class="bx bx-pencil bx-sm me-2"></i>Lessons: @lessonCount</p>
+                                    <p class="text-nowrap "><i class="bx bxs-watch bx-sm me-2"></i>Duration: @course.Duration</p>
+                                </div>
+                            </div>
+                            <hr class="mb-4 mt-2">
+                            <h5>Description</h5>
+                            <p class="mb-4">
+                                @Html.Raw(course.Description)
+                            </p>
+                            <hr class="mb-4 mt-2">
+                            <h5>Status</h5>
+                            <p class="mb-4">
+                                @if (course.Status.Equals(CourseStatus.PUBLISH))
+                                {
+                                    <span class="badge bg-label-success">@course.Status</span>
+                                }
+                                @if (course.Status.Equals(CourseStatus.UNPUBLISH))
+                                {
+                                    <span class="badge bg-label-danger">@course.Status</span>
+                                }
+                                @if (course.Status.Equals(CourseStatus.PENDING_APPROVAL))
+                                {
+                                    <span class="badge bg-label-info">@course.Status</span>
+                                }
+                            </p>
+                            <hr class="mb-4 mt-2">
+                            @if (course.IsFree)
+                            {
+                                <h5>FREE</h5>
+                            }
+                            else
+                            {
+                                <p class="mb-4">
+                                    Giá bán: <span><strong>@course.Price VND</strong></span>
+                                </p>
+                                if (course.SalePrice != null || course.SalePrice == 0)
+                                {
+                                    <p class="mb-4">
+                                        Giá sale: <span><strong>@course.SalePrice VND</strong></span>
+                                    </p>
+                                    <p class="mb-4">
+                                        Ngày bắt đầu giảm giá: <span><strong>@course.SaleStart</strong></span>
+                                    </p>
+                                    <p class="mb-4">
+                                        Ngày kết thúc giảm giá: <span><strong>@course.SaleEnd</strong></span>
+                                    </p>
+                                }
+
+                            }
+                            @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                            {
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    @ViewBag.ErrorMessage
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+                            {
+                                <div class="alert alert-success alert-dismissible" role="alert">
+                                    @ViewBag.SuccessMessage
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            <div class="demo-inline-spacing d-flex justify-content-between">
+                                <div>
+                                    <a type="button" class="btn btn-primary" asp-action="UpdateCourse" asp-controller="Course" asp-route-id="@course.CourseId">
+                                        <span class="tf-icons bx bxs-edit me-1"></span>Chỉnh sửa
+                                    </a>
+
+
+                                    <button type="button"
+                                            class="btn btn-outline-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalCenter">
+                                        <span class="tf-icons bx bx-trash me-1"></span>Xóa
+                                    </button>
+                                    <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalCenterTitle">Xác nhận xóa khóa học</h5>
+                                                    <button type="button"
+                                                            class="btn-close"
+                                                            data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col mb-3">
+                                                            <p>Việc xóa khóa học này sẽ thực sự xảy ra khi mà các học viên đã hoàn thành khóa học.</p>
+                                                            <p>Sau khi xác nhận xóa thì khóa học sẽ được ẩn đi khỏi các học viên chưa đăng ký.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                                        Hủy
+                                                    </button>
+                                                    <a type="button" class="btn btn-danger" asp-action="DeleteCourse" asp-controller="Course" asp-route-id="@course.CourseId">
+                                                        <span class="tf-icons bx bx-x-circle me-1"></span>Xóa
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    @if (course.Status.Equals(CourseStatus.PUBLISH))
+                                    {
+                                        <a type="button" class="btn btn-warning" asp-action="SendCourseRequest" asp-controller="Course" asp-route-id="@course.CourseId" asp-area="Instructor">
+                                            <span class="tf-icons me-1"></span>Gỡ khóa học
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a type="button" class="btn btn-success" asp-action="SendCourseRequest" asp-controller="Course" asp-route-id="@course.CourseId" asp-area="Instructor">
+                                            <span class="tf-icons me-1"></span>Xuất bản
+                                        </a>
+                                    }
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <!-- Content -->
+            <div class="col-lg-4">
+                <div class="accordion stick-top accordion-bordered course-content-fixed" id="courseContent">
+                    @{
+                        if (sections == null || sections.Count == 0)
+                        {
+                            <p class="text-center">Không có chương nào.</p>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <a type="button" class="btn btn-primary btn-modal" asp-action="CreateSection" asp-controller="Course" asp-route-id="@course.CourseId">
+                                    <span class="tf-icons bx bx-add-to-queue me-1"></span>Thêm chương mới
+                                </a>
+                            </div>
+
+                        }
+                        else
+                        {
+                            foreach (var ch in sections)
+                            {
+                                if (ch.SectionOrder == 1)
+                                {
+                                    sectionVM = new SectionCreateViewModel()
+                                    {
+                                        SectionId = ch.SectionId,
+                                        SectionOrder = ch.SectionOrder,
+                                        CourseId = ch.CourseId
+                                    };
+                                    <div class="accordion-item shadow-none border border-bottom-0 active mb-0">
+                                        <div class="accordion-header" id="headingOne">
+                                            <button type="button" class="accordion-button bg-lighter rounded-0" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="true" aria-controls="@($"chapter{ch.SectionOrder}")">
+                                                <span class="d-flex flex-column">
+                                                    <span class="h5 mb-1">@ch.Title</span>
+                                                    <span class="fw-normal">@ch.LessonCount bài học</span>
+                                                </span>
+                                            </button>
+                                            <div class="d-flex justify-content-end align-items-center">
+                                                <a asp-action="UpdateSection" asp-controller="Course" asp-route-sectionId="@ch.SectionId" type="button" class="btn btn-icon btn-primary me-1 my-1 btn-modal2">
+                                                    <span class="tf-icons bx bxs-edit"></span>
+                                                </a>
+                                                <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                    <span class="tf-icons bx bx-trash"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        @await Html.PartialAsync("UpdateSection", sectionVM)
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
+                                            <div class="accordion-body py-3 border-top">
+                                                @if (ch.Lessons == null || ch.Lessons.Count == 0)
+                                                {
+                                                    <div class="d-flex justify-content-center align-items-center mb-3">
+                                                        <label for="defaultCheck1" class="form-check-label">
+                                                            <span class="mb-0 h6">Không có bài giảng nào.</span>
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var lesson in ch.Lessons)
+                                                    {
+                                                        <div class="form-check d-flex justify-content-between align-items-center mb-3">
+                                                            <a asp-action="LessonDetail" asp-controller="Course" asp-route-id="@lesson.LessonId" onclick="console.log(@lesson.LessonId)">
+                                                                <label for="defaultCheck1" class="form-check-label ms-3">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </label>
+                                                            </a>
+                                                            <div>
+                                                                <a asp-action="UpdateLesson" asp-controller="Course" asp-route-id="@ch.SectionId" type="button" class="btn btn-icon btn-primary me-1 my-1">
+                                                                    <span class="tf-icons bx bxs-edit"></span>
+                                                                </a>
+                                                                <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                                    <span class="tf-icons bx bx-trash"></span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
+                                                    }
+                                                }
+                                                <div class="d-flex justify-content-center align-items-center mb-3">
+                                                    <a type="button" class="btn btn-primary" asp-action="CreateLesson" asp-controller="Course" asp-route-sectionId="@ch.SectionId">
+                                                        <span class="tf-icons bx bx-add-to-queue me-1"></span>Thêm bài giảng
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                else if (ch.SectionOrder > 1 && ch.SectionOrder < sections[sections.Count - 1].SectionOrder)
+                                {
+
+                                sectionVM = new SectionCreateViewModel()
+                                {
+                                    SectionId = ch.SectionId,
+                                    SectionOrder = ch.SectionOrder,
+                                    CourseId = ch.CourseId
+                                };
+                                <div class="accordion-item shadow-none border border-bottom-0 mb-0">
+                                    <div class="accordion-header" id="headingTwo">
+                                        <button type="button" class="bg-lighter rounded-0 accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="false" aria-controls="@($"chapter{ch.SectionOrder}")">
+                                            <span class="d-flex flex-column">
+                                                <span class="h5 mb-1">@ch.Title</span>
+                                                <span class="fw-normal">@ch.LessonCount bài học</span>
+                                            </span>
+                                        </button>
+                                        <div class="d-flex justify-content-end align-items-center">
+                                            <a asp-action="UpdateSection" asp-controller="Course" asp-route-sectionId="@ch.SectionId" type="button" class="btn btn-icon btn-primary me-1 my-1 btn-modal2">
+                                                <span class="tf-icons bx bxs-edit"></span>
+                                            </a>
+                                            <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                <span class="tf-icons bx bx-trash"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    @await Html.PartialAsync("UpdateSection", sectionVM)
+                                    <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                        <div class="accordion-body py-3 border-top">
+                                            @if (ch.Lessons == null || ch.Lessons.Count == 0)
+                                            {
+                                                <div class="d-flex justify-content-center align-items-center mb-3">
+                                                    <label for="defaultCheck1" class="form-check-label">
+                                                        <span class="mb-0 h6">Không có bài giảng nào.</span>
+                                                    </label>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @foreach (var lesson in ch.Lessons)
+                                                {
+                                                    <div class="form-check d-flex justify-content-between align-items-center mb-3">
+                                                        <a asp-action="LessonDetail" asp-controller="Course" asp-route-id="@lesson.LessonId">
+                                                            <label for="defaultCheck1" class="form-check-label ms-3">
+                                                                <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                            </label>
+                                                        </a>
+                                                        <div>
+                                                            <a asp-action="UpdateSection" asp-controller="Course" asp-route-sectionId="@ch.SectionId" type="button" class="btn btn-icon btn-primary me-1 my-1">
+                                                                <span class="tf-icons bx bxs-edit btn-modal"></span>
+                                                            </a>
+                                                            <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                                <span class="tf-icons bx bx-trash"></span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            <div class="d-flex justify-content-center align-items-center mb-3">
+                                                <a type="button" class="btn btn-primary" asp-action="CreateLesson" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                    <span class="tf-icons bx bx-add-to-queue me-1"></span>Thêm bài giảng
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                                else 
+                                {
+                                    sectionVM = new SectionCreateViewModel()
+                                    {
+                                        SectionId = ch.SectionId,
+                                        SectionOrder = ch.SectionOrder,
+                                        CourseId = ch.CourseId
+                                    };
+                                    <div class="accordion-item shadow-none border mb-0">
+                                        <div class="accordion-header" id="headingFour">
+                                            <button type="button" class="bg-lighter rounded-0 accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="false" aria-controls="@($"chapter{ch.SectionOrder}")">
+                                                <span class="d-flex flex-column">
+                                                    <span class="h5 mb-1">@ch.Title</span>
+                                                    <span class="fw-normal">@ch.LessonCount bài học</span>
+                                                </span>
+                                            </button>
+                                            <div class="d-flex justify-content-end align-items-center">
+                                                <a asp-action="UpdateSection" asp-controller="Course" asp-route-sectionId="@ch.SectionId" type="button" class="btn btn-icon btn-primary me-1 my-1 btn-modal2">
+                                                    <span class="tf-icons bx bxs-edit"></span>
+                                                </a>
+                                                <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                    <span class="tf-icons bx bx-trash"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        @await Html.PartialAsync("UpdateSection", sectionVM)
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                            <div class="accordion-body py-3 border-top">
+                                                @if (ch.Lessons == null || ch.Lessons.Count == 0)
+                                                {
+                                                    <div class="d-flex justify-content-center align-items-center mb-3">
+                                                        <label for="defaultCheck1" class="form-check-label">
+                                                            <span class="mb-0 h6">Không có bài giảng nào.</span>
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var lesson in ch.Lessons)
+                                                    {
+                                                        <div class="form-check d-flex justify-content-between align-items-center mb-3">
+                                                            <a asp-action="LessonDetail" asp-controller="Course" asp-route-id="@lesson.LessonId">
+                                                                <label for="defaultCheck1" class="form-check-label ms-3">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </label>
+                                                            </a>
+                                                            <div>
+                                                                <a asp-action="UpdateSection" asp-controller="Course" asp-route-sectionId="@ch.SectionId" type="button" class="btn btn-icon btn-primary me-1 my-1">
+                                                                    <span class="tf-icons bx bxs-edit btn-modal2"></span>
+                                                                </a>
+                                                                <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                                    <span class="tf-icons bx bx-trash"></span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                                <div class="d-flex justify-content-center align-items-center mb-3">
+                                                    <a type="button" class="btn btn-primary" asp-action="CreateLesson" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                        <span class="tf-icons bx bx-add-to-queue me-1"></span>Thêm bài giảng
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+
+
+                            }
+                            <div class="d-flex justify-content-center align-items-center my-3">
+                                <a type="button" class="btn btn-primary btn-modal" asp-action="CreateSection" asp-controller="Course" asp-route-id="@course.CourseId">
+                                    <span class="tf-icons bx bx-add-to-queue me-1"></span>Thêm chương mới
+                                </a>
+                            </div>
+
+
+                        }
+                    }
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+
+@await Html.PartialAsync("CreateSection", sectionVM)
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".btn-modal").click(function (e) {
+                e.preventDefault();
+
+                var sectionUrl = $(this).prop("href");
+                console.log(sectionUrl);
+                $.ajax({
+                    url: sectionUrl,
+                    type: "GET",
+                    success: function (data) {
+                        $("#modal-content").html(data);
+                        $("#modalCenter2").modal('show');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("Error fetching content: " + textStatus + ", " + errorThrown);
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $(".btn-modal2").click(function (e) {
+                e.preventDefault();
+
+                var sectionUrl = $(this).prop("href");
+                console.log(sectionUrl);
+                $.ajax({
+                    url: sectionUrl,
+                    type: "GET",
+                    success: function (data) {
+                        $("#modal-content").html(data);
+                        $("#modalCenter3").modal('show');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("Error fetching content: " + textStatus + ", " + errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+}

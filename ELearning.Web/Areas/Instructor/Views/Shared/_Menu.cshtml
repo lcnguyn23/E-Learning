@@ -44,7 +44,7 @@
                     </g>
                 </svg>
             </span>
-            <span class="app-brand-text demo menu-text fw-bold ms-2">Sneat</span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2">LearningOasis</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -56,8 +56,8 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item active">
-            <a href="index.html" class="menu-link">
+        <li class="menu-item @((ViewBag.Title).Equals("Trang chủ") ? "active" : "")">
+            <a asp-action="Index" asp-controller="Home" asp-area="Instructor" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Dashboards">Dashboards</div>
                 <!--<div class="badge bg-danger rounded-pill ms-auto">5</div>-->
@@ -69,16 +69,16 @@
         </li>
 
         <!-- Courses -->
-        <li class="menu-item">
-            <a href="~/Instructor/Course/Index" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-layout"></i>
+        <li class="menu-item @(((ViewBag.Title).Equals("Khóa học của tôi") || (ViewBag.Title).Equals("Thông tin khóa học") || (ViewBag.Title).Equals("Cập nhật khóa học") || (ViewBag.Title).Equals("Thông tin bài giảng")) ? "active" : "")" id="course">
+            <a asp-action="Index" asp-controller="Course" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-book-content"></i>
                 <div data-i18n="Courses Manager">Khóa học của tôi</div>
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="~/Instructor/Course/CreateCourse" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-layout"></i>
+        <li class="menu-item @((ViewBag.Title).Equals("Tạo khóa học mới") ? "active" : "")" id="addcourse">
+            <a asp-action="CreateCourse" asp-controller="Course" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-add-to-queue"></i>
                 <div data-i18n="Add Course">Tạo khóa học</div>
             </a>
         </li>
@@ -90,14 +90,14 @@
         <!-- Students -->
         <li class="menu-item">
             <a href="" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-envelope"></i>
+                <i class="menu-icon tf-icons bx bx-group"></i>
                 <div data-i18n="Students">Học viên của tôi</div>
             </a>
         </li>
         
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-user-plus"></i>
                 <div data-i18n="Add Student">Thêm học viên</div>
             </a>
         </li>
@@ -105,21 +105,10 @@
         <!-- Other -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Khác</span></li>
         <li class="menu-item">
-            <a href="cards-basic.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Notification">Thông báo</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="javascript:void(0)" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-box"></i>
-                <div data-i18n="Mail">Hòm thư</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Payout">Thanh toán</div>
+            <a href="cards-basic.html" class="menu-link d-flex align-items-center align-middle">
+                <i class="menu-icon flex-shrink-0 tf-icons bx bx-bell"></i>
+                <div data-i18n="Notification" class="flex-grow-1 align-middle ms-1">Thông báo</div>
+                <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
             </a>
         </li>
     </ul>

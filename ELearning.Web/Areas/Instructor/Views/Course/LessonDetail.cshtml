@@ -1,0 +1,83 @@
+﻿@using ELearning.DomainModels;
+@model LessonDetailViewModel
+
+<div class="container-xxl flex-grow-1 container-p-y" data-select2-id="9">
+
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light">Khóa học của tôi /</span> Thông tin bài giảng</h4>
+
+    <div class="card g-3 mt-5">
+        <div class="card-body row g-3">
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center flex-wrap mb-2 gap-1">
+                    <div class="me-1">
+                        <h5 class="mb-1">@Model.Title</h5>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-label-danger">@Model.LessonMedia.MediaType</span>
+                    </div>
+                </div>
+                <div class="card academy-content shadow-none border">
+                    <div class="p-2">
+                        @if (Model.LessonMedia.MediaType.Equals(MediaType.Mp4))
+                        {
+                            <div class="ratio ratio-16x9">
+                                <video id="player" playsinline controls>
+                                    <source src="~/media/lessonmedia/@Model.LessonMedia.MediaPath" type="video/mp4" />
+                                </video>
+                            </div>
+                        }
+
+                        @if (Model.LessonMedia.MediaType.Equals(MediaType.Url))
+                        {
+                            <div class="ratio ratio-16x9">
+                                <iframe src="@Model.LessonMedia.MediaUrl" title="video from url"
+                                        allowfullscreen></iframe>
+                            </div>
+                        }
+
+                        @if (Model.LessonMedia.MediaType.Equals(MediaType.Embed))
+                        {
+                            <div class="ratio ratio-16x9">
+                                @Html.Raw(Model.LessonMedia.MediaContent)
+                            </div>
+                        }
+
+                        @if (Model.LessonMedia.MediaType.Equals(MediaType.Mp3))
+                        {
+                            <div class="card-body" style="max-width: 100%">
+                                <audio id="player" controls>
+                                    <source src="~/media/lessonmedia/@Model.LessonMedia.MediaPath" type="audio/mp3" />
+                                </audio>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="card-body">
+                        <hr class="my-3">
+                        <p class="mb-0 pt-1">
+                            @Html.Raw(Model.LessonContent.Content)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="accordion stick-top accordion-bordered course-content-fixed">
+                    <div>
+                    <a type="button" class="btn btn-primary my-2 mx-2" asp-action="UpdateLesson" asp-controller="Course" asp-route-id="@Model.LessonId">
+                        <span class="tf-icons bx bxs-edit me-1"></span>Chỉnh sửa
+                    </a>
+                    </div>
+                    <div>
+                    <a type="button" class="btn btn-outline-danger my-2 mx-2" asp-action="DeleteLesson" asp-controller="Course" asp-route-id="@Model.LessonId">
+                        <span class="tf-icons bx bx-trash me-1"></span>Xóa bài
+                    </a>
+                    </div>
+                    <a type="button" class="btn btn-outline-secondary my-2 mx-2" asp-action="CourseDetail" asp-controller="Course" asp-route-id="@Model.CourseId">
+                        <span class="tf-icons bx bx-arrow-back me-1"></span>Quay lại
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
