@@ -1,0 +1,65 @@
+﻿@using ELearning.Web.AppCodes;
+@model AddStudentViewModel
+@inject SelectListHelper SelectListHelper
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">
+            <a asp-action="Index" asp-controller="Course" style="text-decoration: none;">Khóa học của tôi</a>
+            /
+        </span> @ViewBag.Title
+    </h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4 col-md-10 col-lg-10 mx-md-auto">
+                <h5 class="card-header">Thông tin khóa học</h5>
+                <!-- Account -->
+
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                    {
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            @ViewBag.ErrorMessage
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    <form asp-action="AddStudent" asp-controller="StudentEnroll" method="post">
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="courseId">Chọn khóa học</label>
+                                <select asp-for="CourseId" id="courseId" class="select2 form-select">
+                                    <option value="0">Chọn khóa học</option>
+                                    @{
+                                        var courseList = await SelectListHelper.CourseSelectList(Model.InstructorId);
+                                        foreach (var c in courseList)
+                                        {
+                                                <option value="@c.Value">@c.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="studentEmail">Nhập email học viên</label>
+                                <input type="text" asp-for="StudentEmail"
+                                       name="StudentEmail"
+                                       class="form-control" />
+
+                            </div>
+
+                            <div class="mt-2">
+
+                                <button type="submit" class="btn btn-primary me-2" id="getTextBtn">Thêm học viên</button>
+                                <a asp-action="Index" asp-controller="StudentEnroll" type="button" class="btn btn-outline-secondary">Hủy</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /Account -->
+        </div>
+
+    </div>
+</div>

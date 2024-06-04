@@ -151,9 +151,24 @@
                                         <hr class="my-2">
                                         <div class="btn btn-label-primary d-flex align-items-center"
                                              href="" style="pointer-events: none;">
-                                            <span class="badge bg-label-success">
-                                                @item.Status
-                                            </span>
+                                            @if (item.Status.Equals(CourseStatus.PUBLISH))
+                                            {
+                                                <span class="badge bg-label-success">
+                                                    @item.Status
+                                                </span>
+                                            }
+                                            @if (item.Status.Equals(CourseStatus.UNPUBLISH))
+                                            {
+                                                <span class="badge bg-label-danger">
+                                                    @item.Status
+                                                </span>
+                                            }
+                                            @if (item.Status.Equals(CourseStatus.PENDING_APPROVAL))
+                                            {
+                                                <span class="badge bg-label-info">
+                                                    @item.Status
+                                                </span>
+                                            }
                                         </div>
                                         <div class="d-flex flex-column flex-md-row gap-2 justify-content-center text-nowrap pe-xl-3 pe-xxl-0">
                                             <div class="btn btn-label-primary d-flex align-items-center"

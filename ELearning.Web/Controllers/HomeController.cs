@@ -1,6 +1,8 @@
-﻿using ELearning.Business.DTOs.CoursesDTOs.Lessons;
+﻿using ELearning.Business.DTOs.CoursesDTOs.CourseDetail;
+using ELearning.Business.DTOs.CoursesDTOs.Lessons;
 using ELearning.Business.Services.Implementation;
 using ELearning.Business.Services.Interfaces;
+using ELearning.Business.Utility;
 using ELearning.Data;
 using ELearning.Data.Repositories.Interfaces;
 using ELearning.DomainModels;
@@ -54,21 +56,21 @@ namespace ELearning.Web.Controllers
         {
             try
             {
-                var courseQuery = _context.Courses
-                .Where(p => p.Status == CourseStatus.PUBLISH && p.IsDeleted == false)
-                .Include(p => p.Topic) // Join với bảng topics
-                .Include(p => p.Level) // Join với bảng levels
-                .Include(p => p.Enrollments) // Join với bảng enrollments
-                .Include(p => p.CourseRatings) // Join với bảng ratings
-                .Include(p => p.Instructor)
+                
+                IQueryable<CourseDetailDTO> courseQuery = await _courseService.GetAllCoursesAsync(null, null, null, CourseStatus.PUBLISH, null);
+                
+
+                
+
+                var courseViewModels = courseQuery
                 .Select(p => new CourseDetailViewModel
                 {
                     CourseId = p.CourseId,
                     CourseName = p.CourseName,
                     ShortDescription = p.ShortDescription,
                     Description = p.Description,
-                    TopicName = p.Topic.TopicName, // Truy cập vào thuộc tính Topic.Name sau khi đã thực hiện Include
-                    LevelName = p.Level.LevelName, // Truy cập vào thuộc tính Level.Name sau khi đã thực hiện Include
+                    TopicName = p.TopicName,
+                    LevelName = p.LevelName,
                     Duration = p.Duration,
                     CourseImage = p.CourseImage,
                     Status = p.Status,
@@ -77,18 +79,18 @@ namespace ELearning.Web.Controllers
                     SalePrice = p.SalePrice,
                     SaleStart = p.SaleStart,
                     SaleEnd = p.SaleEnd,
-                    InstructorName = p.Instructor.FullName,
-                    EnrolledStudentCount = p.Enrollments.Count(), // Sử dụng Count để đếm số lượng học viên đã đăng ký
-                    AverageRating = p.CourseRatings.Average(r => r.Rating) // Tính trung bình điểm đánh giá
+                    InstructorName = p.InstructorName,
+                    EnrolledStudentCount = p.EnrolledStudentCount,
+                    AverageRating = p.AverageRating,
+                    CreatedAt = p.CreatedAt,
                 });
 
                 // Sử dụng PaginatedList để phân trang
                 int pageSize = 12; // Số lượng mục trên mỗi trang
-                var paginatedCourses = await PaginatedList<CourseDetailViewModel>.CreateAsync(courseQuery, pageNumber ?? 1, pageSize);
+                var paginatedCourses = await PaginatedList<CourseDetailViewModel>.CreateAsync(courseViewModels.AsQueryable(), pageNumber ?? 1, pageSize);
 
                 ViewBag.Menu = "home";
                 return View(paginatedCourses);
-
             }
             catch (Exception ex)
             {
@@ -145,65 +147,33 @@ namespace ELearning.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string searchString, int topicId, int levelId, int rating, int? pageNumber)
+        public async Task<IActionResult> Search(string searchString, int topicId, int levelId, int rating, CourseStatus? status, int? pageNumber)
         {
             try
             {
-
-                IQueryable<Course> courseQuery = _context.Courses
-                                    .Where(p => p.Status == CourseStatus.PUBLISH && p.IsDeleted == false)
-                                    .Include(p => p.Topic) // Join với bảng topics
-                                    .Include(p => p.Level) // Join với bảng levels
-                                    .Include(p => p.Enrollments) // Join với bảng enrollments
-                                    .Include(p => p.CourseRatings) // Join với bảng ratings
-                                    .Include(p => p.Instructor);
-
-                // 
-                if (!string.IsNullOrEmpty(searchString))
-                {
-                    courseQuery = courseQuery.Where(p => p.CourseName.Contains(searchString) || p.Instructor.FullName.Contains(searchString));
-                }
-
-                
-                // Lọc theo chủ đề
-                if (topicId != 0)
-                {
-                    courseQuery = courseQuery.Where(p => p.TopicId == topicId);
-                }
-
-                // Lọc theo cấp độ
-                if (levelId != 0)
-                {
-                    courseQuery = courseQuery.Where(p => p.LevelId == levelId);
-                }
-
-                // Lọc theo số sao tối thiểu trong đánh giá
-                if (rating != 0)
-                {
-                    courseQuery = courseQuery.Where(p => p.CourseRatings.Average(r => r.Rating) >= rating);
-                }
-                // Chọn các trường để hiển thị trong ViewModel
+                IQueryable<CourseDetailDTO> courseQuery = await _courseService.GetAllCoursesAsync(searchString, topicId, levelId, CourseStatus.PUBLISH, rating);
                 var courseViewModels = courseQuery
-                    .Select(p => new CourseDetailViewModel
-                    {
-                        CourseId = p.CourseId,
-                        CourseName = p.CourseName,
-                        ShortDescription = p.ShortDescription,
-                        Description = p.Description,
-                        TopicName = p.Topic.TopicName,
-                        LevelName = p.Level.LevelName,
-                        Duration = p.Duration,
-                        CourseImage = p.CourseImage,
-                        Status = p.Status,
-                        Price = p.Price,
-                        IsFree = p.IsFree,
-                        SalePrice = p.SalePrice,
-                        SaleStart = p.SaleStart,
-                        SaleEnd = p.SaleEnd,
-                        InstructorName = p.Instructor.FullName,
-                        EnrolledStudentCount = p.Enrollments.Count(),
-                        AverageRating = p.CourseRatings.Average(r => r.Rating)
-                    });
+                .Select(p => new CourseDetailViewModel
+                {
+                    CourseId = p.CourseId,
+                    CourseName = p.CourseName,
+                    ShortDescription = p.ShortDescription,
+                    Description = p.Description,
+                    TopicName = p.TopicName,
+                    LevelName = p.LevelName,
+                    Duration = p.Duration,
+                    CourseImage = p.CourseImage,
+                    Status = p.Status,
+                    Price = p.Price,
+                    IsFree = p.IsFree,
+                    SalePrice = p.SalePrice,
+                    SaleStart = p.SaleStart,
+                    SaleEnd = p.SaleEnd,
+                    InstructorName = p.InstructorName,
+                    EnrolledStudentCount = p.EnrolledStudentCount,
+                    AverageRating = p.AverageRating,
+                    CreatedAt = p.CreatedAt,
+                });
 
                 // Sử dụng PaginatedList để phân trang
                 int pageSize = 12; // Số lượng mục trên mỗi trang
@@ -237,7 +207,7 @@ namespace ELearning.Web.Controllers
                 if (checkEnroll.CourseId == id)
                 {
                     ViewBag.ErrorMessage = "Bạn đã đăng ký khóa học này.";
-                    return RedirectToAction("CourseDetail", "Home");
+                    return RedirectToAction("CourseDetail", "Home" , new {id = id});
                 }
 
                 _logger.LogInformation($"idididid = {id}");

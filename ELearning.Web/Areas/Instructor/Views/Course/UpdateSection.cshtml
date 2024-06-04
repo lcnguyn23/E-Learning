@@ -3,7 +3,7 @@
     Layout = null;
 }
 
-<div class="modal fade" id="modalCenter3" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="updateSectionModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form asp-action="UpdateSection" asp-controller="Course" method="post">
@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col mb-3">
                             <input type="hidden" asp-for="CourseId" value="@Model.CourseId" />
-                            <input type="hidden" asp-for="SectionId" value="@Model.SectionId" />
+                            <input type="text" asp-for="SectionId" value="@Model.SectionId" />
                             <input type="hidden" asp-for="SectionOrder" value="@Model.SectionOrder" />
                             <label for="nameWithTitle" class="form-label">Tên chương</label>
                             <input type="text" asp-for="Title"

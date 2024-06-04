@@ -27,5 +27,7 @@ namespace ELearning.Business.DTOs.CoursesDTOs.CourseDetail
         public int EnrolledStudentCount { get; set; }
         public double AverageRating { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }

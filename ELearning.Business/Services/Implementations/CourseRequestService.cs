@@ -21,13 +21,17 @@ namespace ELearning.Business.Services.Implementations
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         private readonly ICourseRequestRepository _courseRequestRepository;
+        private readonly ICourseRepository _courseRepository;
         private readonly IUserService _userService;
 
-        public CourseRequestService(ILogger<CourseRequestService> logger, IHttpContextAccessor httpContextAccessor, ICourseRequestRepository courseRequestRepository, IUserService userService)
+        
+
+        public CourseRequestService(ILogger<CourseRequestService> logger, IHttpContextAccessor httpContextAccessor, ICourseRequestRepository courseRequestRepository, ICourseRepository courseRepository, IUserService userService)
         {
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
             _courseRequestRepository = courseRequestRepository;
+            _courseRepository = courseRepository;
             _userService = userService;
         }
 
@@ -89,14 +93,7 @@ namespace ELearning.Business.Services.Implementations
         {
             try
             {
-                // current user=
-                var currentEmail = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(p => p.Type.Contains("email")).Value;
-                var currentUser = await _userService.GetUserByEmailAsync(currentEmail);
-
-                if (currentUser == null)
-                {
-                    throw new Exception("Chưa đăng nhập");
-                }
+                
 
                 // get all existing course
                 var courses = await _courseRequestRepository.GetAllAsync();
@@ -121,7 +118,6 @@ namespace ELearning.Business.Services.Implementations
                     CourseId = p.CourseId,
                     CourseName = courseDictionary.ContainsKey(p.CourseId) ? courseDictionary[p.CourseId].ToString() : "",
                     InstructorId = p.InstructorId,
-                    InstructorName = currentUser.FullName,
                     Status = p.Status,
                     RequestAt = p.RequestAt,
                     ResponseAt = p.ResponseAt,
@@ -138,9 +134,48 @@ namespace ELearning.Business.Services.Implementations
             }
         }
 
-        public Task<CourseRequestDetailDTO> GetCourseRequestByIdAsync(int id)
+        public async Task<CourseRequestDetailDTO> GetCourseRequestByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var courses = await _courseRequestRepository.GetAllAsync();
+
+                if (courses == null)
+                {
+                    throw new Exception("Không có khóa học nào");
+                }
+
+                var courseDictionary = new Dictionary<int, string>();
+                foreach (var course in courses)
+                {
+                    var courseInfo = await _courseRequestRepository.GetCourseRequestNameAsync(course.CourseId);
+                    courseDictionary.TryAdd(course.CourseId, courseInfo);
+                }
+                var request = await _courseRequestRepository.GetByIdAsync(id);
+                if (request == null)
+                {
+                    throw new Exception();
+                }
+
+
+                var requestDTO = new CourseRequestDetailDTO()
+                {
+                    CourseRequestId = request.CourseRequestId,
+                    CourseId = request.CourseId,
+                    CourseName = courseDictionary.ContainsKey(request.CourseId) ? courseDictionary[request.CourseId].ToString() : "",
+                    InstructorId = request.InstructorId,
+                    Status = request.Status,
+                    RequestAt = request.RequestAt,
+                    ResponseAt = request.ResponseAt,
+                };
+
+                return requestDTO;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error: {ex.Message}");
+                throw;
+            }
         }
 
         public Task<CourseRequestCreateDTO> GetCourseRequestByNameAsync(string name)
@@ -210,15 +245,15 @@ namespace ELearning.Business.Services.Implementations
 
                 var course = await _courseRequestRepository.GetByIdAsync(data.CourseRequestId);
 
-                course.CourseId = course.CourseId;
-                course.InstructorId = currentUser.Id;
-                course.Status = course.Status;
-                course.RequestAt = course.RequestAt;
-                course.ResponseAt = course.ResponseAt;
+                course.CourseId = data.CourseId;
+                course.InstructorId = data.InstructorId;
+                course.Status = data.Status;
+                course.RequestAt = data.RequestAt;
+                course.ResponseAt = data.ResponseAt;
                 
 
 
-                var courseRequest = await _courseRequestRepository.CreateAsync(course);
+                var courseRequest = await _courseRequestRepository.UpdateAsync(course);
                 if (courseRequest == 0)
                 {
                     return Status.Fail;

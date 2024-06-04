@@ -76,7 +76,7 @@
             </a>
         </li>
         <li class="menu-item @(((ViewBag.Title).Equals("Lịch sử đăng ký")) ? "active" : "")" id="course">
-            <a asp-action="Index" asp-controller="Course" class="menu-link">
+            <a asp-action="EnrollHistory" asp-controller="MyCourse" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-history"></i>
                 <div data-i18n="Courses Manager">Lịch sử đăng ký</div>
             </a>
@@ -84,11 +84,10 @@
         
         <!-- Other -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Khác</span></li>
-        <li class="menu-item">
-            <a href="cards-basic.html" class="menu-link d-flex align-items-center align-middle">
+        <li class="menu-item @(((ViewBag.Title).Equals("Thông báo")) ? "active" : "")">
+            <a asp-action="Index" asp-controller="Notification" class="menu-link d-flex align-items-center align-middle">
                 <i class="menu-icon flex-shrink-0 tf-icons bx bx-bell"></i>
                 <div data-i18n="Notification" class="flex-grow-1 align-middle ms-1">Thông báo</div>
-                <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
             </a>
         </li>
     </ul>

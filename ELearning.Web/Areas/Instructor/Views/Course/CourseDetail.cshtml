@@ -26,6 +26,20 @@
                 }
 
                 <div class="col-lg-8">
+                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                    {
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            @ViewBag.ErrorMessage
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+                    {
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            @ViewBag.SuccessMessage
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
                     <div class="d-flex justify-content-between align-items-center flex-wrap mb-2 gap-1">
                         <div class="me-1">
                             <h5 class="mb-1">@course.CourseName</h5>
@@ -51,29 +65,29 @@
                             }
                         </div>
                         <div class="card-body">
-                            <h5 class="mb-2">About this course</h5>
+                            <h5 class="mb-2">Về khóa học này</h5>
                             <p class="mb-0 pt-1">
                                 @course.ShortDescription
                             </p>
                             <hr class="my-4">
-                            <h5>Basic infomation</h5>
+                            <h5>Thông tin cơ bản</h5>
                             <div class="d-flex flex-wrap">
                                 <div class="me-5">
-                                    <p class="text-nowrap"><i class="bx bx-check-double bx-sm me-2"></i>Skill level: @course.LevelName</p>
-                                    <p class="text-nowrap"><i class="bx bx-user bx-sm me-2"></i>Students: @course.EnrolledStudentCount</p>
+                                    <p class="text-nowrap"><i class="bx bx-check-double bx-sm me-2"></i>Cấp độ: @course.LevelName</p>
+                                    <p class="text-nowrap"><i class="bx bx-user bx-sm me-2"></i>Số học viên: @course.EnrolledStudentCount</p>
                                 </div>
                                 <div>
-                                    <p class="text-nowrap"><i class="bx bx-pencil bx-sm me-2"></i>Lessons: @lessonCount</p>
-                                    <p class="text-nowrap "><i class="bx bxs-watch bx-sm me-2"></i>Duration: @course.Duration</p>
+                                    <p class="text-nowrap"><i class="bx bx-pencil bx-sm me-2"></i>Số bài học: @lessonCount</p>
+                                    <p class="text-nowrap "><i class="bx bxs-watch bx-sm me-2"></i>Thời lượng: @course.Duration</p>
                                 </div>
                             </div>
                             <hr class="mb-4 mt-2">
-                            <h5>Description</h5>
+                            <h5>Mô tả</h5>
                             <p class="mb-4">
                                 @Html.Raw(course.Description)
                             </p>
                             <hr class="mb-4 mt-2">
-                            <h5>Status</h5>
+                            <h5>Trạng thái</h5>
                             <p class="mb-4">
                                 @if (course.Status.Equals(CourseStatus.PUBLISH))
                                 {
@@ -177,12 +191,19 @@
                                             <span class="tf-icons me-1"></span>Gỡ khóa học
                                         </a>
                                     }
+                                    else if (course.Status.Equals(CourseStatus.PENDING_APPROVAL))
+                                    {
+                                        <a type="button" class="btn btn-warning">
+                                            <span class="tf-icons me-1"></span>Chờ phê duyệt
+                                        </a>
+                                    }
                                     else
                                     {
                                         <a type="button" class="btn btn-success" asp-action="SendCourseRequest" asp-controller="Course" asp-route-id="@course.CourseId" asp-area="Instructor">
                                             <span class="tf-icons me-1"></span>Xuất bản
                                         </a>
                                     }
+
 
                                 </div>
 
@@ -211,12 +232,7 @@
                             {
                                 if (ch.SectionOrder == 1)
                                 {
-                                    sectionVM = new SectionCreateViewModel()
-                                    {
-                                        SectionId = ch.SectionId,
-                                        SectionOrder = ch.SectionOrder,
-                                        CourseId = ch.CourseId
-                                    };
+                                   
                                     <div class="accordion-item shadow-none border border-bottom-0 active mb-0">
                                         <div class="accordion-header" id="headingOne">
                                             <button type="button" class="accordion-button bg-lighter rounded-0" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="true" aria-controls="@($"chapter{ch.SectionOrder}")">
@@ -234,7 +250,7 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        @await Html.PartialAsync("UpdateSection", sectionVM)
+                                        
                                         <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
                                             <div class="accordion-body py-3 border-top">
                                                 @if (ch.Lessons == null || ch.Lessons.Count == 0)
@@ -256,10 +272,10 @@
                                                                 </label>
                                                             </a>
                                                             <div>
-                                                                <a asp-action="UpdateLesson" asp-controller="Course" asp-route-id="@ch.SectionId" type="button" class="btn btn-icon btn-primary me-1 my-1">
+                                                                <a asp-action="UpdateLesson" asp-controller="Course" asp-route-id="@lesson.LessonId" type="button" class="btn btn-icon btn-primary me-1 my-1">
                                                                     <span class="tf-icons bx bxs-edit"></span>
                                                                 </a>
-                                                                <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                                <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@lesson.LessonId">
                                                                     <span class="tf-icons bx bx-trash"></span>
                                                                 </a>
                                                             </div>
@@ -280,12 +296,7 @@
                                 else if (ch.SectionOrder > 1 && ch.SectionOrder < sections[sections.Count - 1].SectionOrder)
                                 {
 
-                                sectionVM = new SectionCreateViewModel()
-                                {
-                                    SectionId = ch.SectionId,
-                                    SectionOrder = ch.SectionOrder,
-                                    CourseId = ch.CourseId
-                                };
+                               
                                 <div class="accordion-item shadow-none border border-bottom-0 mb-0">
                                     <div class="accordion-header" id="headingTwo">
                                         <button type="button" class="bg-lighter rounded-0 accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="false" aria-controls="@($"chapter{ch.SectionOrder}")">
@@ -303,7 +314,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    @await Html.PartialAsync("UpdateSection", sectionVM)
+                                    
                                     <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse" data-bs-parent="#courseContent">
                                         <div class="accordion-body py-3 border-top">
                                             @if (ch.Lessons == null || ch.Lessons.Count == 0)
@@ -325,10 +336,10 @@
                                                             </label>
                                                         </a>
                                                         <div>
-                                                            <a asp-action="UpdateSection" asp-controller="Course" asp-route-sectionId="@ch.SectionId" type="button" class="btn btn-icon btn-primary me-1 my-1">
+                                                                <a asp-action="UpdateSection" asp-controller="Course" asp-route-id="@lesson.LessonId" type="button" class="btn btn-icon btn-primary me-1 my-1">
                                                                 <span class="tf-icons bx bxs-edit btn-modal"></span>
                                                             </a>
-                                                            <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                                <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@lesson.LessonId">
                                                                 <span class="tf-icons bx bx-trash"></span>
                                                             </a>
                                                         </div>
@@ -347,12 +358,7 @@
 
                                 else 
                                 {
-                                    sectionVM = new SectionCreateViewModel()
-                                    {
-                                        SectionId = ch.SectionId,
-                                        SectionOrder = ch.SectionOrder,
-                                        CourseId = ch.CourseId
-                                    };
+                                    
                                     <div class="accordion-item shadow-none border mb-0">
                                         <div class="accordion-header" id="headingFour">
                                             <button type="button" class="bg-lighter rounded-0 accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="@($"#chapter{ch.SectionOrder}")" aria-expanded="false" aria-controls="@($"chapter{ch.SectionOrder}")">
@@ -370,7 +376,7 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        @await Html.PartialAsync("UpdateSection", sectionVM)
+                                       
                                         <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse" data-bs-parent="#courseContent">
                                             <div class="accordion-body py-3 border-top">
                                                 @if (ch.Lessons == null || ch.Lessons.Count == 0)
@@ -392,10 +398,10 @@
                                                                 </label>
                                                             </a>
                                                             <div>
-                                                                <a asp-action="UpdateSection" asp-controller="Course" asp-route-sectionId="@ch.SectionId" type="button" class="btn btn-icon btn-primary me-1 my-1">
+                                                                <a asp-action="UpdateSection" asp-controller="Course" asp-route-id="@lesson.LessonId" type="button" class="btn btn-icon btn-primary me-1 my-1">
                                                                     <span class="tf-icons bx bxs-edit btn-modal2"></span>
                                                                 </a>
-                                                                <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@ch.SectionId">
+                                                                <a type="button" class="btn btn-icon btn-outline-danger me-1 my-1" asp-action="DeleteSection" asp-controller="Course" asp-route-id="@lesson.LessonId">
                                                                     <span class="tf-icons bx bx-trash"></span>
                                                                 </a>
                                                             </div>
@@ -412,7 +418,6 @@
 
                                     </div>
                                 }
-
 
                             }
                             <div class="d-flex justify-content-center align-items-center my-3">
@@ -435,6 +440,7 @@
 </div>
 
 
+<div id="modal-container"></div>
 
 @await Html.PartialAsync("CreateSection", sectionVM)
 
@@ -444,14 +450,14 @@
             $(".btn-modal").click(function (e) {
                 e.preventDefault();
 
-                var sectionUrl = $(this).prop("href");
+                var sectionUrl = $(this).attr("href");
                 console.log(sectionUrl);
                 $.ajax({
                     url: sectionUrl,
                     type: "GET",
                     success: function (data) {
-                        $("#modal-content").html(data);
-                        $("#modalCenter2").modal('show');
+                        $("#modal-container").html(data);
+                        $("#createSectionModal").modal('show');
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         alert("Error fetching content: " + textStatus + ", " + errorThrown);
@@ -463,14 +469,14 @@
             $(".btn-modal2").click(function (e) {
                 e.preventDefault();
 
-                var sectionUrl = $(this).prop("href");
+                var sectionUrl = $(this).attr("href");
                 console.log(sectionUrl);
                 $.ajax({
                     url: sectionUrl,
                     type: "GET",
                     success: function (data) {
-                        $("#modal-content").html(data);
-                        $("#modalCenter3").modal('show');
+                        $("#modal-container").html(data);
+                        $("#updateSectionModal").modal('show');
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         alert("Error fetching content: " + textStatus + ", " + errorThrown);
@@ -478,5 +484,6 @@
                 });
             });
         });
+        
     </script>
 }

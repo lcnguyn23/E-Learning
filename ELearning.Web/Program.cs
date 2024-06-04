@@ -48,6 +48,7 @@ namespace ELearning.Web
                 options.LogoutPath = "/Account/Logout"; 
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.SlidingExpiration = true;
+                
             })
             .AddCookie("StudentInstructorLogin", options =>
             {
@@ -82,6 +83,7 @@ namespace ELearning.Web
             builder.Services.AddScoped<ITopicRepository, TopicRepository>();
             builder.Services.AddScoped<ILevelRepository, LevelRepository>();
             builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+            builder.Services.AddScoped<IStudentProgressRepository, StudentProgressRepository>();
 
             builder.Services.AddScoped<ILessonService, LessonService>();
             builder.Services.AddScoped<ILevelService, LevelService>();

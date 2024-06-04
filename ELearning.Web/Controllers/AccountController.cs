@@ -53,31 +53,53 @@ namespace ELearning.Web.Controllers
                 {
                     var roles = await _userManager.GetRolesAsync(user);
                     _logger.LogInformation($"roles : {roles[0].ToString()}");
-
-                    List<Claim> claims = new List<Claim>()
+                    if (roles.Contains("Admin"))
                     {
-                        new Claim(nameof(user.Id), user.Id.ToString() ?? ""),
-                        new Claim(nameof(user.UserName), user.UserName ?? ""),
-                        new Claim(nameof(user.FullName), user.FullName ?? ""),
-                        new Claim(nameof(user.Email), user.Email ?? ""),
-                        new Claim(nameof(user.ProfilePicture), user.ProfilePicture ?? ""),
-                        new Claim(ClaimTypes.Role, model.IsInstructor==true && roles.Contains("Instructor") ? "Instructor" : "Student")
-                    };
+                        List<Claim> claims = new List<Claim>()
+                        {
+                            new Claim(nameof(user.Id), user.Id.ToString() ?? ""),
+                            new Claim(nameof(user.UserName), user.UserName ?? ""),
+                            new Claim(nameof(user.FullName), user.FullName ?? ""),
+                            new Claim(nameof(user.Email), user.Email ?? ""),
+                            new Claim(nameof(user.ProfilePicture), user.ProfilePicture ?? ""),
+                            new Claim(ClaimTypes.Role, "Admin")
+                        };
 
-                    
-                    var identity = new ClaimsIdentity(claims, "StudentInstructorLogin");
-                    var principal = new ClaimsPrincipal(identity);
+                        var identity = new ClaimsIdentity(claims, "StudentInstructorLogin");
+                        var principal = new ClaimsPrincipal(identity);
+                        await HttpContext.SignInAsync("StudentInstructorLogin", principal);
 
-                    await HttpContext.SignInAsync("StudentInstructorLogin", principal);
-
-                    // Redirect based on the user's role
-                    if (model.IsInstructor == true && roles.Contains("Instructor"))
-                    {
-                        return RedirectToAction("Index", "Home", new { area = "Instructor" });
-                    } else
-                    {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
+                    else
+                    {
+                        List<Claim> claims = new List<Claim>()
+                        {
+                            new Claim(nameof(user.Id), user.Id.ToString() ?? ""),
+                            new Claim(nameof(user.UserName), user.UserName ?? ""),
+                            new Claim(nameof(user.FullName), user.FullName ?? ""),
+                            new Claim(nameof(user.Email), user.Email ?? ""),
+                            new Claim(nameof(user.ProfilePicture), user.ProfilePicture ?? ""),
+                            new Claim(ClaimTypes.Role, model.IsInstructor==true && roles.Contains("Instructor") ? "Instructor" : "Student")
+                        };
+
+
+                        var identity = new ClaimsIdentity(claims, "StudentInstructorLogin");
+                        var principal = new ClaimsPrincipal(identity);
+
+                        await HttpContext.SignInAsync("StudentInstructorLogin", principal);
+
+                        // Redirect based on the user's role
+                        if (model.IsInstructor == true && roles.Contains("Instructor"))
+                        {
+                            return RedirectToAction("Index", "Home", new { area = "Instructor" });
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                       
                     
                 }
                 
@@ -96,7 +118,7 @@ namespace ELearning.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await HttpContext.SignOutAsync("AdminLogin");
+                await HttpContext.SignOutAsync("StudentInstructorLogin");
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 await _userManager.UpdateSecurityStampAsync(user);
                 if (user == null)
@@ -110,6 +132,8 @@ namespace ELearning.Web.Controllers
                 if (result.Succeeded)
                 {
                     var roles = await _userManager.GetRolesAsync(user);
+                    
+                    _logger.LogInformation($"roles : {roles[0].ToString()}");
                     if (roles.Contains("Admin"))
                     {
                         List<Claim> claims = new List<Claim>()
@@ -122,10 +146,10 @@ namespace ELearning.Web.Controllers
                             new Claim(ClaimTypes.Role, "Admin")
                         };
 
-                        var identity = new ClaimsIdentity(claims, "AdminLogin");
-
-                        await HttpContext.SignInAsync("AdminLogin", new ClaimsPrincipal(identity));
-
+                        var identity = new ClaimsIdentity(claims, "StudentInstructorLogin");
+                        var principal = new ClaimsPrincipal(identity);
+                        await HttpContext.SignInAsync("StudentInstructorLogin", principal);
+                        
                         return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
                 }
@@ -133,6 +157,9 @@ namespace ELearning.Web.Controllers
 
             return View("AdminLogin");
         }
+
+
+
 
         public async Task<IActionResult> Logout()
         {

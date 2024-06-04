@@ -40,5 +40,13 @@ namespace ELearning.Data.Repositories.Implementations
             var lessonId = await _context.Lessons.Where(l => l.Title.Equals(title)).Select(l => l.LessonId).FirstOrDefaultAsync();
             return lessonId;
         }
+
+        public async Task<Lesson> GetNextLessonAsync(int sectionId, int lessonId)
+        {
+            var lesson = await _context.Lessons.FirstAsync(p => p.SectionId == sectionId && p.LessonId == lessonId);
+            var nextLesson = await _context.Lessons.Where(l => l.SectionId == sectionId && l.Order == lesson.Order + 1).FirstOrDefaultAsync();
+
+            return nextLesson;
+        }
     }
 }

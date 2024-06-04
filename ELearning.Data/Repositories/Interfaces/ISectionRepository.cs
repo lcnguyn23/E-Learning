@@ -10,5 +10,7 @@ namespace ELearning.Data.Repositories.Interfaces
     public interface ISectionRepository : IRepository<Section>
     {
         Task<List<Section>> GetAllSectionsByCourseIdAsync(int courseId);
+
+        Task<Section> GetNextSectionAsync(int courseId, int sectionId);
     }
 }

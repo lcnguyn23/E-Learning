@@ -114,11 +114,16 @@
                         <form class="mb-3" asp-controller="Account" asp-action="Login" method="post">
                             @Html.AntiForgeryToken()
                             <!-- Radio -->
-                            <div class="mb-3 btn-group col-md-12" role="group" aria-label="Basic radio toggle button group">
+                            <div id="radioBtn" class="mb-3 btn-group col-md-12" role="group" aria-label="Basic radio toggle button group">
                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" value="false" checked />
                                 <label class="btn btn-outline-primary" for="btnradio1">Học viên</label>
                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="true" />
                                 <label class="btn btn-outline-primary" for="btnradio2">Giảng viên</label>
+                            </div>
+
+                            <div id="radioAdmin" class="mb-3 btn-group col-md-12" style="display:none">
+                                <input type="radio" class="btn-check" value="false" checked />
+                                <label class="btn btn-outline-primary">Admin</label>
                             </div>
                             <input type="hidden" asp-for="IsInstructor" />
                             <div class="mb-3">
@@ -132,12 +137,7 @@
                                        autofocus />
                             </div>
                             <div class="mb-3 form-password-toggle">
-                                <div class="d-flex justify-content-between">
-                                    <label asp-for="Password" class="form-label" for="password">Password</label>
-                                    <a href="auth-forgot-password-basic.html">
-                                        <small>Forgot Password?</small>
-                                    </a>
-                                </div>
+                                
                                 <div class="input-group input-group-merge">
                                     <input asp-for="Password"
                                            type="password"
@@ -166,7 +166,11 @@
                                 <span>Đăng ký ngay</span>
                             </a>
                         </p>
-                        
+                        <p class="text-right">
+                            <a id="adminLogin" href="#" onclick="toggleAdminLogin()">
+                                <span>Admin?</span>
+                            </a>
+                        </p>
                     </div>
                 </div>
                 <!-- /Register -->
@@ -187,6 +191,14 @@
                 console.log("Selected value:", value);
             });
         });
+
+        function toggleAdminLogin() {
+            const studentTeacherRadios = document.getElementById('radioBtn'); // Select student/teacher radios
+            const adminRadio = document.getElementById('radioAdmin'); // Select
+
+            studentTeacherRadios.style.display = studentTeacherRadios.style.display === 'none' ? 'block' : 'none';
+            adminRadio.style.display = adminRadio.style.display === 'none' ? 'block' : 'none';
+        }
     </script>
 
     <!--<script src="~/themes/assets/vendor/libs/jquery/jquery.js"></script>-->

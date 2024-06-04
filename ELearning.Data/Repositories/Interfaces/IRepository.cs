@@ -13,7 +13,7 @@ namespace ELearning.Data.Repositories.Interfaces
         /// Get all records
         /// </summary>
         /// <returns>A list of all records of type T</returns>
-        Task<List<T>> GetAllAsync();
+        Task<IQueryable<T>> GetAllAsync();
 
         /// <summary>
         /// Get record by id

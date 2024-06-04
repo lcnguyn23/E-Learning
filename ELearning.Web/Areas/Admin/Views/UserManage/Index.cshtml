@@ -1,0 +1,77 @@
+﻿@model List<UserListViewModel>
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">
+            <a asp-action="Index" asp-controller="Course" style="text-decoration: none;">@ViewBag.Title</a>
+        </span>
+    </h4>
+    <div class="card">
+        <h5 class="card-header">@ViewBag.Title</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên người dùng</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                        <th><a type="button" class="btn btn-primary text-light"></i> Thêm người dùng</a></th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @{
+                        int i = 1;
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <span class="fw-medium">@i</span>
+                            </td>
+                            <td>
+                                <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                    <li data-bs-toggle="tooltip"
+                                        data-popup="tooltip-custom"
+                                        data-bs-placement="top"
+                                        class="avatar avatar-xs pull-up"
+                                        title="@item.Name">
+                                        <img src="~/media/avatar/11.png" alt="Avatar" class="rounded-circle" />
+                                    </li>
+
+                                </ul>
+                                <span class="fw-medium">@item.Name</span>
+                            </td>
+                            <td>
+                                <span class="fw-medium">@item.Email</span>
+                            </td>
+                            <td>
+                                @if (item.Role.Equals("Admin"))
+                                {
+                                    <span class="fw-medium badge bg-danger">@item.Role</span>
+                                }
+                                @if (item.Role.Equals("Instructor"))
+                                {
+                                    <span class="fw-medium badge bg-info">@item.Role</span>
+                                } @if (item.Role.Equals("Student"))
+                                {
+                                    <span class="fw-medium badge bg-warning">@item.Role</span>
+                                }
+                                
+                            </td>
+                            <td>
+                                <a type="button" class="btn btn-secondary" >Xem chi tiết</a>
+                                
+                            </td>
+                        </tr>
+                        i++;
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

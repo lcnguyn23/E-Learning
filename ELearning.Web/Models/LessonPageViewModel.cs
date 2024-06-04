@@ -9,6 +9,7 @@ namespace ELearning.Web.Models
         public int SectionId { get; set; }
         public string Title { get; set; }
         public int Order { get; set; }
+        public bool IsFinished { get; set; }
         public CourseContentViewModel CourseContent { get; set; }
         public LessonContentDetailDTO? LessonContent { get; set; }
         public LessonMediaDetailDTO? LessonMedia { get; set; }

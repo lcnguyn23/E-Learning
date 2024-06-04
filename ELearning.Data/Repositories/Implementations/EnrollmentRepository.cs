@@ -31,5 +31,15 @@ namespace ELearning.Data.Repositories.Implementations
         {
             return await _context.Set<Enrollment>().FirstOrDefaultAsync(e => e.StudentId == studentId);
         }
+
+        public async Task<List<Enrollment>> GetEnrollmentsByStudentIdAsync(int studentId)
+        {
+            return await _context.Set<Enrollment>().Where(p => p.IsDeleted == false && p.StudentId == studentId).ToListAsync();
+        }
+
+        public async Task<Enrollment> GetEnrollmentByCourseAndStudentAsync(int studentId, int courseId)
+        {
+            return await _context.Set<Enrollment>().FirstOrDefaultAsync(e => e.StudentId == studentId && e.CourseId == courseId);
+        }
     }
 }

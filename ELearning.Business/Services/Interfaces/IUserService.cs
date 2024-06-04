@@ -11,7 +11,7 @@ namespace ELearning.Business.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<List<ApplicationUser>> GetAllUsersAsync();
+        Task<IQueryable<ApplicationUser>> GetAllUsersAsync();
         Task<ApplicationUser> GetUserByIdAsync(int id);
         Task<Status> CreateUserAsync(ApplicationUser user);
         Task<Status> UpdateUserAsync(ApplicationUser user);
@@ -30,6 +30,6 @@ namespace ELearning.Business.Services.Interfaces
         /// <returns></returns>
         Task<ApplicationUser> GetUserByUserNameAsync(string name);
 
-        Task<List<ApplicationUser>> GetInstructorAsync();
+        Task<IQueryable<ApplicationUser>> GetInstructorAsync();
     }
 }

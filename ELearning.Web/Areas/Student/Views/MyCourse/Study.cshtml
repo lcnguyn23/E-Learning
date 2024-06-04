@@ -5,9 +5,11 @@
 
     <h4 class="py-3 mb-4">
         <span class="text-muted fw-light">
-            <a asp-action="Index" asp-controller="Course" style="text-decoration: none;">Khóa học của tôi</a>
+            <a asp-action="Index" asp-controller="MyCourse" style="text-decoration: none;">Khóa học của tôi</a>
+            / 
+            <a asp-action="CourseDetail" asp-controller="MyCourse" asp-route-id="@Model.CourseId" style="text-decoration: none;">@Model.CourseContent.CourseDetail.CourseName</a>
             /
-        </span> @ViewBag.Title
+        </span> @Model.Title
     </h4>
 
     <div class="card g-3 mt-5">
@@ -24,7 +26,7 @@
                 <div class="col-lg-8">
                     <div class="d-flex justify-content-between align-items-center flex-wrap mb-2 gap-1">
                         <div class="me-1">
-                            <h5 class="mb-1">@courseVM.CourseDetail.CourseName</h5>
+                            <h5 class="mb-1">@Model.Title</h5>
                         </div>
                         <div class="d-flex align-items-center">
                             <span class="badge bg-label-danger">@Model.LessonMedia.MediaType</span>
@@ -72,6 +74,11 @@
                                 @Html.Raw(Model.LessonContent.Content)
                             </p>
                         </div>
+                        <div class="card-body d-flex justify-content-end">
+                            <a type="button" class="btn btn-primary" asp-action="SaveProgress" asp-controller="MyCourse" asp-route-id="@Model.CourseId" asp-route-sectionId="@Model.SectionId" asp-route-lessonId="@Model.LessonId">
+                                <span class="tf-icons bx bx-check me-1"></span>Tiếp tục
+                            </a>
+                        </div>
                     </div>
                 </div>
             }
@@ -100,7 +107,8 @@
                                             </button>
                                             
                                         </div>
-                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
+                                        
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse @(ch.SectionId==Model.SectionId ? "show" : "")" data-bs-parent="#courseContent">
                                             <div class="accordion-body py-3 border-top">
                                                 @if (ch.Lessons == null || ch.Lessons.Count == 0)
                                                 {
@@ -114,12 +122,32 @@
                                                 {
                                                     @foreach (var lesson in ch.Lessons)
                                                     {
-                                                        <div class="form-check d-flex align-items-center mb-3">
-                                                            <input class="form-check-input" type="checkbox" id="defaultCheck1">
-                                                            <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
-                                                                <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
-                                                            </a>
-                                                        </div>
+                                                        if (lesson.Order <= Model.Order)
+                                                        {
+                                                            <div class="form-check d-flex align-items-center mb-3">
+                                                                <input class="form-check-input" type="checkbox" id="defaultCheck1" checked>
+                                                                <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </a>
+                                                            </div>
+                                                        } else if (lesson.SectionId < Model.SectionId)
+                                                        {
+                                                            <div class="form-check d-flex align-items-center mb-3">
+                                                                <input class="form-check-input" type="checkbox" id="defaultCheck1" checked>
+                                                                <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </a>
+                                                            </div>
+                                                        }else
+                                                        {
+                                                            <div class="form-check d-flex align-items-center mb-3">
+                                                                <input class="form-check-input" type="checkbox" id="defaultCheck1" disabled>
+                                                                <a for="defaultCheck1" class="form-check-label ms-3">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </a>
+                                                            </div>
+                                                        }
+
 
                                                     }
                                                 }
@@ -142,7 +170,7 @@
                                             </button>
                                             
                                         </div>
-                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse @(ch.SectionId==Model.SectionId ? "show" : "")" data-bs-parent="#courseContent">
                                             <div class="accordion-body py-3 border-top">
                                                 @if (ch.Lessons == null || ch.Lessons.Count == 0)
                                                 {
@@ -156,12 +184,33 @@
                                                 {
                                                     @foreach (var lesson in ch.Lessons)
                                                     {
-                                                        <div class="form-check d-flex align-items-center mb-3">
-                                                            <input class="form-check-input" type="checkbox" id="defaultCheck1">
-                                                            <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
-                                                                <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
-                                                            </a>
-                                                        </div>
+                                                        if (lesson.Order <= Model.Order)
+                                                        {
+                                                            <div class="form-check d-flex align-items-center mb-3">
+                                                                <input class="form-check-input" type="checkbox" id="defaultCheck1" checked>
+                                                                <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </a>
+                                                            </div>
+                                                        }
+                                                        else if (lesson.SectionId < Model.SectionId)
+                                                        {
+                                                            <div class="form-check d-flex align-items-center mb-3">
+                                                                <input class="form-check-input" type="checkbox" id="defaultCheck1" checked>
+                                                                <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </a>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-check d-flex align-items-center mb-3">
+                                                                <input class="form-check-input" type="checkbox" id="defaultCheck1" disabled>
+                                                                <a for="defaultCheck1" class="form-check-label ms-3">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </a>
+                                                            </div>
+                                                        }
                                                     }
                                                 }
                                                 
@@ -183,7 +232,7 @@
                                             </button>
                                             
                                         </div>
-                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse" data-bs-parent="#courseContent">
+                                        <div id="@($"chapter{ch.SectionOrder}")" class="accordion-collapse collapse @(ch.SectionId==Model.SectionId ? "show" : "")" data-bs-parent="#courseContent">
                                             <div class="accordion-body py-3 border-top">
                                                 @if (ch.Lessons == null || ch.Lessons.Count == 0)
                                                 {
@@ -197,12 +246,33 @@
                                                 {
                                                     @foreach (var lesson in ch.Lessons)
                                                     {
-                                                        <div class="form-check d-flex align-items-center mb-3">
-                                                            <input class="form-check-input" type="checkbox" id="defaultCheck1">
-                                                            <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
-                                                                <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
-                                                            </a>
-                                                        </div>
+                                                        if (lesson.Order <= Model.Order)
+                                                        {
+                                                            <div class="form-check d-flex align-items-center mb-3">
+                                                                <input class="form-check-input" type="checkbox" id="defaultCheck1" checked>
+                                                                <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </a>
+                                                            </div>
+                                                        }
+                                                        else if (lesson.SectionId < Model.SectionId)
+                                                        {
+                                                            <div class="form-check d-flex align-items-center mb-3">
+                                                                <input class="form-check-input" type="checkbox" id="defaultCheck1" checked>
+                                                                <a for="defaultCheck1" class="form-check-label ms-3" asp-action="Study" asp-controller="MyCourse" asp-area="Student" asp-route-id="@courseVM.CourseDetail.CourseId" asp-route-lessonId="@lesson.LessonId">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </a>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-check d-flex align-items-center mb-3">
+                                                                <input class="form-check-input" type="checkbox" id="defaultCheck1" disabled>
+                                                                <a for="defaultCheck1" class="form-check-label ms-3">
+                                                                    <span class="mb-0 h6">@lesson.Order. @lesson.Title</span>
+                                                                </a>
+                                                            </div>
+                                                        }
                                                     }
                                                 }
                                                 

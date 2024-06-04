@@ -470,5 +470,38 @@ namespace ELearning.Business.Services.Implementations
                 throw;
             }
         }
+
+        public async Task<LessonDetailDTO> GetNextLesson(int sectionId, int lessonId)
+        {
+            try
+            {
+                var lesson = await _lessonRepository.GetByIdAsync(lessonId);
+
+                if (lesson == null)
+                {
+                    throw new Exception("Không có bài học nào");
+                }
+
+                var nextLesson = await _lessonRepository.GetNextLessonAsync(sectionId, lessonId);
+
+                var lessonDTO = new LessonDetailDTO()
+                {
+                    LessonId = nextLesson.LessonId,
+                    SectionId = nextLesson.SectionId,
+                    Title = nextLesson.Title,
+                    Order = nextLesson.Order,
+                    LessonContent = nextLesson.LessonContent,
+                    LessonMedia = nextLesson.LessonMedia
+
+                };
+
+                return lessonDTO;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

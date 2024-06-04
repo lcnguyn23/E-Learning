@@ -167,6 +167,29 @@ namespace ELearning.Business.Services.Implementations
             }
         }
 
-       
+        public async Task<SectionDetailDTO> GetNextSectionAsync(int courseId, int sectionId)
+        {
+            try
+            {
+                var section = await _sectionRepository.GetByIdAsync(sectionId);
+                var nextSection = await _sectionRepository.GetNextSectionAsync(courseId, sectionId);
+                var lessonCount = await _lessonRepository.GetAllLessonsBySectionIdAsync(nextSection.SectionId);
+
+                var sectionDetailDTO = new SectionDetailDTO()
+                {
+                    CourseId = nextSection.CourseId,
+                    SectionId = nextSection.SectionId,
+                    Title = nextSection.Title,
+                    SectionOrder = nextSection.SectionOrder,
+                    LessonCount = lessonCount.Count() == null ? 0 : lessonCount.Count(),
+                };
+                return sectionDetailDTO;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

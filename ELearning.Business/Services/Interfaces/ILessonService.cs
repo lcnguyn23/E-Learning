@@ -15,6 +15,7 @@ namespace ELearning.Business.Services.Interfaces
         // Lesson
         Task<List<LessonDetailDTO>> GetAllLessonsBySectionIdAsync(int sectionId);
         Task<LessonDetailDTO> GetLessonByIdAsync(int id);
+        
         Task<int> GetLessonIdByTitleAsync(string title);
         Task<int> GetCourseIdAsync(int lessonId);
         Task<Status> CreateLessonAsync(LessonCreateDTO lesson);
@@ -26,6 +27,6 @@ namespace ELearning.Business.Services.Interfaces
         Task<LessonMediaDetailDTO> GetLessonMediaByIdAsync(int lessonId);
         Task<Status> CreateLessonMediaAsync(LessonMediaCreateDTO lessonMedia);
         Task<Status> UpdateLessonMediaAsync(LessonMediaUpdateDTO lessonMedia);
-        
+        Task<LessonDetailDTO> GetNextLesson(int sectionId, int lessonId);
     }
 }

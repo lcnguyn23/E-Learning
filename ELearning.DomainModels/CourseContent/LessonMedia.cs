@@ -13,7 +13,8 @@ namespace ELearning.DomainModels
         Url,
         Mp4,
         Embed,
-        Mp3
+        Mp3,
+        Image
     }
 
     public class LessonMedia : ISoftDelete

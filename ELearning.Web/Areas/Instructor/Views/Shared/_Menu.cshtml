@@ -69,7 +69,7 @@
         </li>
 
         <!-- Courses -->
-        <li class="menu-item @(((ViewBag.Title).Equals("Khóa học của tôi") || (ViewBag.Title).Equals("Thông tin khóa học") || (ViewBag.Title).Equals("Cập nhật khóa học") || (ViewBag.Title).Equals("Thông tin bài giảng")) ? "active" : "")" id="course">
+        <li class="menu-item @(((ViewBag.Title).Equals("Khóa học của tôi") || (ViewBag.Title).Equals("Thông tin khóa học") || (ViewBag.Title).Equals("Cập nhật khóa học") || (ViewBag.Title).Equals("Thông tin bài giảng") ||  (ViewBag.Title).Equals("Tạo bài giảng")) ? "active" : "")" id="course">
             <a asp-action="Index" asp-controller="Course" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book-content"></i>
                 <div data-i18n="Courses Manager">Khóa học của tôi</div>
@@ -88,15 +88,15 @@
         </li>
 
         <!-- Students -->
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item @((ViewBag.Title).Equals("Học viên của tôi") ? "active" : "")" >
+            <a asp-action="Index" asp-controller="StudentEnroll" asp-area="Instructor" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-group"></i>
                 <div data-i18n="Students">Học viên của tôi</div>
             </a>
         </li>
         
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link">
+        <li class="menu-item @((ViewBag.Title).Equals("Thêm học viên") ? "active" : "")" >
+            <a asp-action="AddStudent" asp-controller="StudentEnroll" asp-area="Instructor" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user-plus"></i>
                 <div data-i18n="Add Student">Thêm học viên</div>
             </a>

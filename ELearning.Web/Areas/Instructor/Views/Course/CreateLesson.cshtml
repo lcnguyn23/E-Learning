@@ -54,7 +54,7 @@
                             </div>
                             
 
-                            <!-- file upload - mp4, mp3 -->
+                            <!-- file upload - mp4, mp3, image -->
                             <div id="cardfile" class="card-body" style="display:none">
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
                                     <div class="button-wrapper">
@@ -65,23 +65,29 @@
                                                    id="uploadFile"
                                                    class="account-file-input"
                                                    name="uploadFile"
-                                                   accept="audio/*,video/*"
+                                                   accept="audio/*,video/*,image/*"
                                                    onchange="previewFile(this)"
                                                    style="display: none;" />
                                         </label>
+
+                                        
                                         <button type="button" class="btn btn-outline-secondary account-image-reset mb-3" onclick="resetUploadFile()">
                                             <i class="bx bx-reset d-block d-sm-none"></i>
                                             <span class="d-none d-sm-block">Đặt lại</span>
                                         </button>
+
                                     </div>
                                 </div>
+                                <span id="fileName" class="file-name"></span>
+                                
                             </div>
 
+                            
 
                             <!-- url -->
                             <div id="url" class="mb-3 col-md-12" style="display:none">
                                 <label for="CourseName" class="form-label">URL</label>
-                                <input asp-for="LessonMedia.MediaUrl" class="form-control"
+                                <input asp-for="LessonMedia.MediaUrl" id="urlInput" class="form-control" 
                                        type="text"
                                        value="@Model.LessonMedia.MediaUrl"/>
                             </div>
@@ -89,7 +95,7 @@
                             <!-- embed code -->
                             <div id="embed" class="mb-3 col-md-12" style="display:none">
                                 <label for="exampleFormControlTextarea1" class="form-label">Embed code</label>
-                                <textarea asp-for="LessonMedia.MediaContent" id="autosize-demo" rows="2" class="form-control" style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 64.6px;" placeholder="">@Model.LessonMedia.MediaContent</textarea>
+                                <textarea asp-for="LessonMedia.MediaContent" id="autosize-demo embedCode" rows="2" class="form-control" style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 64.6px;" placeholder="" >@Model.LessonMedia.MediaContent</textarea>
                             </div>
 
                             <hr class="my-0" />
@@ -121,7 +127,7 @@
                                 else
                                 {
                                     <button type="submit" class="btn btn-primary me-2" id="getTextBtn2">Tạo bài giảng</button>
-                                    <a asp-action="Index" asp-controller="Course" type="button" class="btn btn-outline-secondary">Hủy</a>
+                                    <a asp-action="CourseDetail" asp-controller="Course" asp-route-id="@Model.CourseId" type="button" class="btn btn-outline-secondary">Hủy</a>
                                 }
                             </div>
                     </form>
@@ -140,19 +146,30 @@
             var cardFile = document.getElementById("cardfile");
             var cardUrl = document.getElementById("url");
             var cardEmbed = document.getElementById("embed");
-
+            var uploadFileInput = document.getElementById("uploadFile");
             // Reset visibility
             cardFile.style.display = "none";
             cardUrl.style.display = "none";
             cardEmbed.style.display = "none";
 
+            document.getElementById("urlInput").value = ""; // Reset URL input value
+            resetUploadFile(); // Reset file input and file name
+            document.getElementById("autosize-demo embedCode").value = "";
+
             // Show the appropriate card based on the selected value
             if (select.value === "0") {
                 cardUrl.style.display = "block";
-            } else if (select.value === "1" || select.value === "3") {
+            } else if (select.value === "1") {
                 cardFile.style.display = "block";
+                uploadFileInput.accept = "video/*";
+            } else if (select.value === "3") {
+                cardFile.style.display = "block";
+                uploadFileInput.accept = "audio/*";
             } else if (select.value === "2") {
                 cardEmbed.style.display = "block";
+            } else if (select.value === "4") {
+                cardFile.style.display = "block";
+                uploadFileInput.accept = "image/*";
             }
         }
 
@@ -160,13 +177,16 @@
             const file = input.files[0];
             if (file) {
                 const src = URL.createObjectURL(file);
-                document.getElementById('file').src = src;
+                document.getElementById('uploadFile').src = src;
+                document.getElementById('fileName').textContent = file.name;
             }
         }
+        
 
         function resetUploadFile() {
-            document.getElementById('file').src = "";
+            document.getElementById('uploadFile').src = "";
             document.getElementById('uploadFile').value = "";
+            document.getElementById('fileName').textContent = "";
         }
 
 

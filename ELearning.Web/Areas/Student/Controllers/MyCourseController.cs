@@ -23,7 +23,7 @@ namespace ELearning.Web.Areas.Student.Controllers
         private readonly ILessonService _lessonService;
         private readonly ICourseRequestService _courseRequestService;
         private readonly IEnrollmentRepository _enrollmentRepository;
-
+        private readonly IStudentProgressRepository _studentProgressRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         private readonly IUserService _userService;
@@ -32,7 +32,7 @@ namespace ELearning.Web.Areas.Student.Controllers
         private readonly ELearningDbContext _context;
         private const int pageSize = 12;
 
-        public MyCourseController(ICourseService courseService, ITopicService topicService, ILevelService levelService, ISectionService sectionService, ILessonService lessonService, ICourseRequestService courseRequestService, IEnrollmentRepository enrollmentRepository, IHttpContextAccessor httpContextAccessor, IUserService userService, ILogger<CourseController> logger, ELearningDbContext context)
+        public MyCourseController(ICourseService courseService, ITopicService topicService, ILevelService levelService, ISectionService sectionService, ILessonService lessonService, ICourseRequestService courseRequestService, IEnrollmentRepository enrollmentRepository, IStudentProgressRepository studentProgressRepository, IHttpContextAccessor httpContextAccessor, IUserService userService, ILogger<CourseController> logger, ELearningDbContext context)
         {
             _courseService = courseService;
             _topicService = topicService;
@@ -41,6 +41,7 @@ namespace ELearning.Web.Areas.Student.Controllers
             _lessonService = lessonService;
             _courseRequestService = courseRequestService;
             _enrollmentRepository = enrollmentRepository;
+            _studentProgressRepository = studentProgressRepository;
             _httpContextAccessor = httpContextAccessor;
             _userService = userService;
             _logger = logger;
@@ -54,6 +55,7 @@ namespace ELearning.Web.Areas.Student.Controllers
                 var currentUserEmail = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(p => p.Type.Contains("email")).Value;
                 var currentUser = await _userService.GetUserByEmailAsync(currentUserEmail);
 
+
                 var courseQuery = _context.Courses
                 .Include(p => p.Enrollments)
                 .Include(p => p.Topic)  // Join với bảng topics
@@ -61,6 +63,7 @@ namespace ELearning.Web.Areas.Student.Controllers
                 .Include(p => p.Enrollments) // Join với bảng enrollments
                 .Include(p => p.CourseRatings) // Join với bảng ratings
                 .Include(p => p.Instructor)
+                .Include(p => p.StudentProgresses)
                 .Where(p => p.Enrollments.Any(p => p.StudentId == currentUser.Id))
                 .Select(p => new CourseDetailViewModel
                 {
@@ -80,7 +83,8 @@ namespace ELearning.Web.Areas.Student.Controllers
                     SaleEnd = p.SaleEnd,
                     InstructorName = p.Instructor.FullName,
                     EnrolledStudentCount = p.Enrollments.Count(), // Sử dụng Count để đếm số lượng học viên đã đăng ký
-                    AverageRating = p.CourseRatings.Average(r => r.Rating) // Tính trung bình điểm đánh giá
+                    AverageRating = p.CourseRatings.Average(r => r.Rating), // Tính trung bình điểm đánh giá
+                    Progress = p.StudentProgresses.Count(),
                 });
 
 
@@ -168,7 +172,7 @@ namespace ELearning.Web.Areas.Student.Controllers
 
                 ViewBag.Menu = "home";
                 ViewBag.SearchString = searchString;
-                return View(paginatedCourses);
+                return RedirectToAction("Index", "MyCourse", paginatedCourses);
             }
             catch (Exception ex)
             {
@@ -223,6 +227,8 @@ namespace ELearning.Web.Areas.Student.Controllers
         {
             try
             {
+                var currentUserEmail = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(p => p.Type.Contains("email")).Value;
+                var currentUser = await _userService.GetUserByEmailAsync(currentUserEmail);
                 var model = await _courseService.GetCourseByIdAsync(id);
                 if (model == null)
                 {
@@ -231,6 +237,7 @@ namespace ELearning.Web.Areas.Student.Controllers
                 }
 
                 var sections = await _sectionService.GetAllSectionsAsync(model.CourseId);
+                var lessonIn = await _lessonService.GetLessonByIdAsync(lessonId);
                 var lessons = new List<LessonDetailDTO>();
                 foreach (var section in sections)
                 {
@@ -247,17 +254,25 @@ namespace ELearning.Web.Areas.Student.Controllers
 
                 var content = await _lessonService.GetLessonContentByIdAsync(lessonId);
                 var media = await _lessonService.GetLessonMediaByIdAsync(lessonId);
-                var lessondetail = await _lessonService.GetLessonByIdAsync(lessonId);
+                var progress = await _studentProgressRepository.GetProgressAsync(currentUser.Id, id);
+                bool isFinished = false;
+                foreach(var pro in progress)
+                {
+                    if (lessonIn.LessonId == pro.LessonId) { isFinished = true; break; }
+                }
                 var detail = new LessonPageViewModel()
                 {
                     LessonId = lessonId,
+                    Title = lessonIn.Title,
+                    Order = lessonIn.Order,
                     LessonContent = content,
                     LessonMedia = media,
-                    SectionId = lessondetail.SectionId,
+                    SectionId = lessonIn.SectionId,
                     CourseId = id,
-                    CourseContent = courseContentVM
+                    CourseContent = courseContentVM,
+                    IsFinished = isFinished,
                 };
-                ViewBag.Title = "";
+                ViewBag.Title = "Thông tin khóa học";
                 return View(detail);
 
             }
@@ -266,6 +281,79 @@ namespace ELearning.Web.Areas.Student.Controllers
                 _logger.LogError($"Error: {ex.Message}");
                 throw;
             }
+        }
+
+        public async Task<IActionResult> SaveProgress(int id, int sectionId, int lessonId)
+        {
+            var currentUserEmail = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(p => p.Type.Contains("email")).Value;
+            var currentUser = await _userService.GetUserByEmailAsync(currentUserEmail);
+
+            var sections = await _sectionService.GetSectionByIdAsync(sectionId);
+            var lesson = await _lessonService.GetLessonByIdAsync(lessonId);
+            var nextSections = await _sectionService.GetNextSectionAsync(id, sectionId);
+
+            if (lesson.Order == sections.LessonCount)
+            {
+                var lessonNew = await _lessonService.GetAllLessonsBySectionIdAsync(nextSections.SectionId);
+                var nextLesson = await _lessonService.GetNextLesson(nextSections.SectionId, lessonNew[0].LessonId);
+                var data = new StudentProgress()
+                {
+                    StudentId = currentUser.Id,
+                    CourseId = id,
+                    SectionId = sectionId,
+                    LessonId = lessonId,
+                };
+                var save = await _studentProgressRepository.CreateAsync(data);
+                return RedirectToAction("Study", new { id = id, lessonId = lessonNew[0].LessonId }); 
+            }
+            else
+            {
+                var nextLesson = await _lessonService.GetNextLesson(sectionId, lessonId);
+                var data = new StudentProgress()
+                {
+                    StudentId = currentUser.Id,
+                    CourseId = id,
+                    SectionId = sectionId,
+                    LessonId = lessonId,
+                };
+                var save = await _studentProgressRepository.CreateAsync(data);
+                return RedirectToAction("Study", new { id = id, lessonId = nextLesson.LessonId });
+            }
+
+            
+        }
+
+        public async Task<IActionResult> EnrollHistory()
+        {
+            var currentUserEmail = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(p => p.Type.Contains("email")).Value;
+            var currentUser = await _userService.GetUserByEmailAsync(currentUserEmail);
+
+            var courses = await _courseService.GetAllCoursesAsync(null, null, null, null, null);
+            var instructor = await _userService.GetInstructorAsync();
+            _logger.LogInformation($"cur {currentUser.Id}");
+            var enrolled = await _enrollmentRepository.GetEnrollmentsByStudentIdAsync(currentUser.Id);
+
+
+            _logger.LogInformation($"cur2 {enrolled.Count()}");
+            var list = new List<EnrollCourseListViewModel>();
+            foreach (var item in enrolled)
+            {
+                var courseIn = await _courseService.GetCourseByIdAsync(item.CourseId);
+                var enroll = new EnrollCourseListViewModel()
+                {
+                    EnrollmentId = item.EnrollmentId,
+                    EnrollAt = item.CreatedAt,
+                    StudentId = item.StudentId,
+                    CourseId = item.CourseId,
+                    EnrollmentStatus = item.Status,
+                    CourseName = courseIn.CourseName,
+                    InstructorName = courseIn.InstructorName
+                };
+                list.Add(enroll);
+            }
+
+            ViewBag.Title = "Lịch sử đăng ký";
+            return View(list);
         }
     }
 }

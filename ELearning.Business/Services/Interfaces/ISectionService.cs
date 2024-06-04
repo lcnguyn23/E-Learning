@@ -17,5 +17,7 @@ namespace ELearning.Business.Services.Interfaces
         Task<Status> CreateSectionAsync(SectionCreateDTO section);
         Task<Status> UpdateSectionAsync(SectionUpdateDTO section);
         Task<Status> DeleteSectionAsync(SectionDetailDTO section);
+
+        Task<SectionDetailDTO> GetNextSectionAsync(int courseId, int sectionId);
     }
 }

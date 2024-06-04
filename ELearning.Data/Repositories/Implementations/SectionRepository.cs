@@ -23,5 +23,14 @@ namespace ELearning.Data.Repositories.Implementations
             var sections = await _context.Sections.Where(s => s.CourseId == courseId).ToListAsync();
             return sections;
         }
+
+        public async Task<Section> GetNextSectionAsync(int courseId, int sectionId)
+        {
+            
+            var section = await _context.Sections.FirstOrDefaultAsync(p => p.CourseId == courseId && p.SectionId == sectionId);
+            var nextSection = await _context.Sections.Where(p => p.CourseId == courseId && p.SectionOrder == section.SectionOrder + 1).FirstOrDefaultAsync();
+
+            return nextSection;
+        }
     }
 }

@@ -14,12 +14,18 @@ namespace ELearning.Web.AppCodes
     {
         private readonly ITopicRepository _topicRepository;
         private readonly ILevelRepository _levelRepository;
+        private readonly ICourseRepository _courseRepository;
 
-        public SelectListHelper(ITopicRepository topicRepository, ILevelRepository levelRepository)
+        public SelectListHelper(ITopicRepository topicRepository, ILevelRepository levelRepository, ICourseRepository courseRepository)
         {
             _topicRepository = topicRepository;
             _levelRepository = levelRepository;
+            _courseRepository = courseRepository;
         }
+
+
+
+
 
 
 
@@ -101,6 +107,23 @@ namespace ELearning.Web.AppCodes
                     Value = Convert.ToInt32(type).ToString()
                 });
             }
+            return list;
+        }
+
+        public async Task<List<SelectListItem>> CourseSelectList(int insId)
+        {
+            var course = await _courseRepository.GetAllCouresByInstructorIdAsync(insId, null,null,null,null,null);
+            List<SelectListItem> list = new List<SelectListItem>();
+
+            foreach (var c in course)
+            {
+                list.Add(new SelectListItem()
+                {
+                    Text = c.CourseName,
+                    Value = c.CourseId.ToString(),
+                });
+            }
+
             return list;
         }
     }

@@ -8,6 +8,7 @@ using ELearning.Business.Services.Implementations;
 using ELearning.Business.Services.Interfaces;
 using ELearning.Business.Utility;
 using ELearning.Data;
+using ELearning.Data.Repositories.Interfaces;
 using ELearning.DomainModels;
 using ELearning.Web.AppCodes;
 using ELearning.Web.Models;
@@ -27,6 +28,7 @@ namespace ELearning.Web.Areas.Instructor.Controllers
         private readonly ISectionService _sectionService;
         private readonly ILessonService _lessonService;
         private readonly ICourseRequestService _courseRequestService;
+        private readonly ICourseRepository _courseRepostiory;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -37,7 +39,8 @@ namespace ELearning.Web.Areas.Instructor.Controllers
 
 
 
-        public CourseController(ICourseService courseService, ITopicService topicService, ILevelService levelService, ISectionService sectionService, ILessonService lessonService, ICourseRequestService courseRequestService, IHttpContextAccessor httpContextAccessor, IUserService userService, ILogger<CourseController> logger, ELearningDbContext context)
+      
+        public CourseController(ICourseService courseService, ITopicService topicService, ILevelService levelService, ISectionService sectionService, ILessonService lessonService, ICourseRequestService courseRequestService, ICourseRepository courseRepostiory, IHttpContextAccessor httpContextAccessor, IUserService userService, ILogger<CourseController> logger, ELearningDbContext context)
         {
             _courseService = courseService;
             _topicService = topicService;
@@ -45,6 +48,7 @@ namespace ELearning.Web.Areas.Instructor.Controllers
             _sectionService = sectionService;
             _lessonService = lessonService;
             _courseRequestService = courseRequestService;
+            _courseRepostiory = courseRepostiory;
             _httpContextAccessor = httpContextAccessor;
             _userService = userService;
             _logger = logger;
@@ -63,16 +67,8 @@ namespace ELearning.Web.Areas.Instructor.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
-                IQueryable<Course> courseQuery = _context.Courses
-                                    .Where(p => p.IsDeleted == false)
-                                    .Include(p => p.Topic) // Join với bảng topics
-                                    .Include(p => p.Level) // Join với bảng levels
-                                    .Include(p => p.Enrollments) // Join với bảng enrollments
-                                    .Include(p => p.CourseRatings) // Join với bảng ratings
-                                    .Include(p => p.Instructor);
-
-                courseQuery = courseQuery.Where(p => p.InstructorId == currentUser.Id);
-
+                IQueryable<CourseDetailDTO> courseQuery = await _courseService.GetAllCourseByInstructorIdAsync(currentUser.Id,null,null,null,null,null);
+                
                 var courseViewModels = courseQuery
                 .Select(p => new CourseDetailViewModel
                 {
@@ -80,8 +76,8 @@ namespace ELearning.Web.Areas.Instructor.Controllers
                     CourseName = p.CourseName,
                     ShortDescription = p.ShortDescription,
                     Description = p.Description,
-                    TopicName = p.Topic.TopicName, // Truy cập vào thuộc tính Topic.Name sau khi đã thực hiện Include
-                    LevelName = p.Level.LevelName, // Truy cập vào thuộc tính Level.Name sau khi đã thực hiện Include
+                    TopicName = p.TopicName,
+                    LevelName = p.LevelName,
                     Duration = p.Duration,
                     CourseImage = p.CourseImage,
                     Status = p.Status,
@@ -90,9 +86,10 @@ namespace ELearning.Web.Areas.Instructor.Controllers
                     SalePrice = p.SalePrice,
                     SaleStart = p.SaleStart,
                     SaleEnd = p.SaleEnd,
-                    InstructorName = p.Instructor.FullName,
-                    EnrolledStudentCount = p.Enrollments.Count(), // Sử dụng Count để đếm số lượng học viên đã đăng ký
-                    AverageRating = p.CourseRatings.Average(r => r.Rating) // Tính trung bình điểm đánh giá
+                    InstructorName = p.InstructorName,
+                    EnrolledStudentCount = p.EnrolledStudentCount,
+                    AverageRating = p.AverageRating,
+                    CreatedAt = p.CreatedAt,
                 });
 
                 // Sử dụng PaginatedList để phân trang
@@ -109,7 +106,7 @@ namespace ELearning.Web.Areas.Instructor.Controllers
             }
         }
 
-        public async Task<IActionResult> Search(string searchString, int topicId, int levelId, CourseStatus status, int? pageNumber)
+        public async Task<IActionResult> Search(string searchString, int topicId, int levelId, CourseStatus status, int? rating, int? pageNumber)
         {
             try
             {
@@ -121,38 +118,7 @@ namespace ELearning.Web.Areas.Instructor.Controllers
                     return RedirectToAction("Login", "Account");
                 }
 
-                IQueryable<Course> courseQuery = _context.Courses
-                                    .Where(p => p.IsDeleted == false)
-                                    .Include(p => p.Topic) // Join với bảng topics
-                                    .Include(p => p.Level) // Join với bảng levels
-                                    .Include(p => p.Enrollments) // Join với bảng enrollments
-                                    .Include(p => p.CourseRatings) // Join với bảng ratings
-                                    .Include(p => p.Instructor);
-
-                courseQuery = courseQuery.Where(p => p.InstructorId == currentUser.Id);
-                if (!string.IsNullOrEmpty(searchString))
-                {
-                    courseQuery = courseQuery.Where(p => p.CourseName.Contains(searchString) || p.Instructor.FullName.Contains(searchString));
-                }
-
-
-                // Lọc theo chủ đề
-                if (topicId != 0)
-                {
-                    courseQuery = courseQuery.Where(p => p.TopicId == topicId);
-                }
-
-                // Lọc theo cấp độ
-                if (levelId != 0)
-                {
-                    courseQuery = courseQuery.Where(p => p.LevelId == levelId);
-                }
-
-                if (status != 0)
-                {
-                    
-                    courseQuery = courseQuery.Where(p => p.Status == status);
-                }
+                IQueryable<CourseDetailDTO> courseQuery = await _courseService.GetAllCourseByInstructorIdAsync(currentUser.Id, searchString, topicId, levelId, status, rating);
 
                 var courseViewModels = courseQuery
                 .Select(p => new CourseDetailViewModel
@@ -161,8 +127,8 @@ namespace ELearning.Web.Areas.Instructor.Controllers
                     CourseName = p.CourseName,
                     ShortDescription = p.ShortDescription,
                     Description = p.Description,
-                    TopicName = p.Topic.TopicName, // Truy cập vào thuộc tính Topic.Name sau khi đã thực hiện Include
-                    LevelName = p.Level.LevelName, // Truy cập vào thuộc tính Level.Name sau khi đã thực hiện Include
+                    TopicName = p.TopicName,
+                    LevelName = p.LevelName,
                     Duration = p.Duration,
                     CourseImage = p.CourseImage,
                     Status = p.Status,
@@ -171,9 +137,10 @@ namespace ELearning.Web.Areas.Instructor.Controllers
                     SalePrice = p.SalePrice,
                     SaleStart = p.SaleStart,
                     SaleEnd = p.SaleEnd,
-                    InstructorName = p.Instructor.FullName,
-                    EnrolledStudentCount = p.Enrollments.Count(), // Sử dụng Count để đếm số lượng học viên đã đăng ký
-                    AverageRating = p.CourseRatings.Average(r => r.Rating) // Tính trung bình điểm đánh giá
+                    InstructorName = p.InstructorName,
+                    EnrolledStudentCount = p.EnrolledStudentCount,
+                    AverageRating = p.AverageRating,
+                    CreatedAt = p.CreatedAt,
                 });
 
                 // Sử dụng PaginatedList để phân trang
@@ -260,6 +227,14 @@ namespace ELearning.Web.Areas.Instructor.Controllers
             {
                 ViewBag.Title = model.CourseId == 0 ? "Tạo khóa học mới" : "Cập nhật khóa học";
 
+                if (model.TopicId == 0 || model.TopicId == null)
+                {
+                    ModelState.AddModelError(nameof(model.TopicId), "Vui lòng chọn chủ đề");
+                }
+                if (model.LevelId == 0 || model.LevelId == null)
+                {
+                    ModelState.AddModelError(nameof(model.LevelId), "Vui lòng chọn cấp độ");
+                }
 
                 if (uploadPhoto != null)
                 {
@@ -438,14 +413,15 @@ namespace ELearning.Web.Areas.Instructor.Controllers
         }
 
         [HttpGet]
-        public async Task<PartialViewResult> CreateSection(int courseId)
+        public async Task<IActionResult> CreateSection(int id)
         {
             try
             {
                 var sectionVM = new SectionCreateViewModel()
                 {
-                    CourseId = courseId,
+                    CourseId = id,
                 };
+                _logger.LogInformation($"log id course: {id}");
                 ViewBag.ModalTitle = "Tạo chương mới";
                 return PartialView("CreateSection", sectionVM);
             }
@@ -496,7 +472,7 @@ namespace ELearning.Web.Areas.Instructor.Controllers
         }
 
         [HttpGet]
-        public async Task<PartialViewResult> UpdateSection(int sectionId)
+        public async Task<IActionResult> UpdateSection(int sectionId)
         {
             try
             {
@@ -612,10 +588,12 @@ namespace ELearning.Web.Areas.Instructor.Controllers
         {
             try
             {
+                var section = await _sectionService.GetSectionByIdAsync(sectionId);
                 var model = new LessonCreateViewModel()
                 {
                     LessonId = 0,
                     SectionId = sectionId,
+                    CourseId = section.CourseId,
                     LessonContent = new LessonContentDetailDTO(),
                     LessonMedia = new LessonMediaDetailDTO(),
                 };
@@ -690,22 +668,6 @@ namespace ELearning.Web.Areas.Instructor.Controllers
             {
                 ViewBag.Title = model.CourseId == 0 ? "Tạo bài giảng" : "Cập nhật bài giảng";
 
-
-                if (uploadFile != null)
-                {
-                    long fileSize = uploadFile.Length;
-                    string fileName = $"{DateTime.Now.Ticks}_{uploadFile.FileName}";
-                    string filePath = System.IO.Path.Combine(ApplicationContext.HostEnviroment.WebRootPath, @"media\lessonmedia", fileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        uploadFile.CopyTo(stream);
-                    }
-                    model.LessonMedia.MediaName = fileName;
-                    model.LessonMedia.MediaPath = fileName;
-                    model.LessonMedia.FizeSize = fileSize;
-                }
-
-
                 if (!ModelState.IsValid)
                 {
 
@@ -713,6 +675,25 @@ namespace ELearning.Web.Areas.Instructor.Controllers
                     return View("CreateLesson", model);
                 }
 
+                if (model.LessonMedia.MediaType == MediaType.Mp4 || 
+                    model.LessonMedia.MediaType == MediaType.Mp3 ||
+                    model.LessonMedia.MediaType == MediaType.Image)
+                {
+                    if (uploadFile != null)
+                    {
+                        long fileSize = uploadFile.Length;
+                        string fileName = $"{DateTime.Now.Ticks}_{uploadFile.FileName}";
+                        string filePath = System.IO.Path.Combine(ApplicationContext.HostEnviroment.WebRootPath, @"media\lessonmedia", fileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            uploadFile.CopyTo(stream);
+                        }
+                        model.LessonMedia.MediaName = fileName;
+                        model.LessonMedia.MediaPath = fileName;
+                        model.LessonMedia.FizeSize = fileSize;
+                    }
+                }
+                
 
                 if (model.LessonId == 0)
                 {
@@ -762,6 +743,7 @@ namespace ELearning.Web.Areas.Instructor.Controllers
                 }
                 else
                 {
+                   
                     var newLesson = new LessonUpdateDTO()
                     {
                         LessonId = model.LessonId,
@@ -829,37 +811,21 @@ namespace ELearning.Web.Areas.Instructor.Controllers
                     Status = CourseRequestStatus.PENDING,
                     RequestAt = DateTime.Now,
                 };
-                var topic = await _topicService.GetTopicByNameAsync(course.TopicName);
-                var level = await _levelService.GetLevelByNameAsync(course.LevelName);
+                
+                await _courseRequestService.CreateCourseRequestAsync(requestCreateDTO);
+                
+                ViewBag.SuccessMessage = "Tạo yêu cầu thành công.";
 
-                var request = await _courseRequestService.CreateCourseRequestAsync(requestCreateDTO);
-                if (request > 0)
-                {
-                    ViewBag.SuccessMessage = "Tạo yêu cầu thành công.";
-                    var newCourse = new CourseUpdateDTO()
-                    {
-                        CourseId = course.CourseId,
-                        CourseName = course.CourseName,
-                        ShortDescription = course.ShortDescription,
-                        Description = course.Description ?? string.Empty,
-                        TopicId = topic.TopicId,
-                        LevelId = level.LevelId,
-                        Duration = course.Duration,
-                        CourseImage = course.CourseImage,
-                        Status = CourseStatus.PENDING_APPROVAL,
-                        Price = (decimal)course.Price,
-                        IsFree = (bool)(course.IsFree == null ? false : course.IsFree),
-                        SalePrice = course.SalePrice,
-                        SaleStart = course.SaleStart,
-                        SaleEnd = course.SaleEnd,
-                    };
+                var data = await _courseRepostiory.GetByIdAsync(id);
 
-                    var result = await _courseService.UpdateCourseAsync(newCourse);
-                    return RedirectToAction("CourseDetail", new { id = course.CourseId }); ;
-                }
+                data.Status = CourseStatus.PENDING_APPROVAL;
+                    
 
-                ViewBag.ErrorMessage = "Tạo yêu cầu thất bại.";
-                return RedirectToAction("CourseDetail", new { id = course.CourseId });
+                await _courseRepostiory.UpdateAsync(data);
+                   return RedirectToAction("CourseDetail", new { id = course.CourseId }); ;
+                
+
+                
             }
             catch (Exception ex)
             {

@@ -14,5 +14,7 @@ namespace ELearning.Data.Repositories.Interfaces
         Task<List<Lesson>> GetAllLessonsBySectionIdAsync(int sectionId);
         Task<int> GetCourseIdByLessonIdAsync(int lessonId);
         Task<int> GetLessonIdByTitleAsync(string title);
+
+        Task<Lesson> GetNextLessonAsync(int sectionId, int lessonId);
     }
 }

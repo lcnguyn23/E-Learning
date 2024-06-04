@@ -159,7 +159,7 @@
 
                                 @Html.ValidationMessageFor(m => m.ShortDescription, "", new {@class="text-danger"})
                             </div>
-
+                            <input asp-for="Status" type="hidden" value="@Model.Status"/>
                             <div class="mb-3 col-md-12 ql-container">
                                 <label for="example" class="form-label">
                                     <strong>Description</strong>

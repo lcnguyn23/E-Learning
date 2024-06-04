@@ -1,6 +1,6 @@
 ﻿@using ELearning.Web.AppCodes;
 @using ELearning.DomainModels;
-@model IEnumerable<CourseDetailViewModel>
+@model PaginatedList<CourseDetailViewModel>
 @inject SelectListHelper SelectListHelper
 @{
     ViewBag.Title = "Khám phá";
@@ -126,7 +126,7 @@
                                             </h6>
                                         </div>
                                         <!--CourseName-->
-                                        <a asp-action="CourseDetail" asp-controller="Course" asp-route-id="@item.CourseId" class="h5">@item.CourseName</a>
+                                        <a asp-action="CourseDetail" asp-controller="MyCourse" asp-route-id="@item.CourseId" class="h5">@item.CourseName</a>
                                         <p class="mt-2">@item.ShortDescription</p>
                                         <hr class="my-2">
                                         <div class="btn btn-label-primary d-flex align-items-center"
@@ -160,27 +160,26 @@
                 <!-- / Show course-->
                 <nav aria-label="Page navigation" class="d-flex align-items-center justify-content-center">
                     <ul class="pagination">
-                        <li class="page-item prev">
-                            <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-left"></i></a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="javascript:void(0);">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0);">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0);">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0);">4</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0);">5</a>
-                        </li>
-                        <li class="page-item next">
-                            <a class="page-link" href="javascript:void(0);"><i class="tf-icon bx bx-chevron-right"></i></a>
-                        </li>
+                        @if (Model.HasPreviousPage)
+                        {
+                            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">
+                                <i class="tf-icon bx bx-chevron-left"></i>
+                            </a>
+                        }
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                                <a class="page-link" asp-action="Index"
+                                   asp-route-pageNumber="@i">@i</a>
+                            </li>
+                        }
+
+                        @if (Model.HasNextPage)
+                        {
+                            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">
+                                <i class="tf-icon bx bx-chevron-right"></i>
+                            </a>
+                        }
                     </ul>
                 </nav>
             </div>

@@ -1,5 +1,7 @@
-﻿using ELearning.Business.DTOs.CourseDTOs.CourseRequest;
+﻿using ELearning.Business.DTOs;
+using ELearning.Business.DTOs.CourseDTOs.CourseRequest;
 using ELearning.Business.DTOs.CoursesDTOs.CourseDetail;
+using ELearning.Business.DTOs.UserDTOs;
 using ELearning.Business.Services.Implementation;
 using ELearning.Business.Services.Interfaces;
 using ELearning.Business.Utility;
@@ -9,6 +11,7 @@ using ELearning.DomainModels;
 using ELearning.DomainModels.EnrollmentManagement;
 using ELearning.DomainModels.User;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -33,6 +36,9 @@ namespace ELearning.Business.Services.Implementations
         private readonly ICourseRatingRepository _courseRatingRepository;
         private readonly ICourseRequestService _courseRequestService;
 
+        
+       
+
         public CourseService(ILogger<CourseService> logger, IHttpContextAccessor httpContextAccessor, ICourseRepository courseRepository, IUserService userService, ITopicRepository topicRepository, ILevelRepository levelRepository, IEnrollmentRepository enrollmentRepository, ICourseRatingRepository courseRatingRepository, ICourseRequestService courseRequestService)
         {
             _logger = logger;
@@ -54,70 +60,26 @@ namespace ELearning.Business.Services.Implementations
         /// Get all record
         /// </summary>
         /// <returns></returns>
-        public async Task<List<CourseDetailDTO>> GetAllCoursesAsync()
+        public async Task<IQueryable<CourseDetailDTO>> GetAllCoursesAsync(string? searchString, int? topicId, int? levelId, CourseStatus? status, int? rating)
         {
             try
             {
-                // get all existing course
-                var courses = await _courseRepository.GetAllAsync();
+                IQueryable<Course> courseQuery = await _courseRepository.SearchAsync(searchString, topicId, levelId, status, rating);
 
-                if (courses == null)
-                {
-                    throw new Exception("Không có khóa học nào");
-                }
+                courseQuery.Where(p => p.Status == CourseStatus.PUBLISH);
 
-                // get all topic
-                var topics = await _topicRepository.GetAllAsync();
-                // get all level
-                var levels = await _levelRepository.GetAllAsync();
-                // get all enrollment
-
-                var instrutors = await _userService.GetInstructorAsync();
-                var enrollCourse = await _enrollmentRepository.GetAllAsync();
-                var ratings = await _courseRatingRepository.GetAllAsync();
-                var enrollDictionary = new Dictionary<int, int>();
-                var ratingDictionary = new Dictionary<int, double>();
-                var instructorDictionary = new Dictionary<int, string>();
-                if (enrollCourse == null || ratings == null || instrutors == null)
-                {
-                    enrollCourse = new List<Enrollment>();
-                    ratings = new List<CourseRating>();
-                    instrutors = new List<ApplicationUser>();
-                }
-                else
-                {
-                    
-                    foreach (var enroll in enrollCourse)
-                    {
-                        var enrollCount = await _enrollmentRepository.GetEnrollmentStudentCountAsync(enroll.CourseId);
-                        enrollDictionary.TryAdd(enroll.CourseId, enrollCount);
-                    }
-
-                    foreach (var rating in ratings)
-                    {
-                        var avgRating = await _courseRatingRepository.GetAverageRating(rating.CourseId);
-                        ratingDictionary.TryAdd(rating.CourseId, avgRating);
-                    }
-
-                    foreach (var ins in instrutors)
-                    {
-                        instructorDictionary.TryAdd(ins.Id, ins.FullName);
-                    }
-                }
+                _logger.LogInformation($"iiiiiiiiiiisêrv = {courseQuery.Count()}");
 
                 
-
-
                 // map to DTO
-                var coursesDTO = new List<CourseDetailDTO>();
-                coursesDTO = courses.Select(p => new CourseDetailDTO
+                var coursesDTO = courseQuery.Select(p => new CourseDetailDTO
                 {
                     CourseId = p.CourseId,
                     CourseName = p.CourseName,
                     ShortDescription = p.ShortDescription,
                     Description = p.Description,
-                    TopicName = topics.FirstOrDefault(t => t.TopicId == p.TopicId).TopicName,
-                    LevelName = levels.FirstOrDefault(l => l.LevelId == p.LevelId).LevelName,
+                    TopicName = p.Topic.TopicName,
+                    LevelName = p.Level.LevelName,
                     Duration = p.Duration,
                     CourseImage = p.CourseImage,
                     Status = p.Status,
@@ -126,10 +88,14 @@ namespace ELearning.Business.Services.Implementations
                     SalePrice = p.SalePrice,
                     SaleStart = p.SaleStart,
                     SaleEnd = p.SaleEnd,
-                    InstructorName = instructorDictionary.ContainsKey(p.InstructorId) ? instructorDictionary[p.InstructorId] : "",
-                    EnrolledStudentCount = enrollDictionary.ContainsKey(p.CourseId) ? enrollDictionary[p.CourseId] : 0,
-                    AverageRating = ratingDictionary.ContainsKey(p.CourseId) ? ratingDictionary[p.CourseId] : 0,
-                }).ToList();
+                    InstructorName = p.Instructor.FullName,
+                    EnrolledStudentCount = p.Enrollments.Count(),
+                    AverageRating = p.CourseRatings.Average(r => r.Rating),
+                    CreatedAt = p.CreatedAt,
+                });
+
+
+                _logger.LogInformation($"iiiiiiiiiiissssssá = {coursesDTO.Count()}");
 
                 return coursesDTO;
             }
@@ -264,55 +230,21 @@ namespace ELearning.Business.Services.Implementations
         /// </summary>
         /// <param name="instructorId"></param>
         /// <returns></returns>
-        public async Task<List<CourseDetailDTO>> GetAllCourseByInstructorIdAsync(int instructorId)
+        public async Task<IQueryable<CourseDetailDTO>> GetAllCourseByInstructorIdAsync(int instructorId, string? searchString, int? topicId, int? levelId, CourseStatus? status, int? rating)
         {
             try
             {
-                // current user
-                var currentUserEmail = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(p => p.Type.Contains("email")).Value;
-                var currentUser = await _userService.GetUserByEmailAsync(currentUserEmail);
+                IQueryable<Course> query = await _courseRepository.GetAllCouresByInstructorIdAsync(instructorId, searchString, topicId, levelId, status, rating);
 
-                if (currentUser == null)
-                {
-                    throw new Exception("Chưa đăng nhập");
-                }
 
-                var courses = await _courseRepository.GetAllCouresByInstructorIdAsync(instructorId);
-
-                if (courses == null)
-                {
-                    throw new Exception("Không có khóa học nào");
-                }
-
-                var topics = await _topicRepository.GetAllAsync();
-                var levels = await _levelRepository.GetAllAsync();
-                var enrollCourse = await _enrollmentRepository.GetAllAsync();
-
-                var enrollDictionary = new Dictionary<int, int>();
-
-                foreach (var enroll in enrollCourse)
-                {
-                    var enrollCount = await _enrollmentRepository.GetEnrollmentStudentCountAsync(enroll.CourseId);
-                    enrollDictionary.TryAdd(enroll.CourseId, enrollCount);
-                }
-
-                var ratings = await _courseRatingRepository.GetAllAsync();
-                var ratingDictionary = new Dictionary<int, double>();
-                foreach (var rating in ratings)
-                {
-                    var avgRating = await _courseRatingRepository.GetAverageRating(rating.CourseId);
-                    ratingDictionary.TryAdd(rating.CourseId, avgRating);
-                }
-
-                var coursesDTO = new List<CourseDetailDTO>();
-                coursesDTO = courses.Select(p => new CourseDetailDTO
+                var coursesDTO = query.Select(p => new CourseDetailDTO
                 {
                     CourseId = p.CourseId,
                     CourseName = p.CourseName,
                     ShortDescription = p.ShortDescription,
                     Description = p.Description,
-                    TopicName = topics.FirstOrDefault(t => t.TopicId == p.TopicId).TopicName,
-                    LevelName = levels.FirstOrDefault(l => l.LevelId == p.LevelId).LevelName,
+                    TopicName = p.Topic.TopicName,
+                    LevelName = p.Level.LevelName,
                     Duration = p.Duration,
                     CourseImage = p.CourseImage,
                     Status = p.Status,
@@ -321,11 +253,11 @@ namespace ELearning.Business.Services.Implementations
                     SalePrice = p.SalePrice,
                     SaleStart = p.SaleStart,
                     SaleEnd = p.SaleEnd,
-                    InstructorName = currentUser.FullName,
-                    EnrolledStudentCount = enrollDictionary.ContainsKey(p.CourseId) ? enrollDictionary[p.CourseId] : 0,
-                    AverageRating = ratingDictionary.ContainsKey(p.CourseId) ? ratingDictionary[p.CourseId] : 0,
-                    CreatedAt = DateTime.Now,
-                }).ToList();
+                    InstructorName = p.Instructor.FullName,
+                    EnrolledStudentCount = p.Enrollments.Count(),
+                    AverageRating = p.CourseRatings.Average(r => r.Rating),
+                    CreatedAt = p.CreatedAt,
+                });
 
                 return coursesDTO;
             }
@@ -360,20 +292,7 @@ namespace ELearning.Business.Services.Implementations
                     return Status.NotFound;
                 }
 
-                _logger.LogInformation($"data: " +
-                    $"{data.CourseName}\n" +
-                    $"{data.ShortDescription}\n" +
-                    $"{data.Description}\n" +
-                    $"{data.CourseImage}\n" +
-                    $"{data.Duration}\n" +
-                    $"{data.Price}\n" +
-                    $"{data.IsFree}\n" +
-                    $"{data.TopicId}\n" +
-                    $"{data.LevelId}\n" +
-                    $"{data.SalePrice}\n" +
-                    $"{data.SaleStart}\n" +
-                    $"{data.SaleEnd}\n" +
-                    $"{data.Status}");
+                
 
                 var instructorId = currentUser.Id;
                 _logger.LogInformation($"id = {instructorId}");
@@ -522,7 +441,44 @@ namespace ELearning.Business.Services.Implementations
 
         #endregion
 
-        
+        public async Task<IQueryable<StudentEnrolledDTO>> GetAllStudentEnrolledAsync()
+        {
+            try
+            {
+                var currentUserEmail = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(p => p.Type.Contains("email"))?.Value;
+                if (string.IsNullOrEmpty(currentUserEmail))
+                {
+                    return Enumerable.Empty<StudentEnrolledDTO>().AsQueryable(); // Return empty queryable if no email found
+                }
+
+                var currentUser = await _userService.GetUserByEmailAsync(currentUserEmail);
+
+                // Combine course filtering and eager loading for efficiency
+                var coursesQuery = await _courseRepository.GetAllCouresByInstructorIdAsync(currentUser.Id, null, null, null, null, null);
+
+                coursesQuery
+                  .Include(c => c.Enrollments)
+                  .Where(c => c.Status == CourseStatus.PUBLISH && c.IsDeleted == false);
+
+                // Filter and project enrollments directly from the included collection
+                var enrolledStudents = coursesQuery.SelectMany(c => c.Enrollments)
+                  .Select(e => new StudentEnrolledDTO
+                  {
+                      StudentId = e.StudentId,
+                      StudentName = e.Student.FullName,
+                      CourseId = e.CourseId,
+                      CourseName = e.Course.CourseName,
+                      EnrollmentId = e.EnrollmentId,
+                  });
+
+                return enrolledStudents.AsQueryable();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error: {ex.Message}");
+                throw;
+            }
+        }
 
 
 

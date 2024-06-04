@@ -11,6 +11,9 @@ namespace ELearning.Data.Repositories.Interfaces
     {
         Task<int> GetEnrollmentStudentCountAsync(int courseId);
         Task<Enrollment> GetEnrollmentByCourseIdAsync(int courseId);
+        Task<List<Enrollment>> GetEnrollmentsByStudentIdAsync(int studentId);
+
         Task<Enrollment> GetEnrollmentByStudentIdAsync(int studentId);
+        Task<Enrollment> GetEnrollmentByCourseAndStudentAsync(int studentId, int courseId);
     }
 }

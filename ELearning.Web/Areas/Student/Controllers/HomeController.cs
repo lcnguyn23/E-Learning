@@ -36,7 +36,7 @@ namespace ELearning.Web.Areas.Student.Controllers
         {
             try
             {
-                var course = await _courseService.GetAllCoursesAsync();
+                var course = await _courseService.GetAllCoursesAsync(null, null,null,null,null);
                 var courseVM = new List<CourseDetailViewModel>();
                 courseVM = course.Select(p => new CourseDetailViewModel
                 {
@@ -60,6 +60,7 @@ namespace ELearning.Web.Areas.Student.Controllers
                 }).ToList();
 
                 ViewBag.Menu = "home";
+                ViewBag.Title = "Khóa học của tôi";
                 return View(courseVM);
 
             } catch  (Exception ex)

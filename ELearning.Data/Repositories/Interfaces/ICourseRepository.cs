@@ -16,12 +16,14 @@ namespace ELearning.Data.Repositories.Interfaces
         /// <returns></returns>
         Task<Course> GetCourseByNameAsync(string name);
 
+        Task<IQueryable<Course>> SearchAsync(string? searchString, int? topicId, int? levelId, CourseStatus? status, int? rating);
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="instructorId"></param>
         /// <returns></returns>
-        Task<List<Course>> GetAllCouresByInstructorIdAsync(int instructorId);
+        Task<IQueryable<Course>> GetAllCouresByInstructorIdAsync(int instructorId, string? searchString, int? topicId, int? levelId, CourseStatus? status, int? rating);
 
     }
 }

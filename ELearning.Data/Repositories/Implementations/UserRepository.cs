@@ -34,6 +34,8 @@ namespace ELearning.Data.Repositories
             return await _userManager.CheckPasswordAsync(data, password);
         }
 
+        
+
         public async Task<ApplicationUser?> GetUserByEmailAsync(string email)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == email);

@@ -23,9 +23,10 @@ namespace ELearning.Data.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public async Task<IQueryable<T>> GetAllAsync()
         {
-            return await _context.Set<T>().ToListAsync();
+            var query = await _context.Set<T>().ToListAsync();
+            return query.AsQueryable();
         }
 
         public async Task<T> GetByIdAsync(int? id)

@@ -19,10 +19,92 @@ namespace ELearning.Data.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<List<Course>> GetAllCouresByInstructorIdAsync(int instructorId)
+        public async Task<IQueryable<Course>> SearchAsync(string? searchString, int? topicId, int? levelId, CourseStatus? status, int? rating)
         {
-            var course = await _context.Courses!.Where(c => c.InstructorId == instructorId).ToListAsync();
-            return course;
+            
+            IQueryable<Course> courseQuery = _context.Courses
+                                .Where(p => p.IsDeleted == false)
+                                .Include(p => p.Topic) // Join với bảng topics
+                                .Include(p => p.Level) // Join với bảng levels
+                                .Include(p => p.Enrollments) // Join với bảng enrollments
+                                .Include(p => p.CourseRatings) // Join với bảng ratings
+                                .Include(p => p.Instructor);
+
+            // 
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                courseQuery = courseQuery.Where(p => p.CourseName.Contains(searchString) || p.Instructor.FullName.Contains(searchString));
+            }
+
+
+            // Lọc theo chủ đề
+            if (topicId.HasValue && topicId != 0)
+            {
+                courseQuery = courseQuery.Where(p => p.TopicId == topicId);
+            }
+
+            // Lọc theo cấp độ
+            if (levelId.HasValue && levelId != 0)
+            {
+                courseQuery = courseQuery.Where(p => p.LevelId == levelId);
+            }
+
+            if (status.HasValue && status != 0)
+            {
+                courseQuery = courseQuery.Where(p => p.Status == status);
+            }
+
+            // Lọc theo số sao tối thiểu trong đánh giá
+            if (rating.HasValue && rating != 0)
+            {
+                courseQuery = courseQuery.Where(p => p.CourseRatings.Average(r => r.Rating) >= rating);
+            }
+
+            return courseQuery;
+        }
+
+        public async Task<IQueryable<Course>> GetAllCouresByInstructorIdAsync(int instructorId, string? searchString, int? topicId, int? levelId, CourseStatus? status, int? rating)
+        {
+            IQueryable<Course> courseQuery = _context.Courses
+                                .Where(p => p.IsDeleted == false)
+                                .Include(p => p.Topic) // Join với bảng topics
+                                .Include(p => p.Level) // Join với bảng levels
+                                .Include(p => p.Enrollments) // Join với bảng enrollments
+                                .Include(p => p.CourseRatings) // Join với bảng ratings
+                                .Include(p => p.Instructor)
+                                .Where(p => p.InstructorId == instructorId);
+
+            // 
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                courseQuery = courseQuery.Where(p => p.CourseName.Contains(searchString) || p.Instructor.FullName.Contains(searchString));
+            }
+
+
+            // Lọc theo chủ đề
+            if (topicId.HasValue && topicId != 0)
+            {
+                courseQuery = courseQuery.Where(p => p.TopicId == topicId);
+            }
+
+            // Lọc theo cấp độ
+            if (levelId.HasValue && levelId != 0)
+            {
+                courseQuery = courseQuery.Where(p => p.LevelId == levelId);
+            }
+
+            if (status.HasValue && status != 0)
+            {
+                courseQuery = courseQuery.Where(p => p.Status == status);
+            }
+
+            // Lọc theo số sao tối thiểu trong đánh giá
+            if (rating.HasValue && rating != 0)
+            {
+                courseQuery = courseQuery.Where(p => p.CourseRatings.Average(r => r.Rating) >= rating);
+            }
+
+            return courseQuery;
         }
 
         public async Task<Course> GetCourseByNameAsync(string name)

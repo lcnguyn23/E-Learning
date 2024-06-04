@@ -9,17 +9,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ELearning.Business.Utility;
+using ELearning.Business.DTOs.UserDTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace ELearning.Business.Services.Implementation
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEnrollmentRepository _enrollmentRepository;
         private readonly ILogger<UserService> _logger;
 
-        public UserService(IUserRepository userRepository, ILogger<UserService> logger)
+        
+        public UserService(IUserRepository userRepository, IEnrollmentRepository enrollmentRepository, ILogger<UserService> logger)
         {
             _userRepository = userRepository;
+            _enrollmentRepository = enrollmentRepository;
             _logger = logger;
         }
 
@@ -73,7 +78,7 @@ namespace ELearning.Business.Services.Implementation
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<List<ApplicationUser>> GetAllUsersAsync()
+        public async Task<IQueryable<ApplicationUser>> GetAllUsersAsync()
         {
             try
             {
@@ -183,7 +188,7 @@ namespace ELearning.Business.Services.Implementation
             }
         }
 
-        public async Task<List<ApplicationUser>> GetInstructorAsync()
+        public async Task<IQueryable<ApplicationUser>> GetInstructorAsync()
         {
             try
             {
@@ -201,7 +206,7 @@ namespace ELearning.Business.Services.Implementation
                 {
                     throw new Exception("Không có người dùng nào");
                 }
-                return listIns;
+                return listIns.AsQueryable();
             }
             catch (Exception e)
             {
@@ -209,5 +214,6 @@ namespace ELearning.Business.Services.Implementation
                 throw;
             }
         }
+        
     }
 }

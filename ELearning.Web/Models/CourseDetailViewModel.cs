@@ -23,5 +23,7 @@ namespace ELearning.Web.Models
         public double? AverageRating { get; set; }
         public DateTime? CreatedAt { get; set; }
         public bool? IsDeleted { get; set; }
+
+        public long? Progress { get; set; }
     }
 }
